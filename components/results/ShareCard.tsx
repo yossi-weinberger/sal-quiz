@@ -148,72 +148,63 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
           WebkitUserSelect: "none",
         }}
       >
-        {/* Red header */}
-        <div style={{ background: P.red, padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {/* Header — dark, minimal */}
+        <div style={{ padding: "16px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logoSrc}
-              alt="logo"
-              width={28}
-              height={28}
-              crossOrigin="anonymous"
-              style={{ borderRadius: "6px", objectFit: "contain" }}
-            />
-            <span style={{ color: "white", fontWeight: "700", fontSize: "14px" }}>הסל של ישראל</span>
+            <img src={logoSrc} alt="" width={22} height={22} crossOrigin="anonymous"
+              style={{ borderRadius: "5px", objectFit: "contain", opacity: 0.85 }} />
+            <span style={{ color: "rgba(255,255,255,0.5)", fontWeight: "600", fontSize: "12px", letterSpacing: "0.04em" }}>
+              הסל של ישראל
+            </span>
           </div>
-          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px" }}>
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "11px" }}>
             {HOUSEHOLD_LABELS[result.householdType]}
           </span>
         </div>
 
-        {/* Score */}
-        <div style={{ padding: "20px 20px 12px" }}>
-          <div style={{ fontSize: "72px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
+        {/* Score — hero */}
+        <div style={{ padding: "14px 20px 16px" }}>
+          <div style={{ fontSize: "76px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
             {formatPercent(result.weightedMatchPercent)}
           </div>
-          <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", marginTop: "6px" }}>
+          <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", marginTop: "5px" }}>
             מהסל תואם לבית שלי
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.08)" }} />
+        {/* Thin divider */}
+        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.07)" }} />
 
-        {/* Stats 2×2 grid */}
-        <div style={{ padding: "16px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-          <div style={{ background: P.green, borderRadius: "12px", padding: "12px 14px" }}>
-            <div style={{ fontSize: "28px", fontWeight: "800", color: "white" }}>{result.regularCount}</div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", marginTop: "2px" }}>מוצרים קבועים</div>
+        {/* Stats — clean rows, no colored boxes */}
+        <div style={{ padding: "14px 20px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 20px" }}>
+          <div>
+            <div style={{ fontSize: "30px", fontWeight: "800", color: P.green }}>{result.regularCount}</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px" }}>מוצרים קבועים</div>
           </div>
-          <div style={{ background: P.cream, borderRadius: "12px", padding: "12px 14px" }}>
-            <div style={{ fontSize: "22px", fontWeight: "800", color: P.dark }}>{formatCurrency(result.regularCost)}</div>
-            <div style={{ fontSize: "11px", color: "#555", marginTop: "2px" }}>עלות סל קבוע</div>
+          <div>
+            <div style={{ fontSize: "24px", fontWeight: "700", color: "rgba(255,255,255,0.9)" }}>{formatCurrency(result.regularCost)}</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px" }}>עלות סל קבוע</div>
           </div>
-          <div style={{ background: P.greenLight, borderRadius: "12px", padding: "12px 14px" }}>
-            <div style={{ fontSize: "28px", fontWeight: "800", color: P.dark }}>{result.sometimesCount}</div>
-            <div style={{ fontSize: "11px", color: "#3a5a2a", marginTop: "2px" }}>לפעמים</div>
+          <div>
+            <div style={{ fontSize: "30px", fontWeight: "800", color: "rgba(255,255,255,0.55)" }}>{result.sometimesCount}</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "2px" }}>לפעמים</div>
           </div>
-          <div style={{ background: "rgba(255,255,255,0.07)", borderRadius: "12px", padding: "12px 14px" }}>
-            <div style={{ fontSize: "22px", fontWeight: "800", color: P.cream }}>
+          <div>
+            <div style={{ fontSize: "24px", fontWeight: "700", color: "rgba(255,255,255,0.55)" }}>
               {formatCurrency(result.maxCost ?? result.weightedCost)}
             </div>
-            <div style={{ fontSize: "11px", color: P.greenLight, marginTop: "2px" }}>עלות סל מרבי</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "2px" }}>עלות סל מרבי</div>
           </div>
         </div>
 
-        {/* Footer bar */}
-        <div style={{
-          background: P.green, padding: "10px 20px",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-        }}>
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)" }}>
-            {compLabel || ""}
-            {result.cityName && result.hasBranchInCity === false ? ` · ${result.cityName} — אין קרפור` : ""}
+        {/* Footer */}
+        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.06)" }} />
+        <div style={{ padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)" }}>
+            {compLabel}{result.cityName && result.hasBranchInCity === false ? ` · ${result.cityName} — אין קרפור` : ""}
           </span>
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.65)", fontWeight: "600" }}>
-            {hostname}
-          </span>
+          <span style={{ fontSize: "11px", color: P.green, fontWeight: "600" }}>{hostname}</span>
         </div>
       </div>
 
