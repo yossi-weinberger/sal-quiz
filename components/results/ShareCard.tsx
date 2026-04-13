@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
 import type { SurveyResult } from "@/lib/types";
 import { HOUSEHOLD_LABELS } from "@/lib/types";
 import { formatCurrency, formatPercent } from "@/lib/calculations";
@@ -12,185 +11,242 @@ interface ShareCardProps {
   comparisonStatus: "above" | "below" | "at" | null;
 }
 
+const P = {
+  dark:  "#111814",
+  red:   "#A82323",
+  cream: "#F7FAEE",
+  green: "#6D9E51",
+  greenLight: "#BCD9A2",
+};
+
 export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "copied">("idle");
+  // Preload logo as base64 so html2canvas can render it
+  const [logoSrc, setLogoSrc] = useState<string>("/logo.png");
+
+  useEffect(() => {
+    fetch("/logo.png")
+      .then((r) => r.blob())
+      .then(
+        (blob) =>
+          new Promise<string>((res) => {
+            const reader = new FileReader();
+            reader.onloadend = () => res(reader.result as string);
+            reader.readAsDataURL(blob);
+          })
+      )
+      .then(setLogoSrc)
+      .catch(() => {}); // fallback to /logo.png
+  }, []);
 
   const compLabel =
     comparisonStatus === "above" ? "מעל הממוצע"
     : comparisonStatus === "below" ? "מתחת לממוצע"
     : null;
 
-  async function captureImage(): Promise<{ blob: Blob; dataUrl: string } | null> {
+  const shareText = [
+    `הסל של ישראל — התוצאות שלי`,
+    ``,
+    `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי`,
+    `${result.regularCount} מוצרים קבועים מתוך 107`,
+    `עלות סל קבוע: ${formatCurrency(result.regularCost)}`,
+    compLabel ? `ביחס לממוצע: ${compLabel}` : null,
+    result.cityName && result.hasBranchInCity === false
+      ? `${result.cityName} — אין סניף קרפור` : null,
+    ``,
+    `${typeof window !== "undefined" ? window.location.origin : "https://sal-quiz.vercel.app"}`,
+  ].filter(Boolean).join("\n");
+
+  async function captureCanvas() {
     if (!cardRef.current) return null;
     try {
       const { default: html2canvas } = await import("html2canvas");
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: "#111814",
+      return html2canvas(cardRef.current, {
+        backgroundColor: P.dark,
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         foreignObjectRendering: false,
+        imageTimeout: 5000,
       });
-      const dataUrl = canvas.toDataURL("image/png");
-      const blob = await new Promise<Blob>((res, rej) =>
-        canvas.toBlob((b) => (b ? res(b) : rej()), "image/png")
-      );
-      return { blob, dataUrl };
     } catch { return null; }
   }
 
-  /** One button — opens native share sheet on mobile, downloads on desktop */
   async function handleShare() {
     setStatus("loading");
-    const img = await captureImage();
-    if (!img) { setStatus("idle"); return; }
+    const canvas = await captureCanvas();
+    if (!canvas) { setStatus("idle"); return; }
 
-    const file = new File([img.blob], "sal-israel.png", { type: "image/png" });
+    const blob = await new Promise<Blob | null>((res) =>
+      canvas.toBlob(res, "image/png")
+    );
+    if (!blob) { setStatus("idle"); return; }
 
-    // Try native share with image (works on iOS Safari, Chrome Android)
+    const file = new File([blob], "sal-israel.png", { type: "image/png" });
+
     if (navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({ files: [file], title: "הסל של ישראל — התוצאות שלי" });
-        setStatus("idle");
-        return;
-      } catch { /* user cancelled */ }
+        setStatus("idle"); return;
+      } catch { /* cancelled */ }
     }
-
-    // Try native share text-only
     if (navigator.share) {
       try {
         await navigator.share({
           title: "הסל של ישראל",
-          text: `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי · ${result.regularCount} מוצרים קבועים`,
+          text: shareText,
           url: window.location.origin,
         });
-        setStatus("idle");
-        return;
-      } catch { /* user cancelled */ }
+        setStatus("idle"); return;
+      } catch { /* cancelled */ }
     }
-
-    // Fallback: download the image
+    // Fallback: download
+    const url = canvas.toDataURL("image/png");
     const a = document.createElement("a");
-    a.href = img.dataUrl;
+    a.href = url; a.download = "sal-israel-results.png"; a.click();
+    setStatus("idle");
+  }
+
+  async function handleDownload() {
+    setStatus("loading");
+    const canvas = await captureCanvas();
+    if (!canvas) { setStatus("idle"); return; }
+    const a = document.createElement("a");
+    a.href = canvas.toDataURL("image/png");
     a.download = "sal-israel-results.png";
     a.click();
     setStatus("idle");
   }
 
   async function handleCopy() {
-    const text = [
-      `הסל של ישראל — התוצאות שלי`,
-      `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי`,
-      `${result.regularCount} מוצרים קבועים · עלות: ${formatCurrency(result.regularCost)}`,
-      compLabel ? compLabel : null,
-      window.location.origin,
-    ].filter(Boolean).join("\n");
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(shareText);
       setStatus("copied");
       setTimeout(() => setStatus("idle"), 2000);
     } catch { setStatus("idle"); }
   }
 
-  const isLoading = status === "loading";
+  const canShare = typeof navigator !== "undefined" && "share" in navigator;
+  const hostname = typeof window !== "undefined"
+    ? window.location.hostname.replace("www.", "")
+    : "sal-quiz.vercel.app";
 
   return (
     <div className="space-y-4">
-      {/* ── Preview card (captured by html2canvas) ── */}
+      {/* ── Visual share card captured by html2canvas ── */}
       <div
         ref={cardRef}
         dir="rtl"
-        className="rounded-2xl overflow-hidden"
-        style={{ background: "#111814", fontFamily: "Heebo, Arial, sans-serif", userSelect: "none" }}
+        style={{
+          background: P.dark,
+          fontFamily: "Arial, sans-serif",
+          borderRadius: "16px",
+          overflow: "hidden",
+          userSelect: "none",
+          WebkitUserSelect: "none",
+        }}
       >
-        {/* Header row */}
-        <div className="flex items-center justify-between px-5 pt-5 pb-3">
-          <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="לוגו" width={26} height={26} className="rounded-md" />
-            <span className="text-sm font-semibold" style={{ color: "#BCD9A2" }}>הסל של ישראל</span>
+        {/* Red header */}
+        <div style={{ background: P.red, padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={logoSrc}
+              alt="logo"
+              width={28}
+              height={28}
+              crossOrigin="anonymous"
+              style={{ borderRadius: "6px", objectFit: "contain" }}
+            />
+            <span style={{ color: "white", fontWeight: "700", fontSize: "14px" }}>הסל של ישראל</span>
           </div>
-          <span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "12px" }}>
             {HOUSEHOLD_LABELS[result.householdType]}
           </span>
         </div>
 
         {/* Score */}
-        <div className="px-5 pb-4">
-          <p className="text-7xl font-bold leading-none" style={{ color: "#F7FAEE" }}>
+        <div style={{ padding: "20px 20px 12px" }}>
+          <div style={{ fontSize: "72px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
             {formatPercent(result.weightedMatchPercent)}
-          </p>
-          <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+          </div>
+          <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", marginTop: "6px" }}>
             מהסל תואם לבית שלי
-          </p>
-        </div>
-
-        {/* Thin divider */}
-        <div className="mx-5 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
-
-        {/* Stats — clean text rows, no colored boxes */}
-        <div className="px-5 py-4 grid grid-cols-2 gap-y-3">
-          <div>
-            <p className="text-2xl font-bold" style={{ color: "#6D9E51" }}>{result.regularCount}</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>מוצרים קבועים</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold" style={{ color: "#F7FAEE" }}>{formatCurrency(result.regularCost)}</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>עלות סל קבוע</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>{result.sometimesCount}</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>לפעמים</p>
-          </div>
-          <div>
-            <p className="text-2xl font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>{formatCurrency(result.maxCost ?? result.weightedCost)}</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>עלות סל מרבי</p>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-5 py-3 flex items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            {result.cityName && result.hasBranchInCity === false && `${result.cityName} — אין קרפור · `}
+        {/* Divider */}
+        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.08)" }} />
+
+        {/* Stats 2×2 grid */}
+        <div style={{ padding: "16px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+          <div style={{ background: P.green, borderRadius: "12px", padding: "12px 14px" }}>
+            <div style={{ fontSize: "28px", fontWeight: "800", color: "white" }}>{result.regularCount}</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", marginTop: "2px" }}>מוצרים קבועים</div>
+          </div>
+          <div style={{ background: P.cream, borderRadius: "12px", padding: "12px 14px" }}>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: P.dark }}>{formatCurrency(result.regularCost)}</div>
+            <div style={{ fontSize: "11px", color: "#555", marginTop: "2px" }}>עלות סל קבוע</div>
+          </div>
+          <div style={{ background: P.greenLight, borderRadius: "12px", padding: "12px 14px" }}>
+            <div style={{ fontSize: "28px", fontWeight: "800", color: P.dark }}>{result.sometimesCount}</div>
+            <div style={{ fontSize: "11px", color: "#3a5a2a", marginTop: "2px" }}>לפעמים</div>
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.07)", borderRadius: "12px", padding: "12px 14px" }}>
+            <div style={{ fontSize: "22px", fontWeight: "800", color: P.cream }}>
+              {formatCurrency(result.maxCost ?? result.weightedCost)}
+            </div>
+            <div style={{ fontSize: "11px", color: P.greenLight, marginTop: "2px" }}>עלות סל מרבי</div>
+          </div>
+        </div>
+
+        {/* Footer bar */}
+        <div style={{
+          background: P.green, padding: "10px 20px",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)" }}>
             {compLabel || ""}
+            {result.cityName && result.hasBranchInCity === false ? ` · ${result.cityName} — אין קרפור` : ""}
           </span>
-          <span className="text-xs font-medium" style={{ color: "#6D9E51" }}>
-            {typeof window !== "undefined" ? window.location.hostname : "sal-israel"}
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.65)", fontWeight: "600" }}>
+            {hostname}
           </span>
         </div>
       </div>
 
       {/* ── Buttons ── */}
       <div className="flex gap-2">
-        {/* Primary: Share / Download */}
         <button
           type="button"
           onClick={handleShare}
-          disabled={isLoading}
+          disabled={status === "loading"}
           className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 cursor-pointer hover:opacity-90 active:scale-95 disabled:opacity-60"
-          style={{ background: "#A82323", color: "white" }}
+          style={{ background: P.red, color: "white" }}
         >
-          {isLoading
-            ? <Loader2 size={18} className="animate-spin" />
-            : <Share2 size={18} />
-          }
-          {isLoading ? "מכין..." : "שתף תמונה"}
+          {status === "loading" ? <Loader2 size={18} className="animate-spin" /> : <Share2 size={18} />}
+          {status === "loading" ? "מכין..." : "שתף תמונה"}
         </button>
-
-        {/* Secondary: Copy text */}
+        <button
+          type="button"
+          onClick={handleDownload}
+          disabled={status === "loading"}
+          className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 cursor-pointer hover:bg-muted/60 active:scale-95 border border-border bg-white disabled:opacity-60"
+        >
+          <Download size={18} />
+        </button>
         <button
           type="button"
           onClick={handleCopy}
           className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 cursor-pointer hover:bg-muted/60 active:scale-95 border border-border bg-white"
-          style={{ color: status === "copied" ? "#6D9E51" : undefined }}
         >
-          {status === "copied" ? <Check size={18} /> : <Copy size={18} />}
-          <span className="hidden sm:inline">{status === "copied" ? "הועתק" : "העתק"}</span>
+          {status === "copied" ? <Check size={18} className="text-green-600" /> : <Copy size={18} />}
         </button>
       </div>
-
       <p className="text-xs text-muted-foreground text-center">
-        לחיצה על "שתף תמונה" תפתח את תפריט השיתוף של המכשיר
+        "שתף תמונה" — פותח את תפריט השיתוף עם תמונת PNG
       </p>
     </div>
   );

@@ -210,7 +210,7 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
                 style={{ background: "#A82323", color: "white" }}
                 className="w-full h-12 rounded-xl text-base font-semibold disabled:opacity-60 transition-opacity"
               >
-                {submitting ? surveyContent.submitSection.submitting : "סיום — ראה תוצאות →"}
+                {submitting ? surveyContent.submitSection.submitting : "סיום — ראה תוצאות"}
               </button>
             </motion.div>
           )}
