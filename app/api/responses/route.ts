@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Answer, HouseholdType } from "@/lib/types";
+import { TOTAL_GROUPS, BASKET_GROUP_META } from "@/lib/basket-data";
 
 const VALID_HOUSEHOLD_TYPES: HouseholdType[] = [
   "single", "couple", "couple_kids", "large_family",
 ];
 const VALID_ANSWERS: Answer[] = ["regular", "sometimes", "no"];
-const TOTAL_PRODUCTS = 107;
+const VALID_GROUP_IDS = new Set(BASKET_GROUP_META.map((g) => g.id));
 
 function getSupabase() {
   return createClient(
@@ -43,13 +44,13 @@ function validatePayload(body: SubmitPayload): string | null {
   }
   const answers = body.answers ?? {};
   const answerCount = Object.keys(answers).length;
-  if (answerCount !== TOTAL_PRODUCTS) {
-    return `Expected ${TOTAL_PRODUCTS} answers, got ${answerCount}`;
+  if (answerCount !== TOTAL_GROUPS) {
+    return `Expected ${TOTAL_GROUPS} answers, got ${answerCount}`;
   }
   for (const [id, val] of Object.entries(answers)) {
-    const productId = parseInt(id, 10);
-    if (isNaN(productId) || productId < 1 || productId > TOTAL_PRODUCTS) {
-      return `Invalid product id: ${id}`;
+    const groupId = parseInt(id, 10);
+    if (isNaN(groupId) || !VALID_GROUP_IDS.has(groupId)) {
+      return `Invalid group id: ${id}`;
     }
     if (!VALID_ANSWERS.includes(val)) {
       return `Invalid answer value: ${val}`;
@@ -59,7 +60,7 @@ function validatePayload(body: SubmitPayload): string | null {
     (body.regularCount ?? 0) +
     (body.sometimesCount ?? 0) +
     (body.notBuyCount ?? 0);
-  if (countSum !== TOTAL_PRODUCTS) {
+  if (countSum !== TOTAL_GROUPS) {
     return `Count sum mismatch: ${countSum}`;
   }
   if (body.cityName && typeof body.cityName !== "string") {
@@ -109,9 +110,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const items = Object.entries(body.answers).map(([productId, answer]) => ({
+    const items = Object.entries(body.answers).map(([groupId, answer]) => ({
       response_id: response.id,
-      product_id: parseInt(productId, 10),
+      group_id: parseInt(groupId, 10),
       answer_value: answer,
     }));
 
@@ -120,7 +121,6 @@ export async function POST(req: NextRequest) {
       .insert(items);
 
     if (itemsError) {
-      // Log but don't fail — aggregate data is already saved
       console.error("Response items insert error:", itemsError);
     }
 

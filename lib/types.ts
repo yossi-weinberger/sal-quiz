@@ -8,12 +8,28 @@ export type HouseholdType =
 
 export interface Product {
   id: number;
+  /** Survey group — one answer covers all product lines in this group. */
+  group_id: number;
   barcode: string;
   name_he: string;
   official_price: number;
   image_path: string;
   display_order: number;
   is_active: boolean;
+}
+
+/** One survey card: display fields for a group_id (from products + diaper label). */
+export interface BasketGroupRow {
+  id: number;
+  name_he: string;
+  display_order: number;
+  image_path: string;
+}
+
+/** Group + computed price for UI + product line ids for Rami Levy / DB. */
+export interface BasketLine extends BasketGroupRow {
+  official_price: number;
+  product_ids: number[];
 }
 
 export interface Branch {
@@ -36,6 +52,7 @@ export interface SurveyDraft {
 export interface SurveyResult {
   householdType: HouseholdType;
   cityName: string | null;
+  /** Keys = basket group ids (not product line ids). */
   answers: Record<number, Answer>;
   regularCount: number;
   sometimesCount: number;

@@ -3,6 +3,8 @@
 import { motion } from "motion/react";
 import type { Answer } from "@/lib/types";
 import { formatCurrency } from "@/lib/calculations";
+import disclaimerContent from "@/content/he/disclaimer.json";
+import { getProductLines } from "@/lib/basket-data";
 
 interface RLPrice {
   product_id: number;
@@ -13,24 +15,26 @@ interface RLPrice {
 }
 
 interface RamiLevyComparisonProps {
+  /** Keys = basket group ids */
   answers: Record<number, Answer>;
   rlPrices: Record<number, RLPrice>;
   fetchedAt: string | null;
 }
 
 export function RamiLevyComparison({ answers, rlPrices, fetchedAt }: RamiLevyComparisonProps) {
-  // Regular-only basket — the honest, apples-to-apples comparison
+  const products = getProductLines();
+
   let officialRegular = 0;
   let rlRegular = 0;
-  let regularCount = 0;
+  let regularLineCount = 0;
   let rlFoundCount = 0;
 
-  for (const [idStr, answer] of Object.entries(answers)) {
-    if (answer !== "regular") continue;
-    const id = parseInt(idStr);
-    const rl = rlPrices[id];
+  for (const p of products) {
+    const gAns = answers[p.group_id];
+    if (gAns !== "regular") continue;
+    const rl = rlPrices[p.id];
     if (!rl) continue;
-    regularCount++;
+    regularLineCount++;
     officialRegular += rl.official_price;
     if (rl.is_available && rl.rami_levy_price !== null) {
       rlRegular += rl.rami_levy_price;
@@ -49,12 +53,11 @@ export function RamiLevyComparison({ answers, rlPrices, fetchedAt }: RamiLevyCom
 
   return (
     <div className="bg-white rounded-2xl border border-border overflow-hidden">
-      {/* Header */}
       <div className="px-5 py-4 border-b border-border flex items-start justify-between gap-3">
         <div>
           <h2 className="font-bold text-base">הסל הקבוע שלך ברמי לוי</h2>
           <p className="text-xs text-muted-foreground mt-0.5">
-            {rlFoundCount} מוצרים קבועים נמצאו ברמי לוי
+            {rlFoundCount} מוצרים נמצאו ברמי לוי (לפי ברקוד מהרשימה)
             {fetchedDate && ` · נכון ל-${fetchedDate}`}
           </p>
         </div>
@@ -64,22 +67,20 @@ export function RamiLevyComparison({ answers, rlPrices, fetchedAt }: RamiLevyCom
       </div>
 
       <div className="p-5">
-        {/* Side-by-side comparison */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="rounded-xl p-4 text-center border border-brand-green-light"
                style={{ background: "rgba(188,217,162,0.2)" }}>
             <p className="text-2xl font-bold">{formatCurrency(officialRegular)}</p>
             <p className="text-xs font-semibold mt-1" style={{ color: "#3a6b2a" }}>סל של ישראל</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{regularCount} מוצרים קבועים</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{regularLineCount} מוצרים קבועים</p>
           </div>
           <div className="rounded-xl p-4 text-center border border-orange-200 bg-orange-50">
             <p className="text-2xl font-bold text-orange-700">{formatCurrency(rlRegular)}</p>
             <p className="text-xs font-semibold text-orange-700 mt-1">אותם מוצרים ברמי לוי</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{rlFoundCount} מוצרים נמצאו</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{rlFoundCount} נמצאו</p>
           </div>
         </div>
 
-        {/* Saving highlight */}
         {saving > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -94,12 +95,12 @@ export function RamiLevyComparison({ answers, rlPrices, fetchedAt }: RamiLevyCom
           </motion.div>
         )}
 
-        {/* Footnote */}
         <p className="text-xs text-muted-foreground mt-3 text-center leading-relaxed">
-          ההשוואה מבוססת על מוצרים שסימנת כ"קונה בקביעות" בלבד.
-          {regularCount > rlFoundCount && (
-            <span> {regularCount - rlFoundCount} מוצרים לא נמצאו ברמי לוי ולא נכללו.</span>
-          )}
+          ההשוואה לפי המוצרים שסימנת שאתה קונה בהם בקביעות.
+          {regularLineCount > rlFoundCount && (
+            <span> {regularLineCount - rlFoundCount} מוצרים לא נמצאו ברמי לוי ולא נכללו.</span>
+          )}{" "}
+          {disclaimerContent.ramiFootnote}
         </p>
       </div>
     </div>

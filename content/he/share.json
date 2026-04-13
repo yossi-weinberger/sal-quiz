@@ -1,8 +1,22 @@
 {
   "title": "שתף את התוצאות",
-  "cardTitle": "הסל של המדינה — התוצאות שלי",
+  "cardTitle": "הסל של ישראל — התוצאות שלי",
+  "imageCard": {
+    "contextTitle": "סל הממשלה: 102 מוצרים",
+    "contextSubtitle": "בשאלון 102 שאלות — כמה מהן מתאימות לבית?",
+    "matchLabel": "התאמה לסל הרשמי",
+    "regularHero": "מתוך 102",
+    "regularLabel": "קונה בקביעות מהסל",
+    "sometimesLabel": "קונה לפעמים מהסל",
+    "costLabel": "עלות המוצרים הקבועים (לפי מחירי הסל)",
+    "maxCostLabel": "עלות סל מרבי — קבוע + לפעמים (לפי מחירי הסל)",
+    "cta": "נסה גם אתה",
+    "comparisonAbove": "מעל הממוצע הכללי",
+    "comparisonBelow": "מתחת לממוצע הכללי",
+    "noBranchShort": "אין סניף קרפור בעיר"
+  },
   "lines": {
-    "regularCount": "אני קונה בקביעות רק {{count}} מתוך 107 מוצרים",
+    "regularCount": "אני קונה בקביעות רק {{count}} מתוך 102 מוצרים",
     "weightedMatch": "הסל הרשמי תואם לבית שלי רק ב-{{percent}}%",
     "regularCost": "העלות של מה שאני באמת קונה: ₪{{cost}}",
     "aboveAverage": "אני מעל הממוצע של משתמשים דומים",
@@ -11,9 +25,9 @@
     "noBranch": "בעיר שלי בכלל אין סניף קרפור"
   },
   "callToAction": "בדוק גם את הסל שלך: {{url}}",
-  "siteUrl": "הסל של המדינה",
+  "siteUrl": "הסל של ישראל",
   "copySuccess": "הטקסט הועתק",
   "copyError": "לא הצלחנו להעתיק",
   "downloadSuccess": "התמונה הורדה",
-  "shareTitle": "הסל של המדינה — כמה מוצרים אתה באמת קונה?"
+  "shareTitle": "הסל של ישראל — כמה מוצרים אתה באמת קונה?"
 }

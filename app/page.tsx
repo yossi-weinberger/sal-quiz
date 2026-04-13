@@ -9,6 +9,7 @@ import { getCarrefourCities } from "@/lib/city-matching";
 import type { Branch, Product } from "@/lib/types";
 import productsData from "@/data/products.json";
 import { formatCurrency, sumOfficialBasketPrice } from "@/lib/calculations";
+import { TOTAL_GROUPS } from "@/lib/basket-data";
 
 export default function HomePage() {
   const products = productsData as Product[];
@@ -58,9 +59,14 @@ export default function HomePage() {
         <div className="w-full grid grid-cols-2 gap-2.5 mb-6">
           <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
             <p className="font-bold text-sm text-foreground leading-snug">
-              {products.length} מוצרים · {formatCurrency(fullBasketTotal)}
+              {TOTAL_GROUPS} שאלות · {formatCurrency(fullBasketTotal)}
             </p>
-            <p className="text-xs text-muted-foreground mt-0.5">{homeContent.stats.fullBasketSub}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {homeContent.stats.basketSummarySub.replace(
+                "{{count}}",
+                String(TOTAL_GROUPS)
+              )}
+            </p>
           </div>
           <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
             <p className="font-bold text-sm text-foreground">{homeContent.stats.anonymousLabel}</p>

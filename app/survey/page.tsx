@@ -1,6 +1,5 @@
 import { SurveyClient } from "@/components/survey/SurveyClient";
-import productsData from "@/data/products.json";
-import type { Product } from "@/lib/types";
+import { getProductLines, buildBasketLines } from "@/lib/basket-data";
 import { redirect } from "next/navigation";
 
 interface PageProps {
@@ -18,10 +17,12 @@ export default async function SurveyPage({ searchParams }: PageProps) {
     redirect("/");
   }
 
-  const products = (productsData as Product[]).filter((p) => p.is_active);
+  const products = getProductLines();
+  const lines = buildBasketLines(products);
 
   return (
     <SurveyClient
+      lines={lines}
       products={products}
       householdType={household as "single" | "couple" | "couple_kids" | "large_family"}
       cityName={city}

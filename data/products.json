@@ -6,7 +6,8 @@
     "official_price": 6.5,
     "image_path": "/products/1.jpg",
     "display_order": 1,
-    "is_active": true
+    "is_active": true,
+    "group_id": 1
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "official_price": 1.5,
     "image_path": "/products/2.jpg",
     "display_order": 2,
-    "is_active": true
+    "is_active": true,
+    "group_id": 2
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "official_price": 29.9,
     "image_path": "/products/3.jpg",
     "display_order": 3,
-    "is_active": true
+    "is_active": true,
+    "group_id": 3
   },
   {
     "id": 4,
@@ -33,7 +36,8 @@
     "official_price": 7.4,
     "image_path": "/products/4.jpg",
     "display_order": 4,
-    "is_active": true
+    "is_active": true,
+    "group_id": 4
   },
   {
     "id": 5,
@@ -42,7 +46,8 @@
     "official_price": 3,
     "image_path": "/products/5.jpg",
     "display_order": 5,
-    "is_active": true
+    "is_active": true,
+    "group_id": 5
   },
   {
     "id": 6,
@@ -51,7 +56,8 @@
     "official_price": 7.9,
     "image_path": "/products/6.jpg",
     "display_order": 6,
-    "is_active": true
+    "is_active": true,
+    "group_id": 6
   },
   {
     "id": 7,
@@ -60,7 +66,8 @@
     "official_price": 7.9,
     "image_path": "/products/7.jpg",
     "display_order": 7,
-    "is_active": true
+    "is_active": true,
+    "group_id": 7
   },
   {
     "id": 8,
@@ -69,7 +76,8 @@
     "official_price": 3.1,
     "image_path": "/products/8.jpg",
     "display_order": 8,
-    "is_active": true
+    "is_active": true,
+    "group_id": 8
   },
   {
     "id": 9,
@@ -78,7 +86,8 @@
     "official_price": 3.9,
     "image_path": "/products/9.jpg",
     "display_order": 9,
-    "is_active": true
+    "is_active": true,
+    "group_id": 9
   },
   {
     "id": 10,
@@ -87,7 +96,8 @@
     "official_price": 10.9,
     "image_path": "/products/10.jpg",
     "display_order": 10,
-    "is_active": true
+    "is_active": true,
+    "group_id": 10
   },
   {
     "id": 11,
@@ -96,7 +106,8 @@
     "official_price": 4,
     "image_path": "/products/11.jpg",
     "display_order": 11,
-    "is_active": true
+    "is_active": true,
+    "group_id": 11
   },
   {
     "id": 12,
@@ -105,7 +116,8 @@
     "official_price": 9.9,
     "image_path": "/products/12.jpg",
     "display_order": 12,
-    "is_active": true
+    "is_active": true,
+    "group_id": 12
   },
   {
     "id": 13,
@@ -114,7 +126,8 @@
     "official_price": 13.7,
     "image_path": "/products/13.jpg",
     "display_order": 13,
-    "is_active": true
+    "is_active": true,
+    "group_id": 13
   },
   {
     "id": 14,
@@ -123,7 +136,8 @@
     "official_price": 16.9,
     "image_path": "/products/14.jpg",
     "display_order": 14,
-    "is_active": true
+    "is_active": true,
+    "group_id": 14
   },
   {
     "id": 15,
@@ -132,7 +146,8 @@
     "official_price": 9.1,
     "image_path": "/products/15.jpg",
     "display_order": 15,
-    "is_active": true
+    "is_active": true,
+    "group_id": 15
   },
   {
     "id": 16,
@@ -141,7 +156,8 @@
     "official_price": 24.9,
     "image_path": "/products/16.jpg",
     "display_order": 16,
-    "is_active": true
+    "is_active": true,
+    "group_id": 16
   },
   {
     "id": 17,
@@ -150,7 +166,8 @@
     "official_price": 9.9,
     "image_path": "/products/17.jpg",
     "display_order": 17,
-    "is_active": true
+    "is_active": true,
+    "group_id": 17
   },
   {
     "id": 18,
@@ -159,7 +176,8 @@
     "official_price": 16.9,
     "image_path": "/products/18.jpg",
     "display_order": 18,
-    "is_active": true
+    "is_active": true,
+    "group_id": 18
   },
   {
     "id": 19,
@@ -168,7 +186,8 @@
     "official_price": 13.9,
     "image_path": "/products/19.jpg",
     "display_order": 19,
-    "is_active": true
+    "is_active": true,
+    "group_id": 19
   },
   {
     "id": 20,
@@ -177,7 +196,8 @@
     "official_price": 7.9,
     "image_path": "/products/20.jpg",
     "display_order": 20,
-    "is_active": true
+    "is_active": true,
+    "group_id": 20
   },
   {
     "id": 21,
@@ -186,7 +206,8 @@
     "official_price": 29.9,
     "image_path": "/products/21.jpg",
     "display_order": 21,
-    "is_active": true
+    "is_active": true,
+    "group_id": 21
   },
   {
     "id": 22,
@@ -195,7 +216,8 @@
     "official_price": 9.9,
     "image_path": "/products/22.jpg",
     "display_order": 22,
-    "is_active": true
+    "is_active": true,
+    "group_id": 22
   },
   {
     "id": 23,
@@ -204,7 +226,8 @@
     "official_price": 0,
     "image_path": "/products/23.jpg",
     "display_order": 23,
-    "is_active": true
+    "is_active": true,
+    "group_id": 23
   },
   {
     "id": 24,
@@ -213,7 +236,8 @@
     "official_price": 0,
     "image_path": "/products/24.jpg",
     "display_order": 24,
-    "is_active": true
+    "is_active": true,
+    "group_id": 24
   },
   {
     "id": 25,
@@ -222,7 +246,8 @@
     "official_price": 7.5,
     "image_path": "/products/25.jpg",
     "display_order": 25,
-    "is_active": true
+    "is_active": true,
+    "group_id": 25
   },
   {
     "id": 26,
@@ -231,7 +256,8 @@
     "official_price": 21.9,
     "image_path": "/products/26.jpg",
     "display_order": 26,
-    "is_active": true
+    "is_active": true,
+    "group_id": 26
   },
   {
     "id": 27,
@@ -240,7 +266,8 @@
     "official_price": 22.6,
     "image_path": "/products/27.jpg",
     "display_order": 27,
-    "is_active": true
+    "is_active": true,
+    "group_id": 27
   },
   {
     "id": 28,
@@ -249,7 +276,8 @@
     "official_price": 6.9,
     "image_path": "/products/28.jpg",
     "display_order": 28,
-    "is_active": true
+    "is_active": true,
+    "group_id": 28
   },
   {
     "id": 29,
@@ -258,7 +286,8 @@
     "official_price": 6.9,
     "image_path": "/products/29.jpg",
     "display_order": 29,
-    "is_active": true
+    "is_active": true,
+    "group_id": 29
   },
   {
     "id": 30,
@@ -267,7 +296,8 @@
     "official_price": 6.5,
     "image_path": "/products/30.jpg",
     "display_order": 30,
-    "is_active": true
+    "is_active": true,
+    "group_id": 30
   },
   {
     "id": 31,
@@ -276,7 +306,8 @@
     "official_price": 12.6,
     "image_path": "/products/31.jpg",
     "display_order": 31,
-    "is_active": true
+    "is_active": true,
+    "group_id": 31
   },
   {
     "id": 32,
@@ -285,7 +316,8 @@
     "official_price": 5.9,
     "image_path": "/products/32.jpg",
     "display_order": 32,
-    "is_active": true
+    "is_active": true,
+    "group_id": 32
   },
   {
     "id": 33,
@@ -294,7 +326,8 @@
     "official_price": 5.2,
     "image_path": "/products/33.jpg",
     "display_order": 33,
-    "is_active": true
+    "is_active": true,
+    "group_id": 33
   },
   {
     "id": 34,
@@ -303,7 +336,8 @@
     "official_price": 16,
     "image_path": "/products/34.jpg",
     "display_order": 34,
-    "is_active": true
+    "is_active": true,
+    "group_id": 34
   },
   {
     "id": 35,
@@ -312,7 +346,8 @@
     "official_price": 31.9,
     "image_path": "/products/35.jpg",
     "display_order": 35,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 36,
@@ -321,7 +356,8 @@
     "official_price": 0,
     "image_path": "/products/36.jpg",
     "display_order": 36,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 37,
@@ -330,7 +366,8 @@
     "official_price": 0,
     "image_path": "/products/37.jpg",
     "display_order": 37,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 38,
@@ -339,7 +376,8 @@
     "official_price": 0,
     "image_path": "/products/38.jpg",
     "display_order": 38,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 39,
@@ -348,7 +386,8 @@
     "official_price": 0,
     "image_path": "/products/39.jpg",
     "display_order": 39,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 40,
@@ -357,7 +396,8 @@
     "official_price": 0,
     "image_path": "/products/40.jpg",
     "display_order": 40,
-    "is_active": true
+    "is_active": true,
+    "group_id": 35
   },
   {
     "id": 41,
@@ -366,7 +406,8 @@
     "official_price": 2.9,
     "image_path": "/products/41.jpg",
     "display_order": 41,
-    "is_active": true
+    "is_active": true,
+    "group_id": 36
   },
   {
     "id": 42,
@@ -375,7 +416,8 @@
     "official_price": 11.9,
     "image_path": "/products/42.jpg",
     "display_order": 42,
-    "is_active": true
+    "is_active": true,
+    "group_id": 37
   },
   {
     "id": 43,
@@ -384,7 +426,8 @@
     "official_price": 22.9,
     "image_path": "/products/43.jpg",
     "display_order": 43,
-    "is_active": true
+    "is_active": true,
+    "group_id": 38
   },
   {
     "id": 44,
@@ -393,7 +436,8 @@
     "official_price": 17.9,
     "image_path": "/products/44.jpg",
     "display_order": 44,
-    "is_active": true
+    "is_active": true,
+    "group_id": 39
   },
   {
     "id": 45,
@@ -402,7 +446,8 @@
     "official_price": 8.5,
     "image_path": "/products/45.jpg",
     "display_order": 45,
-    "is_active": true
+    "is_active": true,
+    "group_id": 40
   },
   {
     "id": 46,
@@ -411,7 +456,8 @@
     "official_price": 5.5,
     "image_path": "/products/46.jpg",
     "display_order": 46,
-    "is_active": true
+    "is_active": true,
+    "group_id": 41
   },
   {
     "id": 47,
@@ -420,7 +466,8 @@
     "official_price": 8.9,
     "image_path": "/products/47.jpg",
     "display_order": 47,
-    "is_active": true
+    "is_active": true,
+    "group_id": 42
   },
   {
     "id": 48,
@@ -429,7 +476,8 @@
     "official_price": 9.9,
     "image_path": "/products/48.jpg",
     "display_order": 48,
-    "is_active": true
+    "is_active": true,
+    "group_id": 43
   },
   {
     "id": 49,
@@ -438,7 +486,8 @@
     "official_price": 11,
     "image_path": "/products/49.jpg",
     "display_order": 49,
-    "is_active": true
+    "is_active": true,
+    "group_id": 44
   },
   {
     "id": 50,
@@ -447,7 +496,8 @@
     "official_price": 10.5,
     "image_path": "/products/50.jpg",
     "display_order": 50,
-    "is_active": true
+    "is_active": true,
+    "group_id": 45
   },
   {
     "id": 51,
@@ -456,7 +506,8 @@
     "official_price": 7,
     "image_path": "/products/51.jpg",
     "display_order": 51,
-    "is_active": true
+    "is_active": true,
+    "group_id": 46
   },
   {
     "id": 52,
@@ -465,7 +516,8 @@
     "official_price": 9.9,
     "image_path": "/products/52.jpg",
     "display_order": 52,
-    "is_active": true
+    "is_active": true,
+    "group_id": 47
   },
   {
     "id": 53,
@@ -474,7 +526,8 @@
     "official_price": 2.9,
     "image_path": "/products/53.jpg",
     "display_order": 53,
-    "is_active": true
+    "is_active": true,
+    "group_id": 48
   },
   {
     "id": 54,
@@ -483,7 +536,8 @@
     "official_price": 6.9,
     "image_path": "/products/54.jpg",
     "display_order": 54,
-    "is_active": true
+    "is_active": true,
+    "group_id": 49
   },
   {
     "id": 55,
@@ -492,7 +546,8 @@
     "official_price": 3.9,
     "image_path": "/products/55.jpg",
     "display_order": 55,
-    "is_active": true
+    "is_active": true,
+    "group_id": 50
   },
   {
     "id": 56,
@@ -501,7 +556,8 @@
     "official_price": 4.9,
     "image_path": "/products/56.jpg",
     "display_order": 56,
-    "is_active": true
+    "is_active": true,
+    "group_id": 51
   },
   {
     "id": 57,
@@ -510,7 +566,8 @@
     "official_price": 6.9,
     "image_path": "/products/57.jpg",
     "display_order": 57,
-    "is_active": true
+    "is_active": true,
+    "group_id": 52
   },
   {
     "id": 58,
@@ -519,7 +576,8 @@
     "official_price": 3.9,
     "image_path": "/products/58.jpg",
     "display_order": 58,
-    "is_active": true
+    "is_active": true,
+    "group_id": 53
   },
   {
     "id": 59,
@@ -528,7 +586,8 @@
     "official_price": 6.9,
     "image_path": "/products/59.jpg",
     "display_order": 59,
-    "is_active": true
+    "is_active": true,
+    "group_id": 54
   },
   {
     "id": 60,
@@ -537,7 +596,8 @@
     "official_price": 8.9,
     "image_path": "/products/60.jpg",
     "display_order": 60,
-    "is_active": true
+    "is_active": true,
+    "group_id": 55
   },
   {
     "id": 61,
@@ -546,7 +606,8 @@
     "official_price": 12.9,
     "image_path": "/products/61.jpg",
     "display_order": 61,
-    "is_active": true
+    "is_active": true,
+    "group_id": 56
   },
   {
     "id": 62,
@@ -555,7 +616,8 @@
     "official_price": 20.5,
     "image_path": "/products/62.jpg",
     "display_order": 62,
-    "is_active": true
+    "is_active": true,
+    "group_id": 57
   },
   {
     "id": 63,
@@ -564,7 +626,8 @@
     "official_price": 21.5,
     "image_path": "/products/63.jpg",
     "display_order": 63,
-    "is_active": true
+    "is_active": true,
+    "group_id": 58
   },
   {
     "id": 64,
@@ -573,7 +636,8 @@
     "official_price": 21.9,
     "image_path": "/products/64.jpg",
     "display_order": 64,
-    "is_active": true
+    "is_active": true,
+    "group_id": 59
   },
   {
     "id": 65,
@@ -582,7 +646,8 @@
     "official_price": 27.9,
     "image_path": "/products/65.jpg",
     "display_order": 65,
-    "is_active": true
+    "is_active": true,
+    "group_id": 60
   },
   {
     "id": 66,
@@ -591,7 +656,8 @@
     "official_price": 11.9,
     "image_path": "/products/66.jpg",
     "display_order": 66,
-    "is_active": true
+    "is_active": true,
+    "group_id": 61
   },
   {
     "id": 67,
@@ -600,7 +666,8 @@
     "official_price": 10.5,
     "image_path": "/products/67.jpg",
     "display_order": 67,
-    "is_active": true
+    "is_active": true,
+    "group_id": 62
   },
   {
     "id": 68,
@@ -609,7 +676,8 @@
     "official_price": 6,
     "image_path": "/products/68.jpg",
     "display_order": 68,
-    "is_active": true
+    "is_active": true,
+    "group_id": 63
   },
   {
     "id": 69,
@@ -618,7 +686,8 @@
     "official_price": 6.9,
     "image_path": "/products/69.jpg",
     "display_order": 69,
-    "is_active": true
+    "is_active": true,
+    "group_id": 64
   },
   {
     "id": 70,
@@ -627,7 +696,8 @@
     "official_price": 3.9,
     "image_path": "/products/70.jpg",
     "display_order": 70,
-    "is_active": true
+    "is_active": true,
+    "group_id": 65
   },
   {
     "id": 71,
@@ -636,7 +706,8 @@
     "official_price": 8.9,
     "image_path": "/products/71.jpg",
     "display_order": 71,
-    "is_active": true
+    "is_active": true,
+    "group_id": 66
   },
   {
     "id": 72,
@@ -645,7 +716,8 @@
     "official_price": 15.9,
     "image_path": "/products/72.jpg",
     "display_order": 72,
-    "is_active": true
+    "is_active": true,
+    "group_id": 67
   },
   {
     "id": 73,
@@ -654,7 +726,8 @@
     "official_price": 2.9,
     "image_path": "/products/73.jpg",
     "display_order": 73,
-    "is_active": true
+    "is_active": true,
+    "group_id": 68
   },
   {
     "id": 74,
@@ -663,7 +736,8 @@
     "official_price": 13.9,
     "image_path": "/products/74.jpg",
     "display_order": 74,
-    "is_active": true
+    "is_active": true,
+    "group_id": 69
   },
   {
     "id": 75,
@@ -672,7 +746,8 @@
     "official_price": 24.9,
     "image_path": "/products/75.jpg",
     "display_order": 75,
-    "is_active": true
+    "is_active": true,
+    "group_id": 70
   },
   {
     "id": 76,
@@ -681,7 +756,8 @@
     "official_price": 4.5,
     "image_path": "/products/76.jpg",
     "display_order": 76,
-    "is_active": true
+    "is_active": true,
+    "group_id": 71
   },
   {
     "id": 77,
@@ -690,7 +766,8 @@
     "official_price": 7.7,
     "image_path": "/products/77.jpg",
     "display_order": 77,
-    "is_active": true
+    "is_active": true,
+    "group_id": 72
   },
   {
     "id": 78,
@@ -699,7 +776,8 @@
     "official_price": 11.5,
     "image_path": "/products/78.jpg",
     "display_order": 78,
-    "is_active": true
+    "is_active": true,
+    "group_id": 73
   },
   {
     "id": 79,
@@ -708,7 +786,8 @@
     "official_price": 7.9,
     "image_path": "/products/79.jpg",
     "display_order": 79,
-    "is_active": true
+    "is_active": true,
+    "group_id": 74
   },
   {
     "id": 80,
@@ -717,7 +796,8 @@
     "official_price": 1.95,
     "image_path": "/products/80.jpg",
     "display_order": 80,
-    "is_active": true
+    "is_active": true,
+    "group_id": 75
   },
   {
     "id": 81,
@@ -726,7 +806,8 @@
     "official_price": 2.5,
     "image_path": "/products/81.jpg",
     "display_order": 81,
-    "is_active": true
+    "is_active": true,
+    "group_id": 76
   },
   {
     "id": 82,
@@ -735,7 +816,8 @@
     "official_price": 8.9,
     "image_path": "/products/82.jpg",
     "display_order": 82,
-    "is_active": true
+    "is_active": true,
+    "group_id": 77
   },
   {
     "id": 83,
@@ -744,7 +826,8 @@
     "official_price": 7.9,
     "image_path": "/products/83.jpg",
     "display_order": 83,
-    "is_active": true
+    "is_active": true,
+    "group_id": 78
   },
   {
     "id": 84,
@@ -753,7 +836,8 @@
     "official_price": 9.9,
     "image_path": "/products/84.jpg",
     "display_order": 84,
-    "is_active": true
+    "is_active": true,
+    "group_id": 79
   },
   {
     "id": 85,
@@ -762,7 +846,8 @@
     "official_price": 8.9,
     "image_path": "/products/85.jpg",
     "display_order": 85,
-    "is_active": true
+    "is_active": true,
+    "group_id": 80
   },
   {
     "id": 86,
@@ -771,7 +856,8 @@
     "official_price": 8.9,
     "image_path": "/products/86.jpg",
     "display_order": 86,
-    "is_active": true
+    "is_active": true,
+    "group_id": 81
   },
   {
     "id": 87,
@@ -780,7 +866,8 @@
     "official_price": 15.9,
     "image_path": "/products/87.jpg",
     "display_order": 87,
-    "is_active": true
+    "is_active": true,
+    "group_id": 82
   },
   {
     "id": 88,
@@ -789,7 +876,8 @@
     "official_price": 11.5,
     "image_path": "/products/88.jpg",
     "display_order": 88,
-    "is_active": true
+    "is_active": true,
+    "group_id": 83
   },
   {
     "id": 89,
@@ -798,7 +886,8 @@
     "official_price": 13.9,
     "image_path": "/products/89.jpg",
     "display_order": 89,
-    "is_active": true
+    "is_active": true,
+    "group_id": 84
   },
   {
     "id": 90,
@@ -807,7 +896,8 @@
     "official_price": 12.9,
     "image_path": "/products/90.jpg",
     "display_order": 90,
-    "is_active": true
+    "is_active": true,
+    "group_id": 85
   },
   {
     "id": 91,
@@ -816,7 +906,8 @@
     "official_price": 12.9,
     "image_path": "/products/91.jpg",
     "display_order": 91,
-    "is_active": true
+    "is_active": true,
+    "group_id": 86
   },
   {
     "id": 92,
@@ -825,7 +916,8 @@
     "official_price": 28.2,
     "image_path": "/products/92.jpg",
     "display_order": 92,
-    "is_active": true
+    "is_active": true,
+    "group_id": 87
   },
   {
     "id": 93,
@@ -834,7 +926,8 @@
     "official_price": 5.4,
     "image_path": "/products/93.jpg",
     "display_order": 93,
-    "is_active": true
+    "is_active": true,
+    "group_id": 88
   },
   {
     "id": 94,
@@ -843,7 +936,8 @@
     "official_price": 7.9,
     "image_path": "/products/94.jpg",
     "display_order": 94,
-    "is_active": true
+    "is_active": true,
+    "group_id": 89
   },
   {
     "id": 95,
@@ -852,7 +946,8 @@
     "official_price": 8.9,
     "image_path": "/products/95.jpg",
     "display_order": 95,
-    "is_active": true
+    "is_active": true,
+    "group_id": 90
   },
   {
     "id": 96,
@@ -861,7 +956,8 @@
     "official_price": 6.9,
     "image_path": "/products/96.jpg",
     "display_order": 96,
-    "is_active": true
+    "is_active": true,
+    "group_id": 91
   },
   {
     "id": 97,
@@ -870,7 +966,8 @@
     "official_price": 10.5,
     "image_path": "/products/97.jpg",
     "display_order": 97,
-    "is_active": true
+    "is_active": true,
+    "group_id": 92
   },
   {
     "id": 98,
@@ -879,7 +976,8 @@
     "official_price": 7.9,
     "image_path": "/products/98.jpg",
     "display_order": 98,
-    "is_active": true
+    "is_active": true,
+    "group_id": 93
   },
   {
     "id": 99,
@@ -888,7 +986,8 @@
     "official_price": 7.5,
     "image_path": "/products/99.jpg",
     "display_order": 99,
-    "is_active": true
+    "is_active": true,
+    "group_id": 94
   },
   {
     "id": 100,
@@ -897,7 +996,8 @@
     "official_price": 9.5,
     "image_path": "/products/100.jpg",
     "display_order": 100,
-    "is_active": true
+    "is_active": true,
+    "group_id": 95
   },
   {
     "id": 101,
@@ -906,7 +1006,8 @@
     "official_price": 5.9,
     "image_path": "/products/101.jpg",
     "display_order": 101,
-    "is_active": true
+    "is_active": true,
+    "group_id": 96
   },
   {
     "id": 102,
@@ -915,7 +1016,8 @@
     "official_price": 19.9,
     "image_path": "/products/102.jpg",
     "display_order": 102,
-    "is_active": true
+    "is_active": true,
+    "group_id": 97
   },
   {
     "id": 103,
@@ -924,7 +1026,8 @@
     "official_price": 21.9,
     "image_path": "/products/103.jpg",
     "display_order": 103,
-    "is_active": true
+    "is_active": true,
+    "group_id": 98
   },
   {
     "id": 104,
@@ -933,7 +1036,8 @@
     "official_price": 7.9,
     "image_path": "/products/104.jpg",
     "display_order": 104,
-    "is_active": true
+    "is_active": true,
+    "group_id": 99
   },
   {
     "id": 105,
@@ -942,7 +1046,8 @@
     "official_price": 9.9,
     "image_path": "/products/105.jpg",
     "display_order": 105,
-    "is_active": true
+    "is_active": true,
+    "group_id": 100
   },
   {
     "id": 106,
@@ -951,7 +1056,8 @@
     "official_price": 7.9,
     "image_path": "/products/106.jpg",
     "display_order": 106,
-    "is_active": true
+    "is_active": true,
+    "group_id": 101
   },
   {
     "id": 107,
@@ -960,6 +1066,7 @@
     "official_price": 9.9,
     "image_path": "/products/107.jpg",
     "display_order": 107,
-    "is_active": true
+    "is_active": true,
+    "group_id": 102
   }
 ]

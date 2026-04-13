@@ -29,9 +29,7 @@ async function seedProducts() {
     fs.readFileSync(path.join(process.cwd(), "data", "products.json"), "utf-8")
   );
 
-  const { error } = await supabase
-    .from("products")
-    .upsert(products, { onConflict: "id" });
+  const { error } = await supabase.from("products").upsert(products, { onConflict: "id" });
 
   if (error) throw new Error(`Products seed failed: ${error.message}`);
   console.log(`✓ Seeded ${products.length} products`);
@@ -42,9 +40,7 @@ async function seedBranches() {
     fs.readFileSync(path.join(process.cwd(), "data", "branches.json"), "utf-8")
   );
 
-  const { error } = await supabase
-    .from("branches")
-    .upsert(branches, { onConflict: "id" });
+  const { error } = await supabase.from("branches").upsert(branches, { onConflict: "id" });
 
   if (error) throw new Error(`Branches seed failed: ${error.message}`);
   console.log(`✓ Seeded ${branches.length} branches`);

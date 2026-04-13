@@ -3,11 +3,10 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { ProductCard } from "./ProductCard";
 import { SurveyProgress } from "./SurveyProgress";
 import { BasketPanel } from "./BasketPanel";
-import type { Answer, Product, HouseholdType } from "@/lib/types";
+import type { Answer, Product, HouseholdType, BasketLine } from "@/lib/types";
 import {
   loadDraft,
   saveDraft,
@@ -23,12 +22,13 @@ import { findBranchesForCity, normalizeCity } from "@/lib/city-matching";
 import { ShoppingBasket } from "lucide-react";
 
 interface SurveyClientProps {
+  lines: BasketLine[];
   products: Product[];
   householdType: HouseholdType;
   cityName: string | null;
 }
 
-export function SurveyClient({ products, householdType, cityName }: SurveyClientProps) {
+export function SurveyClient({ lines, products, householdType, cityName }: SurveyClientProps) {
   const router = useRouter();
   const [answers, setAnswers] = useState<Record<number, Answer>>({});
   const [draftRestored, setDraftRestored] = useState(false);
@@ -37,7 +37,7 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
   const [basketOpen, setBasketOpen] = useState(false);
   const initialized = useRef(false);
 
-  const total = products.length;
+  const total = lines.length;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === total;
 
@@ -59,27 +59,27 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
   }, [householdType, cityName]);
 
   const handleAnswer = useCallback(
-    (productId: number, answer: Answer) => {
+    (groupId: number, answer: Answer) => {
       setAnswers((prev) => {
-        const updated = { ...prev, [productId]: answer };
+        const updated = { ...prev, [groupId]: answer };
         const draft = loadDraft() ?? createDraft(householdType, cityName);
-        saveDraft(updateDraftAnswer(draft, productId, answer));
+        saveDraft(updateDraftAnswer(draft, groupId, answer));
         return updated;
       });
     },
     [householdType, cityName]
   );
 
-  function scrollToProduct(productId: number) {
-    const el = document.getElementById(`product-${productId}`);
+  function scrollToGroup(groupId: number) {
+    const el = document.getElementById(`basket-group-${groupId}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }
 
   function scrollToNextUnanswered() {
-    const first = products.find((p) => !answers[p.id]);
-    if (first) scrollToProduct(first.id);
+    const first = lines.find((l) => !answers[l.id]);
+    if (first) scrollToGroup(first.id);
   }
 
   async function handleSubmit() {
@@ -89,7 +89,7 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
 
     const branches = branchesData as Branch[];
     const cityBranches = cityName ? findBranchesForCity(cityName, branches) : [];
-    const result = buildSurveyResult(householdType, cityName, answers, products, cityBranches);
+    const result = buildSurveyResult(householdType, cityName, answers, lines, cityBranches);
 
     try {
       const response = await fetch("/api/responses", {
@@ -132,7 +132,6 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
       />
 
       <main className="flex-1 max-w-xl mx-auto w-full px-4 py-5">
-        {/* Draft restored */}
         <AnimatePresence>
           {draftRestored && (
             <motion.div
@@ -146,45 +145,52 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
           )}
         </AnimatePresence>
 
-        {/* Swipe hint (only shown until first answer) */}
         {answeredCount === 0 && (
           <motion.div
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mb-4 px-4 py-3 bg-white/70 rounded-xl border border-border text-xs text-muted-foreground"
+            className="mb-4 px-4 py-3.5 bg-white/70 rounded-xl border border-border text-xs text-muted-foreground space-y-3"
           >
-            <div className="flex items-center gap-3">
+            <div>
+              <p className="font-semibold text-foreground text-sm mb-1.5">
+                {surveyContent.intro.title}
+              </p>
+              <p className="leading-relaxed">{surveyContent.intro.what}</p>
+              <p className="leading-relaxed mt-2">{surveyContent.intro.how}</p>
+            </div>
+            <div
+              className="pt-2.5 border-t border-border/70 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] sm:text-xs"
+              aria-label="מקרא תשובות"
+            >
               <div className="flex items-center gap-1.5 shrink-0">
-                <span className="w-2 h-2 rounded-full" style={{ background: "#6D9E51" }} />
-                <span>בקביעות = החלק ימינה</span>
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: "#6D9E51" }} />
+                <span>{surveyContent.intro.legendRegular}</span>
               </div>
-              <span className="text-border">·</span>
+              <span className="text-border hidden sm:inline">·</span>
               <div className="flex items-center gap-1.5 shrink-0">
-                <span className="w-2 h-2 rounded-full bg-slate-300" />
-                <span>לא קונה = החלק שמאלה</span>
+                <span className="w-2 h-2 rounded-full bg-slate-300 shrink-0" />
+                <span>{surveyContent.intro.legendNo}</span>
               </div>
-              <span className="text-border">·</span>
-              <span>לפעמים = לחץ כפתור</span>
+              <span className="text-border hidden sm:inline">·</span>
+              <span className="sm:ml-0">{surveyContent.intro.legendSometimes}</span>
             </div>
           </motion.div>
         )}
 
-        {/* Product list */}
         <div className="space-y-2">
           <AnimatePresence initial={false}>
-            {products.map((product) => (
+            {lines.map((line) => (
               <ProductCard
-                key={product.id}
-                product={product}
-                answer={answers[product.id] ?? null}
-                onAnswer={(a) => handleAnswer(product.id, a)}
+                key={line.id}
+                line={line}
+                answer={answers[line.id] ?? null}
+                onAnswer={(a) => handleAnswer(line.id, a)}
               />
             ))}
           </AnimatePresence>
         </div>
 
-        {/* Submit section */}
         <AnimatePresence>
           {allAnswered && (
             <motion.div
@@ -219,7 +225,6 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
         <div className="h-24" />
       </main>
 
-      {/* Floating basket button */}
       <AnimatePresence>
         {answeredCount > 0 && !allAnswered && (
           <motion.button
@@ -239,14 +244,13 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
         )}
       </AnimatePresence>
 
-      {/* Basket panel */}
       <BasketPanel
-        products={products}
+        lines={lines}
         answers={answers}
         open={basketOpen}
         onClose={() => setBasketOpen(false)}
-        onJumpTo={(id) => {
-          setTimeout(() => scrollToProduct(id), 100);
+        onJumpTo={(groupId) => {
+          setTimeout(() => scrollToGroup(groupId), 100);
         }}
       />
     </div>

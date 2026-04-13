@@ -1,9 +1,13 @@
-import type { Answer, Product, SurveyResult, HouseholdType, Branch } from "./types";
+import type { Answer, Product, SurveyResult, HouseholdType, Branch, BasketLine } from "./types";
 import { ANSWER_WEIGHT } from "./types";
+import { TOTAL_GROUPS } from "./basket-data";
 
-export const TOTAL_PRODUCTS = 107;
+export { TOTAL_GROUPS };
 
-/** Sum of official basket prices from the product list (source of truth for “full basket” total). */
+/** @deprecated Use TOTAL_GROUPS — kept for grep compatibility during refactor. */
+export const TOTAL_PRODUCTS = TOTAL_GROUPS;
+
+/** Sum of official basket prices from all product lines (matches gov excel total). */
 export function sumOfficialBasketPrice(products: Product[]): number {
   const raw = products.reduce((s, p) => s + p.official_price, 0);
   return Math.round(raw * 100) / 100;
@@ -11,7 +15,7 @@ export function sumOfficialBasketPrice(products: Product[]): number {
 
 export function calcWeightedMatch(
   answers: Record<number, Answer>,
-  total = TOTAL_PRODUCTS
+  total = TOTAL_GROUPS
 ): number {
   const sum = Object.values(answers).reduce(
     (acc, a) => acc + ANSWER_WEIGHT[a],
@@ -36,34 +40,30 @@ export function calcCounts(answers: Record<number, Answer>): {
   return { regular, sometimes, no };
 }
 
-export function calcCosts(
+export function calcCostsForLines(
   answers: Record<number, Answer>,
-  products: Product[]
+  lines: BasketLine[]
 ): {
-  /** Products marked "regular" at full price — your definite basket */
   regular: number;
-  /** Products marked "regular" OR "sometimes" at full price — maximum basket */
   max: number;
-  /** Kept for analytics: regular×1.0 + sometimes×0.5 */
   weighted: number;
 } {
   let regular = 0;
   let max = 0;
   let weighted = 0;
 
-  for (const product of products) {
-    const answer = answers[product.id];
+  for (const line of lines) {
+    const answer = answers[line.id];
     if (!answer || answer === "no") continue;
 
-    const p = product.official_price;
+    const p = line.official_price;
     if (answer === "regular") {
       regular += p;
       max += p;
-      weighted += p; // × 1.0
+      weighted += p;
     } else {
-      // "sometimes"
-      max += p;         // full price in max basket
-      weighted += p * 0.5; // half price in weighted
+      max += p;
+      weighted += p * 0.5;
     }
   }
 
@@ -78,12 +78,12 @@ export function buildSurveyResult(
   householdType: HouseholdType,
   cityName: string | null,
   answers: Record<number, Answer>,
-  products: Product[],
+  lines: BasketLine[],
   cityBranches: Branch[]
 ): SurveyResult {
   const counts = calcCounts(answers);
   const weightedMatchPercent = calcWeightedMatch(answers);
-  const costs = calcCosts(answers, products);
+  const costs = calcCostsForLines(answers, lines);
 
   return {
     householdType,

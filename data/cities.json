@@ -34,53 +34,5 @@
     "רמלה",
     "רעננה",
     "שדרות"
-  ],
-  "wolt_delivery_areas": [
-    {
-      "area": "תל אביב, הרצליה והסביבה",
-      "cities": [
-        "תל אביב",
-        "תל אביב-יפו",
-        "הרצליה",
-        "רמת גן",
-        "גבעתיים",
-        "רמת אפעל",
-        "בני ברק",
-        "פתח תקווה",
-        "ראש העין"
-      ],
-      "url": "https://wolt.com/he/isr/tel-aviv"
-    },
-    {
-      "area": "ראשון לציון והשפלה",
-      "cities": [
-        "ראשון לציון",
-        "בת ים",
-        "חולון",
-        "רמלה",
-        "לוד",
-        "ראשלצ"
-      ],
-      "url": "https://wolt.com/he/isr/rishon-lezion-hashfela-area"
-    },
-    {
-      "area": "אשדוד ואיזור לכיש",
-      "cities": [
-        "אשדוד",
-        "אשקלון",
-        "גן יבנה",
-        "יבנה"
-      ],
-      "url": "https://wolt.com/he/isr/ashdod-and-lachish-area"
-    },
-    {
-      "area": "נתיבות ואזור שדרות",
-      "cities": [
-        "נתיבות",
-        "שדרות",
-        "אופקים"
-      ],
-      "url": "https://wolt.com/he/isr/netivot-sderot-area"
-    }
   ]
 }

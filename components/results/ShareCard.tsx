@@ -5,6 +5,8 @@ import type { SurveyResult } from "@/lib/types";
 import { HOUSEHOLD_LABELS } from "@/lib/types";
 import { formatCurrency, formatPercent } from "@/lib/calculations";
 import { Share2, Download, Copy, Check, Loader2 } from "lucide-react";
+import shareContent from "@/content/he/share.json";
+import { TOTAL_GROUPS } from "@/lib/basket-data";
 
 interface ShareCardProps {
   result: SurveyResult;
@@ -12,18 +14,20 @@ interface ShareCardProps {
 }
 
 const P = {
-  dark:  "#111814",
-  red:   "#A82323",
+  dark: "#111814",
+  red: "#A82323",
   cream: "#F7FAEE",
   green: "#6D9E51",
-  greenLight: "#BCD9A2",
 };
 
 export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "copied">("idle");
-  // Preload logo as base64 so html2canvas can render it
   const [logoSrc, setLogoSrc] = useState<string>("/logo.png");
+  const ic = shareContent.imageCard;
+  const contextTitle = `סל הממשלה: ${TOTAL_GROUPS} מוצרים`;
+  const contextSubtitle = `בשאלון ${TOTAL_GROUPS} שאלות — כמה מהן מתאימות לבית?`;
+  const outOfGroups = `מתוך ${TOTAL_GROUPS}`;
 
   useEffect(() => {
     fetch("/logo.png")
@@ -37,26 +41,32 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
           })
       )
       .then(setLogoSrc)
-      .catch(() => {}); // fallback to /logo.png
+      .catch(() => {});
   }, []);
 
-  const compLabel =
-    comparisonStatus === "above" ? "מעל הממוצע"
-    : comparisonStatus === "below" ? "מתחת לממוצע"
+  const compShort =
+    comparisonStatus === "above" ? ic.comparisonAbove
+    : comparisonStatus === "below" ? ic.comparisonBelow
     : null;
 
   const shareText = [
-    `הסל של ישראל — התוצאות שלי`,
+    `${shareContent.siteUrl}`,
+    `${contextTitle} — ${contextSubtitle}`,
     ``,
-    `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי`,
-    `${result.regularCount} מוצרים קבועים מתוך 107`,
-    `עלות סל קבוע: ${formatCurrency(result.regularCost)}`,
-    compLabel ? `ביחס לממוצע: ${compLabel}` : null,
+    `${formatPercent(result.weightedMatchPercent)} — ${ic.matchLabel}`,
+    `${result.regularCount} ${outOfGroups} · ${ic.regularLabel}`,
+    `${result.sometimesCount} ${outOfGroups} · ${ic.sometimesLabel}`,
+    `${ic.costLabel}: ${formatCurrency(result.regularCost)}`,
+    `${ic.maxCostLabel}: ${formatCurrency(result.maxCost ?? result.weightedCost)}`,
+    compShort ?? null,
     result.cityName && result.hasBranchInCity === false
-      ? `${result.cityName} — אין סניף קרפור` : null,
+      ? `${result.cityName}: ${ic.noBranchShort}`
+      : null,
     ``,
-    `${typeof window !== "undefined" ? window.location.origin : "https://sal-quiz.vercel.app"}`,
-  ].filter(Boolean).join("\n");
+    `${ic.cta}: ${typeof window !== "undefined" ? window.location.origin : ""}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   async function captureCanvas() {
     if (!cardRef.current) return null;
@@ -71,48 +81,67 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
         foreignObjectRendering: false,
         imageTimeout: 5000,
       });
-    } catch { return null; }
+    } catch {
+      return null;
+    }
   }
 
   async function handleShare() {
     setStatus("loading");
     const canvas = await captureCanvas();
-    if (!canvas) { setStatus("idle"); return; }
+    if (!canvas) {
+      setStatus("idle");
+      return;
+    }
 
-    const blob = await new Promise<Blob | null>((res) =>
-      canvas.toBlob(res, "image/png")
-    );
-    if (!blob) { setStatus("idle"); return; }
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
+    if (!blob) {
+      setStatus("idle");
+      return;
+    }
 
     const file = new File([blob], "sal-israel.png", { type: "image/png" });
 
     if (navigator.canShare?.({ files: [file] })) {
       try {
-        await navigator.share({ files: [file], title: "הסל של ישראל — התוצאות שלי" });
-        setStatus("idle"); return;
-      } catch { /* cancelled */ }
+        await navigator.share({
+          files: [file],
+          title: shareContent.shareTitle,
+        });
+        setStatus("idle");
+        return;
+      } catch {
+        /* cancelled */
+      }
     }
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "הסל של ישראל",
+          title: shareContent.shareTitle,
           text: shareText,
           url: window.location.origin,
         });
-        setStatus("idle"); return;
-      } catch { /* cancelled */ }
+        setStatus("idle");
+        return;
+      } catch {
+        /* cancelled */
+      }
     }
-    // Fallback: download
     const url = canvas.toDataURL("image/png");
     const a = document.createElement("a");
-    a.href = url; a.download = "sal-israel-results.png"; a.click();
+    a.href = url;
+    a.download = "sal-israel-results.png";
+    a.click();
     setStatus("idle");
   }
 
   async function handleDownload() {
     setStatus("loading");
     const canvas = await captureCanvas();
-    if (!canvas) { setStatus("idle"); return; }
+    if (!canvas) {
+      setStatus("idle");
+      return;
+    }
     const a = document.createElement("a");
     a.href = canvas.toDataURL("image/png");
     a.download = "sal-israel-results.png";
@@ -125,90 +154,184 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
       await navigator.clipboard.writeText(shareText);
       setStatus("copied");
       setTimeout(() => setStatus("idle"), 2000);
-    } catch { setStatus("idle"); }
+    } catch {
+      setStatus("idle");
+    }
   }
 
-  const canShare = typeof navigator !== "undefined" && "share" in navigator;
-  const hostname = typeof window !== "undefined"
-    ? window.location.hostname.replace("www.", "")
-    : "sal-quiz.vercel.app";
+  const hostname =
+    typeof window !== "undefined" ? window.location.hostname.replace("www.", "") : "sal-quiz.vercel.app";
 
   return (
     <div className="space-y-4">
-      {/* ── Visual share card captured by html2canvas ── */}
       <div
         ref={cardRef}
         dir="rtl"
         style={{
           background: P.dark,
-          fontFamily: "Arial, sans-serif",
+          fontFamily: "Arial, Helvetica, sans-serif",
           borderRadius: "16px",
           overflow: "hidden",
           userSelect: "none",
           WebkitUserSelect: "none",
+          minHeight: "580px",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        {/* Header */}
-        <div style={{ padding: "20px 24px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {/* Brand row */}
+        <div
+          style={{
+            padding: "18px 22px 0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logoSrc} alt="" width={28} height={28} crossOrigin="anonymous"
-              style={{ borderRadius: "6px", objectFit: "contain", opacity: 0.85 }} />
-            <span style={{ color: "rgba(255,255,255,0.55)", fontWeight: "700", fontSize: "15px", letterSpacing: "0.02em" }}>
-              הסל של ישראל
-            </span>
+            <img
+              src={logoSrc}
+              alt=""
+              width={36}
+              height={36}
+              crossOrigin="anonymous"
+              style={{ borderRadius: "8px", objectFit: "contain", flexShrink: 0 }}
+            />
+            <div style={{ minWidth: 0 }}>
+              <div
+                style={{
+                  color: P.cream,
+                  fontWeight: "800",
+                  fontSize: "17px",
+                  letterSpacing: "0.01em",
+                  lineHeight: 1.2,
+                }}
+              >
+                {shareContent.siteUrl}
+              </div>
+              <div style={{ color: "rgba(255,255,255,0.42)", fontSize: "12px", marginTop: "4px" }}>
+                {HOUSEHOLD_LABELS[result.householdType]}
+              </div>
+            </div>
           </div>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
-            {HOUSEHOLD_LABELS[result.householdType]}
-          </span>
         </div>
 
-        {/* Score — hero */}
-        <div style={{ padding: "16px 24px 18px" }}>
-          <div style={{ fontSize: "88px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
+        {/* What this is — instant context for viewers */}
+        <div style={{ padding: "16px 22px 8px" }}>
+          <div style={{ color: P.green, fontWeight: "800", fontSize: "15px", lineHeight: 1.35 }}>
+            {contextTitle}
+          </div>
+          <div style={{ color: "rgba(255,255,255,0.72)", fontSize: "14px", marginTop: "6px", lineHeight: 1.45 }}>
+            {contextSubtitle}
+          </div>
+        </div>
+
+        {/* Hero: match % */}
+        <div style={{ padding: "8px 22px 12px", textAlign: "center" as const }}>
+          <div style={{ fontSize: "92px", fontWeight: "800", color: P.cream, lineHeight: 0.95, letterSpacing: "-0.02em" }}>
             {formatPercent(result.weightedMatchPercent)}
           </div>
-          <div style={{ fontSize: "16px", color: "rgba(255,255,255,0.45)", marginTop: "6px" }}>
-            מהסל תואם לבית שלי
+          <div style={{ fontSize: "17px", color: "rgba(255,255,255,0.5)", marginTop: "10px", fontWeight: "600" }}>
+            {ic.matchLabel}
           </div>
         </div>
 
-        {/* Thin divider */}
-        <div style={{ margin: "0 24px", height: "1px", background: "rgba(255,255,255,0.08)" }} />
+        <div style={{ margin: "8px 22px", height: "1px", background: "rgba(255,255,255,0.1)" }} />
 
-        {/* Stats */}
-        <div style={{ padding: "18px 24px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 24px" }}>
+        {/* Regular vs sometimes — two columns */}
+        <div
+          style={{
+            padding: "12px 22px 8px",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "14px",
+            textAlign: "center" as const,
+          }}
+        >
           <div>
-            <div style={{ fontSize: "38px", fontWeight: "800", color: P.green }}>{result.regularCount}</div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginTop: "3px" }}>מוצרים קבועים</div>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "6px", flexWrap: "wrap" as const }}>
+              <span style={{ fontSize: "44px", fontWeight: "800", color: P.green, lineHeight: 1 }}>{result.regularCount}</span>
+              <span style={{ fontSize: "18px", fontWeight: "700", color: "rgba(255,255,255,0.4)" }}>{outOfGroups}</span>
+            </div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.62)", marginTop: "6px", fontWeight: "600", lineHeight: 1.3 }}>
+              {ic.regularLabel}
+            </div>
           </div>
           <div>
-            <div style={{ fontSize: "28px", fontWeight: "700", color: "rgba(255,255,255,0.9)" }}>{formatCurrency(result.regularCost)}</div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginTop: "3px" }}>עלות סל קבוע</div>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "6px", flexWrap: "wrap" as const }}>
+              <span style={{ fontSize: "44px", fontWeight: "800", color: "rgba(255,255,255,0.5)", lineHeight: 1 }}>{result.sometimesCount}</span>
+              <span style={{ fontSize: "18px", fontWeight: "700", color: "rgba(255,255,255,0.32)" }}>{outOfGroups}</span>
+            </div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.38)", marginTop: "6px", fontWeight: "600", lineHeight: 1.3 }}>
+              {ic.sometimesLabel}
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: "38px", fontWeight: "800", color: "rgba(255,255,255,0.5)" }}>{result.sometimesCount}</div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)", marginTop: "3px" }}>לפעמים</div>
+        </div>
+
+        {/* Costs — regular + max basket */}
+        <div style={{ margin: "8px 22px 0", display: "flex", flexDirection: "column" as const, gap: "10px" }}>
+          <div
+            style={{
+              padding: "12px 14px",
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.06)",
+              textAlign: "center" as const,
+            }}
+          >
+            <div style={{ fontSize: "28px", fontWeight: "800", color: P.cream }}>{formatCurrency(result.regularCost)}</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "5px", lineHeight: 1.35 }}>
+              {ic.costLabel}
+            </div>
           </div>
-          <div>
-            <div style={{ fontSize: "28px", fontWeight: "700", color: "rgba(255,255,255,0.5)" }}>
+          <div
+            style={{
+              padding: "10px 14px",
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.04)",
+              textAlign: "center" as const,
+            }}
+          >
+            <div style={{ fontSize: "22px", fontWeight: "700", color: "rgba(255,255,255,0.55)" }}>
               {formatCurrency(result.maxCost ?? result.weightedCost)}
             </div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)", marginTop: "3px" }}>עלות סל מרבי</div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.32)", marginTop: "5px", lineHeight: 1.35 }}>
+              {ic.maxCostLabel}
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div style={{ margin: "0 24px", height: "1px", background: "rgba(255,255,255,0.06)" }} />
-        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)" }}>
-            {compLabel}{result.cityName && result.hasBranchInCity === false ? ` · ${result.cityName} — אין קרפור` : ""}
-          </span>
-          <span style={{ fontSize: "13px", color: P.green, fontWeight: "700" }}>{hostname}</span>
+        {/* Optional one-liners — small, does not compete with hero */}
+        {(compShort || (result.cityName && result.hasBranchInCity === false)) && (
+          <div style={{ padding: "14px 22px 0", textAlign: "center" as const }}>
+            {compShort && (
+              <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.38)" }}>{compShort}</div>
+            )}
+            {result.cityName && result.hasBranchInCity === false && (
+              <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.32)", marginTop: compShort ? "6px" : 0 }}>
+                {result.cityName} — {ic.noBranchShort}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div style={{ flex: 1 }} />
+
+        {/* CTA footer — discovery */}
+        <div
+          style={{
+            marginTop: "18px",
+            padding: "16px 22px 20px",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            textAlign: "center" as const,
+          }}
+        >
+          <div style={{ fontSize: "15px", fontWeight: "800", color: P.cream, marginBottom: "6px" }}>{ic.cta}</div>
+          <div style={{ fontSize: "14px", color: P.green, fontWeight: "700", wordBreak: "break-all" as const }}>{hostname}</div>
         </div>
       </div>
 
-      {/* ── Buttons ── */}
       <div className="flex gap-2">
         <button
           type="button"
@@ -236,9 +359,6 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
           {status === "copied" ? <Check size={18} className="text-green-600" /> : <Copy size={18} />}
         </button>
       </div>
-      <p className="text-xs text-muted-foreground text-center">
-        "שתף תמונה" — פותח את תפריט השיתוף עם תמונת PNG
-      </p>
     </div>
   );
 }

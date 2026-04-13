@@ -3,10 +3,10 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useMotionValue, useTransform, AnimatePresence } from "motion/react";
-import type { Answer, Product } from "@/lib/types";
+import type { Answer, BasketLine } from "@/lib/types";
 
 interface ProductCardProps {
-  product: Product;
+  line: BasketLine;
   answer: Answer | null;
   onAnswer: (answer: Answer) => void;
 }
@@ -50,7 +50,7 @@ const ANSWER_CONFIG = {
 
 const SWIPE_THRESHOLD = 90;
 
-export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
+export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
   const x = useMotionValue(0);
   const dragHandled = useRef(false);
   const [imgError, setImgError] = useState(false);
@@ -78,7 +78,7 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
   if (isAnswered && !expanded) {
     return (
       <motion.div
-        id={`product-${product.id}`}
+        id={`basket-group-${line.id}`}
         layout
         initial={{ opacity: 0, height: 0, marginBottom: 0 }}
         animate={{ opacity: 1, height: "auto" }}
@@ -88,12 +88,12 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
           type="button"
           onClick={() => setExpanded(true)}
           className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all duration-150 text-start group hover:brightness-95 ${cfg!.stripBg}`}
-          aria-label={`${product.name_he} — ${ANSWER_CONFIG[answer].label} — לחץ לשינוי`}
+          aria-label={`${line.name_he} — ${ANSWER_CONFIG[answer].label} — לחץ לשינוי`}
         >
           <div className={`shrink-0 w-1.5 h-1.5 rounded-full ${cfg!.stripDot}`} />
           <div className="shrink-0 w-7 h-7 rounded-md overflow-hidden bg-white border border-white/80">
             <Image
-              src={imgError ? "/products/placeholder.svg" : product.image_path}
+              src={imgError ? "/products/placeholder.svg" : line.image_path}
               alt=""
               width={28} height={28}
               className="object-contain w-full h-full p-0.5"
@@ -101,9 +101,9 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
             />
           </div>
           <span className={`flex-1 min-w-0 text-xs font-medium truncate ${cfg!.stripText}`}>
-            {product.name_he}
+            {line.name_he}
           </span>
-          <span className="shrink-0 text-xs text-muted-foreground">₪{product.official_price.toFixed(2)}</span>
+          <span className="shrink-0 text-xs text-muted-foreground">₪{line.official_price.toFixed(2)}</span>
           <span
             className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full"
             style={cfg!.badgeStyle}
@@ -121,7 +121,7 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
   // ── Full card ───────────────────────────────────────────────────
   return (
     <motion.div
-      id={`product-${product.id}`}
+      id={`basket-group-${line.id}`}
       layout
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -163,8 +163,8 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
             {/* Image — full height */}
             <div className="relative shrink-0 w-[84px] self-stretch bg-slate-50 border-l border-border/50">
               <Image
-                src={imgError ? "/products/placeholder.svg" : product.image_path}
-                alt={product.name_he}
+                src={imgError ? "/products/placeholder.svg" : line.image_path}
+                alt={line.name_he}
                 fill
                 sizes="84px"
                 className="object-contain p-2"
@@ -178,10 +178,10 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
               {/* Name + price */}
               <div className="flex-1 min-h-0">
                 <h3 className="text-sm font-semibold leading-snug text-foreground line-clamp-2">
-                  {product.name_he}
+                  {line.name_he}
                 </h3>
                 <p className="text-sm font-bold text-foreground/80 mt-0.5">
-                  ₪{product.official_price.toFixed(2)}
+                  ₪{line.official_price.toFixed(2)}
                   <span className="text-xs font-normal text-muted-foreground mr-1">מחיר רשמי</span>
                 </p>
               </div>

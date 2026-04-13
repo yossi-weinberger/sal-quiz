@@ -1,16 +1,16 @@
 "use client";
 
 import { motion, AnimatePresence } from "motion/react";
-import type { Answer, Product } from "@/lib/types";
+import type { Answer, BasketLine } from "@/lib/types";
 import type React from "react";
 import { X, ShoppingBasket } from "lucide-react";
 
 interface BasketPanelProps {
-  products: Product[];
+  lines: BasketLine[];
   answers: Record<number, Answer>;
   open: boolean;
   onClose: () => void;
-  onJumpTo: (productId: number) => void;
+  onJumpTo: (groupId: number) => void;
 }
 
 const GROUPS: { key: Answer; label: string; dotStyle: React.CSSProperties; badgeStyle: React.CSSProperties }[] = [
@@ -19,14 +19,13 @@ const GROUPS: { key: Answer; label: string; dotStyle: React.CSSProperties; badge
   { key: "no", label: "לא קונה", dotStyle: { background: "#cbd5e1" }, badgeStyle: { background: "#f8fafc", color: "#475569", border: "1px solid #cbd5e1" } },
 ];
 
-export function BasketPanel({ products, answers, open, onClose, onJumpTo }: BasketPanelProps) {
-  const unanswered = products.filter((p) => !answers[p.id]);
+export function BasketPanel({ lines, answers, open, onClose, onJumpTo }: BasketPanelProps) {
+  const unanswered = lines.filter((l) => !answers[l.id]);
 
   return (
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -36,7 +35,6 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
             onClick={onClose}
           />
 
-          {/* Panel */}
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
@@ -44,12 +42,10 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
             transition={{ type: "spring", damping: 28, stiffness: 300 }}
             className="fixed bottom-0 left-0 right-0 z-50 bg-background rounded-t-2xl shadow-2xl max-h-[85vh] flex flex-col"
           >
-            {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">
               <div className="w-10 h-1 bg-border rounded-full" />
             </div>
 
-            {/* Header */}
             <div className="flex items-center justify-between px-5 py-3 border-b border-border">
               <div className="flex items-center gap-2">
                 <ShoppingBasket size={18} className="text-foreground/60" />
@@ -65,11 +61,10 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
               </button>
             </div>
 
-            {/* Unanswered count */}
             {unanswered.length > 0 && (
               <div className="mx-5 mt-4 px-4 py-2.5 bg-amber-50 border border-amber-200 rounded-xl">
                 <p className="text-sm text-amber-800 font-medium">
-                  נותרו {unanswered.length} מוצרים ללא תשובה
+                  נותרו {unanswered.length} פריטים ללא תשובה
                 </p>
                 <button
                   type="button"
@@ -81,30 +76,29 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
               </div>
             )}
 
-            {/* Scrollable content */}
             <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
               {GROUPS.map(({ key, label, dotStyle, badgeStyle }) => {
-                const group = products.filter((p) => answers[p.id] === key);
-                if (group.length === 0) return null;
+                const groupLines = lines.filter((l) => answers[l.id] === key);
+                if (groupLines.length === 0) return null;
                 return (
                   <div key={key}>
                     <div className="flex items-center gap-2 mb-2.5">
                       <div className="w-2 h-2 rounded-full shrink-0" style={dotStyle} />
                       <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                        {label} ({group.length})
+                        {label} ({groupLines.length})
                       </h3>
                     </div>
                     <div className="space-y-1.5">
-                      {group.map((p) => (
+                      {groupLines.map((l) => (
                         <button
-                          key={p.id}
+                          key={l.id}
                           type="button"
-                          onClick={() => { onJumpTo(p.id); onClose(); }}
+                          onClick={() => { onJumpTo(l.id); onClose(); }}
                           style={badgeStyle}
-                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-start transition-all duration-150 hover:brightness-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-start transition-all hover:brightness-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                         >
-                          <span className="text-xs font-medium truncate flex-1">{p.name_he}</span>
-                          <span className="text-xs shrink-0 text-current/60">₪{p.official_price.toFixed(2)}</span>
+                          <span className="text-xs font-medium truncate flex-1">{l.name_he}</span>
+                          <span className="text-xs shrink-0 text-current/60">₪{l.official_price.toFixed(2)}</span>
                           <span className="text-xs shrink-0 opacity-60">שנה →</span>
                         </button>
                       ))}
@@ -114,7 +108,6 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
               })}
             </div>
 
-            {/* Bottom safe area */}
             <div className="h-safe-area-inset-bottom min-h-5 shrink-0" />
           </motion.div>
         </>

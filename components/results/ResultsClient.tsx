@@ -13,6 +13,7 @@ import { HOUSEHOLD_LABELS } from "@/lib/types";
 import { formatCurrency, formatPercent, compareToAverage } from "@/lib/calculations";
 import resultsContent from "@/content/he/results.json";
 import methodologyContent from "@/content/he/methodology.json";
+import disclaimerContent from "@/content/he/disclaimer.json";
 import Link from "next/link";
 
 export function ResultsClient() {
@@ -22,6 +23,7 @@ export function ResultsClient() {
   type RLPriceMap = Record<number, { product_id: number; rami_levy_price: number | null; official_price: number; name_he: string; is_available: boolean }>;
   const [rlData, setRlData] = useState<{ prices: RLPriceMap; fetched_at: string | null } | null>(null);
   const [showMethodology, setShowMethodology] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem("survey_result");
@@ -215,6 +217,20 @@ export function ResultsClient() {
                 <div key={section.title}>
                   <p className="font-semibold text-foreground mb-1">{section.title}</p>
                   {"text" in section && <p>{(section as { text: string }).text}</p>}
+                  {"link" in section &&
+                    (section as { link?: { href: string; label: string } }).link && (
+                      <p className="mt-2">
+                        <a
+                          href={(section as { link: { href: string; label: string } }).link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-semibold underline underline-offset-2 hover:opacity-90"
+                          style={{ color: "#A82323" }}
+                        >
+                          {(section as { link: { href: string; label: string } }).link.label}
+                        </a>
+                      </p>
+                    )}
                   {"formula" in section && (
                     <p className="font-mono text-xs bg-muted px-3 py-2 rounded-lg mt-1.5">
                       {(section as { formula: string }).formula}
@@ -225,6 +241,30 @@ export function ResultsClient() {
                       {(section as { items: string[] }).items.map((item) => <li key={item}>{item}</li>)}
                     </ul>
                   )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Disclaimer accordion */}
+        <div className="mb-8">
+          <button
+            type="button"
+            onClick={() => setShowDisclaimer((v) => !v)}
+            className="w-full flex items-center justify-between py-3 text-sm font-semibold focus-visible:outline-none rounded-lg"
+            aria-expanded={showDisclaimer}
+          >
+            {disclaimerContent.title}
+            <span className="text-muted-foreground text-xs">{showDisclaimer ? "▲ סגור" : "▼ פתח"}</span>
+          </button>
+
+          {showDisclaimer && (
+            <div className="mt-2 space-y-4 text-xs text-foreground/75 leading-relaxed bg-muted/20 rounded-xl border border-border p-5">
+              {disclaimerContent.sections.map((section) => (
+                <div key={section.title}>
+                  <p className="font-semibold text-foreground mb-1 text-sm">{section.title}</p>
+                  <p>{section.text}</p>
                 </div>
               ))}
             </div>

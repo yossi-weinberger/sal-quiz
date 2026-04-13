@@ -11,6 +11,7 @@
     "import:branches": "npx tsx scripts/import-branches.ts",
     "import:all": "npx tsx scripts/import-products.ts && npx tsx scripts/import-branches.ts",
     "seed": "npx tsx scripts/seed-supabase.ts",
+    "clear:survey-data": "npx tsx scripts/clear-survey-data.ts",
     "fetch:rami-levy": "npx tsx scripts/fetch-rami-levy-prices.ts"
   },
   "dependencies": {
