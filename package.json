@@ -10,7 +10,8 @@
     "import:products": "npx tsx scripts/import-products.ts",
     "import:branches": "npx tsx scripts/import-branches.ts",
     "import:all": "npx tsx scripts/import-products.ts && npx tsx scripts/import-branches.ts",
-    "seed": "npx tsx scripts/seed-supabase.ts"
+    "seed": "npx tsx scripts/seed-supabase.ts",
+    "fetch:rami-levy": "npx tsx scripts/fetch-rami-levy-prices.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
