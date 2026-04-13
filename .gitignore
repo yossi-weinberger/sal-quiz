@@ -45,3 +45,5 @@ next-env.d.ts
 
 # Original images folder (images are in public/products)
 /sal_images_full_v2/
+
+.vercel
