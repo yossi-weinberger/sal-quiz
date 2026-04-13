@@ -230,7 +230,7 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
             type="button"
             onClick={() => setBasketOpen(true)}
             style={{ background: "#A82323", color: "white" }}
-            className="fixed bottom-6 left-4 z-40 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-opacity hover:opacity-90"
+            className="fixed bottom-6 left-4 z-40 flex items-center gap-2 px-4 py-3 rounded-full shadow-xl transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer"
             aria-label="סל תשובות"
           >
             <ShoppingBasket size={18} />

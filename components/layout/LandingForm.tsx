@@ -106,7 +106,7 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
                   ? { background: "#A82323", borderColor: "#A82323", color: "#ffffff" }
                   : { background: "rgba(255,255,255,0.6)", borderColor: "var(--border)", color: "var(--foreground)" }
                 }
-                className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring hover:scale-[1.02] active:scale-[0.97] cursor-pointer"
                 aria-pressed={active}
               >
                 <span style={{ opacity: active ? 1 : 0.5 }}>

@@ -101,7 +101,7 @@ export function BasketPanel({ products, answers, open, onClose, onJumpTo }: Bask
                           type="button"
                           onClick={() => { onJumpTo(p.id); onClose(); }}
                           style={badgeStyle}
-                          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-start transition-opacity hover:opacity-80"
+                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-start transition-all duration-150 hover:brightness-95 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                         >
                           <span className="text-xs font-medium truncate flex-1">{p.name_he}</span>
                           <span className="text-xs shrink-0 text-current/60">₪{p.official_price.toFixed(2)}</span>

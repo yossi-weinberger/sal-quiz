@@ -126,8 +126,13 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
+      // Elevated z-index when expanded for editing so it overlaps adjacent cards
+      style={{ position: "relative", zIndex: expanded ? 20 : "auto" }}
     >
-      <div className={`relative rounded-2xl border bg-white overflow-hidden shadow-sm transition-colors duration-150 ${isAnswered ? cfg!.cardBg : "border-border"}`}>
+      <div
+        className={`relative rounded-2xl border bg-white overflow-visible shadow-sm transition-colors duration-150 ${isAnswered ? cfg!.cardBg : "border-border"}`}
+        style={expanded ? { outline: "2px solid #A82323", outlineOffset: "1px" } : undefined}
+      >
         {/* Edit header */}
         {isAnswered && expanded && (
           <div className="flex items-center justify-between px-3 pt-2.5 pb-0">
@@ -191,13 +196,14 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
                       key={a}
                       type="button"
                       onClick={() => { onAnswer(a); if (expanded) setExpanded(false); }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.96 }}
                       style={active ? c.activeStyle : undefined}
                       className={`
-                        flex-1 py-2 px-1 rounded-lg border text-xs font-semibold
-                        transition-all duration-100 text-center
+                        flex-1 py-2.5 px-1 rounded-xl border-2 text-xs font-bold
+                        transition-all duration-150 text-center cursor-pointer
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-                        ${active ? "shadow-sm" : c.idleClass}
+                        ${active ? "shadow-md" : c.idleClass}
                       `}
                       aria-pressed={active}
                     >
