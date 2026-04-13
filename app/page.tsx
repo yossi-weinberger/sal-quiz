@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LandingForm } from "@/components/layout/LandingForm";
 import homeContent from "@/content/he/home.json";
 import branchesData from "@/data/branches.json";
@@ -17,6 +18,9 @@ export default function HomePage() {
 
         {/* Title */}
         <div className="w-full text-center mb-10">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Image src="/logo.png" alt="לוגו הסל של ישראל" width={52} height={52} className="rounded-xl shadow-sm" />
+          </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 leading-tight text-foreground">
             {homeContent.title}
           </h1>
