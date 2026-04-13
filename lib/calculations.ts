@@ -3,6 +3,12 @@ import { ANSWER_WEIGHT } from "./types";
 
 export const TOTAL_PRODUCTS = 107;
 
+/** Sum of official basket prices from the product list (source of truth for “full basket” total). */
+export function sumOfficialBasketPrice(products: Product[]): number {
+  const raw = products.reduce((s, p) => s + p.official_price, 0);
+  return Math.round(raw * 100) / 100;
+}
+
 export function calcWeightedMatch(
   answers: Record<number, Answer>,
   total = TOTAL_PRODUCTS

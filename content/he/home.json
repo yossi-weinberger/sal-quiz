@@ -30,8 +30,8 @@
     }
   },
   "stats": {
-    "totalProducts": "107 מוצרים בסל",
-    "totalPrice": "₪1,098.85 מחיר הסל המלא",
-    "anonymous": "100% אנונימי"
+    "fullBasketSub": "סל מלא לפי מחירי הממשלה",
+    "anonymousLabel": "אנונימי",
+    "anonymousSub": "100%"
   }
 }

@@ -1,12 +1,19 @@
 import Image from "next/image";
 import { LandingForm } from "@/components/layout/LandingForm";
 import homeContent from "@/content/he/home.json";
+import disclaimerContent from "@/content/he/disclaimer.json";
+import officialProgram from "@/content/he/official-program.json";
 import branchesData from "@/data/branches.json";
 import israeliCitiesData from "@/data/israeli-cities.json";
 import { getCarrefourCities } from "@/lib/city-matching";
-import type { Branch } from "@/lib/types";
+import type { Branch, Product } from "@/lib/types";
+import productsData from "@/data/products.json";
+import { formatCurrency, sumOfficialBasketPrice } from "@/lib/calculations";
 
 export default function HomePage() {
+  const products = productsData as Product[];
+  const fullBasketTotal = sumOfficialBasketPrice(products);
+
   const branches = branchesData as Branch[];
   const carrefourCities = getCarrefourCities(branches);
   const allCitiesSet = new Set([...carrefourCities, ...israeliCitiesData.cities]);
@@ -33,20 +40,32 @@ export default function HomePage() {
         <div className="w-full rounded-2xl border border-border bg-white/60 p-5 mb-5 space-y-2.5 text-sm text-foreground/75 leading-relaxed">
           <p>{homeContent.intro.paragraph1}</p>
           <p>{homeContent.intro.paragraph2}</p>
+          <p className="pt-2 border-t border-border/60 text-xs text-foreground/65 leading-relaxed">
+            {officialProgram.introLine}{" "}
+            <a
+              href={officialProgram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline underline-offset-2 hover:opacity-90"
+              style={{ color: "#A82323" }}
+            >
+              {officialProgram.linkText}
+            </a>
+          </p>
         </div>
 
-        {/* Stats row */}
-        <div className="w-full grid grid-cols-3 gap-2.5 mb-6">
-          {[
-            { label: "107 מוצרים", sub: "בסל הרשמי" },
-            { label: "₪1,099", sub: "מחיר מלא" },
-            { label: "אנונימי", sub: "100%" },
-          ].map((s) => (
-            <div key={s.label} className="bg-white/70 border border-border rounded-xl p-3 text-center">
-              <p className="font-bold text-sm text-foreground">{s.label}</p>
-              <p className="text-xs text-muted-foreground mt-0.5">{s.sub}</p>
-            </div>
-          ))}
+        {/* Stats row — full basket count + price together */}
+        <div className="w-full grid grid-cols-2 gap-2.5 mb-6">
+          <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
+            <p className="font-bold text-sm text-foreground leading-snug">
+              {products.length} מוצרים · {formatCurrency(fullBasketTotal)}
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">{homeContent.stats.fullBasketSub}</p>
+          </div>
+          <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
+            <p className="font-bold text-sm text-foreground">{homeContent.stats.anonymousLabel}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{homeContent.stats.anonymousSub}</p>
+          </div>
         </div>
 
         {/* Privacy note */}
@@ -68,10 +87,13 @@ export default function HomePage() {
         <LandingForm cities={allCities} carrefourCities={carrefourCities} />
 
         {/* Methodology */}
-        <div className="w-full mt-8 text-center">
+        <div className="w-full mt-8 text-center space-y-3">
           <p className="text-xs text-muted-foreground leading-relaxed max-w-md mx-auto">
             <span className="font-semibold">{homeContent.methodology.title}:</span>{" "}
             {homeContent.methodology.text}
+          </p>
+          <p className="text-[11px] text-muted-foreground/90 leading-relaxed max-w-md mx-auto border-t border-border/60 pt-3">
+            {disclaimerContent.shortHome}
           </p>
         </div>
       </section>
