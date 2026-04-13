@@ -123,7 +123,7 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-background">
       <SurveyProgress
         answered={answeredCount}
         total={total}
@@ -152,10 +152,21 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="mb-4 px-4 py-3 bg-white rounded-xl border border-border text-xs text-muted-foreground flex items-center gap-2.5"
+            className="mb-4 px-4 py-3 bg-white/70 rounded-xl border border-border text-xs text-muted-foreground"
           >
-            <span className="text-lg">↔</span>
-            <span>החלק ימינה לקנייה קבועה · החלק שמאלה לא קונה · לחץ לפעמים בכפתור</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="w-2 h-2 rounded-full" style={{ background: "#6D9E51" }} />
+                <span>בקביעות = החלק ימינה</span>
+              </div>
+              <span className="text-border">·</span>
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="w-2 h-2 rounded-full bg-slate-300" />
+                <span>לא קונה = החלק שמאלה</span>
+              </div>
+              <span className="text-border">·</span>
+              <span>לפעמים = לחץ כפתור</span>
+            </div>
           </motion.div>
         )}
 
@@ -192,14 +203,15 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
                 <p className="text-sm text-destructive mb-3">{submitError}</p>
               )}
 
-              <Button
-                size="lg"
-                className="w-full h-12 text-base font-semibold"
+              <button
+                type="button"
                 onClick={handleSubmit}
                 disabled={submitting}
+                style={{ background: "#A82323", color: "white" }}
+                className="w-full h-12 rounded-xl text-base font-semibold disabled:opacity-60 transition-opacity"
               >
-                {submitting ? surveyContent.submitSection.submitting : "סיום וראה תוצאות"}
-              </Button>
+                {submitting ? surveyContent.submitSection.submitting : "סיום — ראה תוצאות →"}
+              </button>
             </motion.div>
           )}
         </AnimatePresence>
@@ -217,7 +229,8 @@ export function SurveyClient({ products, householdType, cityName }: SurveyClient
             transition={{ type: "spring", damping: 15, stiffness: 300 }}
             type="button"
             onClick={() => setBasketOpen(true)}
-            className="fixed bottom-6 left-4 z-40 flex items-center gap-2 bg-foreground text-background px-4 py-3 rounded-full shadow-lg hover:bg-foreground/90 transition-colors"
+            style={{ background: "#A82323", color: "white" }}
+            className="fixed bottom-6 left-4 z-40 flex items-center gap-2 px-4 py-3 rounded-full shadow-lg transition-opacity hover:opacity-90"
             aria-label="סל תשובות"
           >
             <ShoppingBasket size={18} />

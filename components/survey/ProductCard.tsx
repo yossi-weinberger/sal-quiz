@@ -11,38 +11,39 @@ interface ProductCardProps {
   onAnswer: (answer: Answer) => void;
 }
 
+// Brand palette: #6D9E51 green, #BCD9A2 light green, #A82323 red, #FEFFD3 cream
 const ANSWER_CONFIG = {
   regular: {
     label: "בקביעות",
     icon: "✓",
-    activeClass: "bg-emerald-600 text-white border-emerald-600",
-    idleClass: "bg-white border-emerald-200 text-emerald-700 hover:bg-emerald-50",
-    stripBg: "bg-emerald-50 border-emerald-200",
-    stripText: "text-emerald-800",
-    stripDot: "bg-emerald-500",
-    badgeClass: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    cardBg: "bg-emerald-50/50 border-emerald-200",
+    activeStyle: { background: "#6D9E51", borderColor: "#6D9E51", color: "white" },
+    idleClass: "bg-white border-brand-green-light text-[#3a6b2a] hover:bg-brand-green-light/30",
+    stripBg: "bg-[#BCD9A2]/30 border-[#BCD9A2]",
+    stripText: "text-[#3a6b2a]",
+    stripDot: "bg-[#6D9E51]",
+    badgeStyle: { background: "#BCD9A2", color: "#2a5a1a", border: "1px solid #6D9E51" },
+    cardBg: "bg-[#BCD9A2]/20 border-[#BCD9A2]",
   },
   sometimes: {
     label: "לפעמים",
     icon: "~",
-    activeClass: "bg-amber-500 text-white border-amber-500",
+    activeStyle: { background: "#d97706", borderColor: "#d97706", color: "white" },
     idleClass: "bg-white border-amber-200 text-amber-700 hover:bg-amber-50",
     stripBg: "bg-amber-50 border-amber-200",
     stripText: "text-amber-800",
     stripDot: "bg-amber-400",
-    badgeClass: "bg-amber-100 text-amber-800 border-amber-200",
+    badgeStyle: { background: "#fef3c7", color: "#92400e", border: "1px solid #fbbf24" },
     cardBg: "bg-amber-50/50 border-amber-200",
   },
   no: {
     label: "לא קונה",
     icon: "×",
-    activeClass: "bg-slate-500 text-white border-slate-500",
+    activeStyle: { background: "#64748b", borderColor: "#64748b", color: "white" },
     idleClass: "bg-white border-slate-200 text-slate-600 hover:bg-slate-50",
     stripBg: "bg-slate-50 border-slate-200",
     stripText: "text-slate-500",
     stripDot: "bg-slate-300",
-    badgeClass: "bg-slate-100 text-slate-600 border-slate-200",
+    badgeStyle: { background: "#f1f5f9", color: "#475569", border: "1px solid #cbd5e1" },
     cardBg: "bg-slate-50/50 border-slate-200",
   },
 } as const;
@@ -103,7 +104,10 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
             {product.name_he}
           </span>
           <span className="shrink-0 text-xs text-muted-foreground">₪{product.official_price.toFixed(2)}</span>
-          <span className={`shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full border ${cfg!.badgeClass}`}>
+          <span
+            className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full"
+            style={cfg!.badgeStyle}
+          >
             {ANSWER_CONFIG[answer].label}
           </span>
           <span className="shrink-0 text-xs text-muted-foreground opacity-0 group-hover:opacity-60 transition-opacity">
@@ -188,11 +192,12 @@ export function ProductCard({ product, answer, onAnswer }: ProductCardProps) {
                       type="button"
                       onClick={() => { onAnswer(a); if (expanded) setExpanded(false); }}
                       whileTap={{ scale: 0.95 }}
+                      style={active ? c.activeStyle : undefined}
                       className={`
                         flex-1 py-2 px-1 rounded-lg border text-xs font-semibold
                         transition-all duration-100 text-center
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-                        ${active ? c.activeClass : c.idleClass}
+                        ${active ? "shadow-sm" : c.idleClass}
                       `}
                       aria-pressed={active}
                     >
