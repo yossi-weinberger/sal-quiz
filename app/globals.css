@@ -51,7 +51,7 @@
 
 /* Override ALL shadcn tokens with hex — no oklch, no lab */
 :root {
-  --background:             #FEFFD3;
+  --background:             #F7FAEE;
   --foreground:             #1a1a1a;
 
   --card:                   #ffffff;
@@ -94,8 +94,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    /* Explicit hex background — no CSS variable chain that could fail */
-    background-color: #FEFFD3;
+    background-color: #F7FAEE;
     color: #1a1a1a;
   }
   html {

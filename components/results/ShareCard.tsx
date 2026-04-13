@@ -5,204 +5,193 @@ import Image from "next/image";
 import type { SurveyResult } from "@/lib/types";
 import { HOUSEHOLD_LABELS } from "@/lib/types";
 import { formatCurrency, formatPercent } from "@/lib/calculations";
-import { Share2, Download, Copy, Check } from "lucide-react";
+import { Share2, Download, Copy, Check, Loader2 } from "lucide-react";
 
 interface ShareCardProps {
   result: SurveyResult;
   comparisonStatus: "above" | "below" | "at" | null;
 }
 
-const PALETTE = {
-  dark:  "#111a11",
-  red:   "#A82323",
-  cream: "#FEFFD3",
-  green: "#6D9E51",
-  greenLight: "#BCD9A2",
-};
-
 export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [status, setStatus] = useState<"idle" | "downloading" | "sharing" | "copied">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "copied">("idle");
 
   const compLabel =
     comparisonStatus === "above" ? "מעל הממוצע"
     : comparisonStatus === "below" ? "מתחת לממוצע"
-    : comparisonStatus === "at" ? "בממוצע" : null;
+    : null;
 
-  const shareText = [
-    `הסל של ישראל — התוצאות שלי`,
-    ``,
-    `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי`,
-    `${result.regularCount} מוצרים קבועים מתוך 107`,
-    `עלות סל קבוע: ${formatCurrency(result.regularCost)}`,
-    compLabel ? `ביחס לממוצע: ${compLabel}` : null,
-    result.cityName && result.hasBranchInCity === false
-      ? `${result.cityName} — אין סניף קרפור` : null,
-    ``,
-    `${typeof window !== "undefined" ? window.location.origin : ""}`,
-  ].filter(Boolean).join("\n");
-
-  async function captureCanvas() {
+  async function captureImage(): Promise<{ blob: Blob; dataUrl: string } | null> {
     if (!cardRef.current) return null;
     try {
       const { default: html2canvas } = await import("html2canvas");
-      return html2canvas(cardRef.current, {
-        backgroundColor: PALETTE.dark,
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: "#111814",
         scale: 2,
         useCORS: true,
         logging: false,
         foreignObjectRendering: false,
       });
+      const dataUrl = canvas.toDataURL("image/png");
+      const blob = await new Promise<Blob>((res, rej) =>
+        canvas.toBlob((b) => (b ? res(b) : rej()), "image/png")
+      );
+      return { blob, dataUrl };
     } catch { return null; }
   }
 
-  async function handleNativeShare() {
-    setStatus("sharing");
-    try {
-      const canvas = await captureCanvas();
-      if (canvas) {
-        const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/png"));
-        if (blob) {
-          const file = new File([blob], "sal-israel.png", { type: "image/png" });
-          if (navigator.canShare?.({ files: [file] })) {
-            await navigator.share({ files: [file], title: "הסל של ישראל" });
-            setStatus("idle"); return;
-          }
-        }
-      }
-      if (navigator.share) await navigator.share({ title: "הסל של ישראל", text: shareText });
-    } catch { /* cancelled */ }
+  /** One button — opens native share sheet on mobile, downloads on desktop */
+  async function handleShare() {
+    setStatus("loading");
+    const img = await captureImage();
+    if (!img) { setStatus("idle"); return; }
+
+    const file = new File([img.blob], "sal-israel.png", { type: "image/png" });
+
+    // Try native share with image (works on iOS Safari, Chrome Android)
+    if (navigator.canShare?.({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: "הסל של ישראל — התוצאות שלי" });
+        setStatus("idle");
+        return;
+      } catch { /* user cancelled */ }
+    }
+
+    // Try native share text-only
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "הסל של ישראל",
+          text: `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי · ${result.regularCount} מוצרים קבועים`,
+          url: window.location.origin,
+        });
+        setStatus("idle");
+        return;
+      } catch { /* user cancelled */ }
+    }
+
+    // Fallback: download the image
+    const a = document.createElement("a");
+    a.href = img.dataUrl;
+    a.download = "sal-israel-results.png";
+    a.click();
     setStatus("idle");
   }
 
-  async function handleDownload() {
-    setStatus("downloading");
+  async function handleCopy() {
+    const text = [
+      `הסל של ישראל — התוצאות שלי`,
+      `${formatPercent(result.weightedMatchPercent)} מהסל תואם לבית שלי`,
+      `${result.regularCount} מוצרים קבועים · עלות: ${formatCurrency(result.regularCost)}`,
+      compLabel ? compLabel : null,
+      window.location.origin,
+    ].filter(Boolean).join("\n");
     try {
-      const canvas = await captureCanvas();
-      if (!canvas) { setStatus("idle"); return; }
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/png");
-      a.download = "sal-israel-results.png";
-      a.click();
-    } catch (e) { console.error(e); }
-    setStatus("idle");
-  }
-
-  async function handleCopyText() {
-    try {
-      await navigator.clipboard.writeText(shareText);
+      await navigator.clipboard.writeText(text);
       setStatus("copied");
       setTimeout(() => setStatus("idle"), 2000);
     } catch { setStatus("idle"); }
   }
 
-  const canShare = typeof navigator !== "undefined" && "share" in navigator;
+  const isLoading = status === "loading";
 
   return (
     <div className="space-y-4">
-      {/* ── Visual card ── */}
+      {/* ── Preview card (captured by html2canvas) ── */}
       <div
         ref={cardRef}
         dir="rtl"
-        className="rounded-2xl overflow-hidden select-none"
-        style={{ background: PALETTE.dark, fontFamily: "Heebo, Arial, sans-serif", color: PALETTE.cream }}
+        className="rounded-2xl overflow-hidden"
+        style={{ background: "#111814", fontFamily: "Heebo, Arial, sans-serif", userSelect: "none" }}
       >
-        {/* Top bar — red */}
-        <div style={{ background: PALETTE.red }} className="px-5 py-3 flex items-center justify-between">
+        {/* Header row */}
+        <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="לוגו" width={28} height={28} className="rounded-md object-contain" />
-            <span className="text-sm font-bold text-white">הסל של ישראל</span>
+            <Image src="/logo.png" alt="לוגו" width={26} height={26} className="rounded-md" />
+            <span className="text-sm font-semibold" style={{ color: "#BCD9A2" }}>הסל של ישראל</span>
           </div>
-          <span className="text-xs text-white/70">{HOUSEHOLD_LABELS[result.householdType]}</span>
+          <span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+            {HOUSEHOLD_LABELS[result.householdType]}
+          </span>
         </div>
 
-        {/* Score hero */}
-        <div className="px-5 pt-5 pb-4">
-          <p className="text-7xl font-bold leading-none" style={{ color: PALETTE.cream }}>
+        {/* Score */}
+        <div className="px-5 pb-4">
+          <p className="text-7xl font-bold leading-none" style={{ color: "#F7FAEE" }}>
             {formatPercent(result.weightedMatchPercent)}
           </p>
-          <p className="text-sm mt-1.5" style={{ color: PALETTE.greenLight }}>
+          <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
             מהסל תואם לבית שלי
           </p>
         </div>
 
-        {/* Stats grid — 2×2 with color coding */}
-        <div className="grid grid-cols-2 gap-2.5 px-5 pb-5">
-          {/* Regular count — green */}
-          <div className="rounded-xl p-3.5" style={{ background: PALETTE.green }}>
-            <p className="text-3xl font-bold text-white">{result.regularCount}</p>
-            <p className="text-xs text-white/80 mt-0.5">מוצרים קבועים</p>
+        {/* Thin divider */}
+        <div className="mx-5 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
+
+        {/* Stats — clean text rows, no colored boxes */}
+        <div className="px-5 py-4 grid grid-cols-2 gap-y-3">
+          <div>
+            <p className="text-2xl font-bold" style={{ color: "#6D9E51" }}>{result.regularCount}</p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>מוצרים קבועים</p>
           </div>
-          {/* Regular cost — cream */}
-          <div className="rounded-xl p-3.5" style={{ background: PALETTE.cream }}>
-            <p className="text-2xl font-bold" style={{ color: PALETTE.dark }}>{formatCurrency(result.regularCost)}</p>
-            <p className="text-xs mt-0.5" style={{ color: "#555" }}>עלות סל קבוע</p>
+          <div>
+            <p className="text-2xl font-bold" style={{ color: "#F7FAEE" }}>{formatCurrency(result.regularCost)}</p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>עלות סל קבוע</p>
           </div>
-          {/* Sometimes count — light green */}
-          <div className="rounded-xl p-3.5" style={{ background: PALETTE.greenLight }}>
-            <p className="text-3xl font-bold" style={{ color: PALETTE.dark }}>{result.sometimesCount}</p>
-            <p className="text-xs mt-0.5" style={{ color: "#3a5a2a" }}>לפעמים</p>
+          <div>
+            <p className="text-2xl font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>{result.sometimesCount}</p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>לפעמים</p>
           </div>
-          {/* Max cost — subtle */}
-          <div className="rounded-xl p-3.5" style={{ background: "rgba(255,255,211,0.12)" }}>
-            <p className="text-2xl font-bold" style={{ color: PALETTE.cream }}>
-              {formatCurrency(result.maxCost ?? result.weightedCost)}
-            </p>
-            <p className="text-xs mt-0.5" style={{ color: PALETTE.greenLight }}>עלות סל מרבי</p>
+          <div>
+            <p className="text-2xl font-bold" style={{ color: "rgba(255,255,255,0.6)" }}>{formatCurrency(result.maxCost ?? result.weightedCost)}</p>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>עלות סל מרבי</p>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div
-          className="px-5 py-2.5 flex items-center justify-between"
-          style={{ background: PALETTE.green }}
-        >
-          <span className="text-xs text-white/80">
-            {compLabel ? compLabel : ""}
-            {result.cityName && result.hasBranchInCity === false && ` · ${result.cityName} — אין קרפור`}
+        {/* Footer */}
+        <div className="px-5 py-3 flex items-center justify-between" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <span className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+            {result.cityName && result.hasBranchInCity === false && `${result.cityName} — אין קרפור · `}
+            {compLabel || ""}
           </span>
-          <span className="text-xs text-white/60">
+          <span className="text-xs font-medium" style={{ color: "#6D9E51" }}>
             {typeof window !== "undefined" ? window.location.hostname : "sal-israel"}
           </span>
         </div>
       </div>
 
-      {/* ── Action buttons — always all 3 visible ── */}
-      <div className="grid gap-2" style={{ gridTemplateColumns: canShare ? "1fr 1fr 1fr" : "1fr 1fr" }}>
-        {canShare && (
-          <button
-            type="button"
-            onClick={handleNativeShare}
-            disabled={status === "sharing"}
-            className="flex flex-col items-center gap-1.5 py-3.5 rounded-xl border-2 cursor-pointer transition-all duration-150 hover:scale-[1.03] active:scale-95 disabled:opacity-60"
-            style={{ background: PALETTE.red, borderColor: PALETTE.red, color: "white" }}
-          >
-            <Share2 size={20} />
-            <span className="text-xs font-bold">{status === "sharing" ? "..." : "שתף"}</span>
-          </button>
-        )}
-
+      {/* ── Buttons ── */}
+      <div className="flex gap-2">
+        {/* Primary: Share / Download */}
         <button
           type="button"
-          onClick={handleDownload}
-          disabled={status === "downloading"}
-          className="flex flex-col items-center gap-1.5 py-3.5 rounded-xl border-2 bg-white cursor-pointer transition-all duration-150 hover:scale-[1.03] active:scale-95 disabled:opacity-60"
-          style={{ borderColor: PALETTE.green, color: PALETTE.green }}
+          onClick={handleShare}
+          disabled={isLoading}
+          className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 cursor-pointer hover:opacity-90 active:scale-95 disabled:opacity-60"
+          style={{ background: "#A82323", color: "white" }}
         >
-          <Download size={20} />
-          <span className="text-xs font-bold">{status === "downloading" ? "..." : "הורד תמונה"}</span>
+          {isLoading
+            ? <Loader2 size={18} className="animate-spin" />
+            : <Share2 size={18} />
+          }
+          {isLoading ? "מכין..." : "שתף תמונה"}
         </button>
 
+        {/* Secondary: Copy text */}
         <button
           type="button"
-          onClick={handleCopyText}
-          className="flex flex-col items-center gap-1.5 py-3.5 rounded-xl border-2 bg-white cursor-pointer transition-all duration-150 hover:scale-[1.03] active:scale-95"
-          style={{ borderColor: "#d8d9bc", color: "#555" }}
+          onClick={handleCopy}
+          className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all duration-150 cursor-pointer hover:bg-muted/60 active:scale-95 border border-border bg-white"
+          style={{ color: status === "copied" ? "#6D9E51" : undefined }}
         >
-          {status === "copied" ? <Check size={20} className="text-green-600" /> : <Copy size={20} />}
-          <span className="text-xs font-bold">{status === "copied" ? "הועתק!" : "העתק טקסט"}</span>
+          {status === "copied" ? <Check size={18} /> : <Copy size={18} />}
+          <span className="hidden sm:inline">{status === "copied" ? "הועתק" : "העתק"}</span>
         </button>
       </div>
+
+      <p className="text-xs text-muted-foreground text-center">
+        לחיצה על "שתף תמונה" תפתח את תפריט השיתוף של המכשיר
+      </p>
     </div>
   );
 }
