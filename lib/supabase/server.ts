@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+/** SSR client using anon key — respects RLS policies */
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -22,16 +23,6 @@ export async function createClient() {
   );
 }
 
-/** Server client with elevated privileges — only use in API routes */
-export function createServiceClient() {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll: () => [],
-        setAll: () => {},
-      },
-    }
-  );
-}
+// Note: createServiceClient (service role key) intentionally NOT included here.
+// The web app uses only the anon key — RLS policies enforce access control.
+// Service role key is only used in local scripts (scripts/seed-supabase.ts).
