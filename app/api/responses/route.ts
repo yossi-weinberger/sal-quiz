@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Answer, HouseholdType } from "@/lib/types";
-import { ANSWER_WEIGHT } from "@/lib/types";
 
 // Use anon key for server-side calls - RLS policies allow anon insert/select
 function getSupabase() {
@@ -74,7 +73,6 @@ export async function POST(req: NextRequest) {
       response_id: response.id,
       product_id: parseInt(productId, 10),
       answer_value: answer,
-      answer_numeric: ANSWER_WEIGHT[answer],
     }));
 
     const { error: itemsError } = await supabase
@@ -96,9 +94,10 @@ export async function GET() {
   try {
     const supabase = getSupabase();
 
+    // Use materialized views (cached, fast) — fallback to regular views if empty
     const [globalResult, householdResult] = await Promise.all([
-      supabase.from("v_global_averages").select("*").single(),
-      supabase.from("v_household_averages").select("*"),
+      supabase.from("mv_global_averages").select("*").single(),
+      supabase.from("mv_household_averages").select("*"),
     ]);
 
     return NextResponse.json({
