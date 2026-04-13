@@ -88,12 +88,12 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
 
   return (
     <div className="w-full space-y-5">
-      {/* Household type */}
-      <fieldset>
-        <legend className="text-sm font-semibold mb-2.5 block">
+      {/* Household type — using div not fieldset (fieldset breaks touch on iOS) */}
+      <div role="group" aria-label={homeContent.form.householdTypeLabel}>
+        <p className="text-sm font-semibold mb-2.5">
           {homeContent.form.householdTypeLabel}
           <span className="text-destructive mr-1">*</span>
-        </legend>
+        </p>
         <div className="grid grid-cols-2 gap-2">
           {HOUSEHOLD_OPTIONS.map(({ type, label, icon }) => {
             const active = householdType === type;
@@ -101,17 +101,19 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
               <button
                 key={type}
                 type="button"
-                onClick={() => setHouseholdType(type)}
-                style={active
-                  ? { background: "#A82323", borderColor: "#A82323", color: "#ffffff" }
-                  : { background: "rgba(255,255,255,0.6)", borderColor: "var(--border)", color: "var(--foreground)" }
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  setHouseholdType(type);
+                }}
+                style={
+                  active
+                    ? { background: "#A82323", borderColor: "#A82323", color: "#ffffff" }
+                    : { background: "rgba(255,255,255,0.7)", borderColor: "#d8d9bc", color: "#1a1a1a" }
                 }
-                className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:opacity-75 cursor-pointer select-none"
+                className="flex items-center gap-2.5 px-4 py-4 rounded-xl border text-sm font-medium transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-pressed={active}
               >
-                <span style={{ opacity: active ? 1 : 0.5 }}>
-                  {icon}
-                </span>
+                <span style={{ opacity: active ? 1 : 0.5 }}>{icon}</span>
                 {label}
               </button>
             );
@@ -122,7 +124,7 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
             {homeContent.form.householdTypeRequired}
           </p>
         )}
-      </fieldset>
+      </div>
 
       {/* City (optional) */}
       <div>
