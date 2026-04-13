@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
+import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -19,6 +20,12 @@ export const metadata: Metadata = {
     locale: "he_IL",
     type: "website",
   },
+  twitter: {
+    card: "summary",
+    creator: "@YossiW10",
+    title: "הסל של ישראל",
+    description: "בדיקה אנונימית: עד כמה הסל הרשמי באמת משקף את הבית שלך",
+  },
 };
 
 export default function RootLayout({
@@ -30,6 +37,7 @@ export default function RootLayout({
     <html lang="he" dir="rtl" className={`${heebo.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased">
         {children}
+        <Footer />
       </body>
     </html>
   );
