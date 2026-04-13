@@ -12,11 +12,11 @@ const heebo = Heebo({
 export const metadata: Metadata = {
   title: "הסל של ישראל",
   description:
-    "בדיקה אנונימית: עד כמה הסל הרשמי באמת משקף את הבית שלך — ומה הוא היה עולה ברמי לוי",
+    " עד כמה הסל הרשמי באמת משקף את משק הבית שלך — ומה הוא היה עולה ברמי לוי",
   openGraph: {
     title: "הסל של ישראל",
     description:
-      "בדיקה אנונימית: עד כמה הסל הרשמי באמת משקף את הבית שלך",
+      "עד כמה הסל הרשמי באמת משקף את משק הבית שלך",
     locale: "he_IL",
     type: "website",
   },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary",
     creator: "@YossiW10",
     title: "הסל של ישראל",
-    description: "בדיקה אנונימית: עד כמה הסל הרשמי באמת משקף את הבית שלך",
+    description: "עד כמה הסל הרשמי באמת משקף את משק הבית שלך",
   },
 };
 

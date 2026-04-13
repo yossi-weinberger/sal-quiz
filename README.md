@@ -20,15 +20,17 @@
 
 ## Stack
 
-| כלי | גרסה |
-|-----|------|
-| [Next.js](https://nextjs.org) | 16 (App Router, Turbopack) |
-| [React](https://react.dev) | 19 |
-| [TypeScript](https://typescriptlang.org) | 5 |
-| [Tailwind CSS](https://tailwindcss.com) | v4 |
-| [shadcn/ui](https://ui.shadcn.com) | CLI v4 |
-| [motion](https://motion.dev) | latest (Framer Motion) |
-| [Supabase](https://supabase.com) | Postgres + RLS |
+
+| כלי                                      | גרסה                       |
+| ---------------------------------------- | -------------------------- |
+| [Next.js](https://nextjs.org)            | 16 (App Router, Turbopack) |
+| [React](https://react.dev)               | 19                         |
+| [TypeScript](https://typescriptlang.org) | 5                          |
+| [Tailwind CSS](https://tailwindcss.com)  | v4                         |
+| [shadcn/ui](https://ui.shadcn.com)       | CLI v4                     |
+| [motion](https://motion.dev)             | latest (Framer Motion)     |
+| [Supabase](https://supabase.com)         | Postgres + RLS             |
+
 
 ---
 
@@ -117,6 +119,7 @@ supabase/migrations/    # SQL schema
 ## נתון מעניין 📊
 
 מתוך 104 מוצרים שנמצאו ברמי לוי:
+
 - **מחיר סל רשמי:** ₪1,048  
 - **מחיר אותם מוצרים ברמי לוי:** ₪1,709  
 - **הפרש:** +₪661 (63% יקר יותר ברמי לוי)

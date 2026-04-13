@@ -6,15 +6,9 @@ import officialProgram from "@/content/he/official-program.json";
 import branchesData from "@/data/branches.json";
 import israeliCitiesData from "@/data/israeli-cities.json";
 import { getCarrefourCities } from "@/lib/city-matching";
-import type { Branch, Product } from "@/lib/types";
-import productsData from "@/data/products.json";
-import { formatCurrency, sumOfficialBasketPrice } from "@/lib/calculations";
-import { TOTAL_GROUPS } from "@/lib/basket-data";
+import type { Branch } from "@/lib/types";
 
 export default function HomePage() {
-  const products = productsData as Product[];
-  const fullBasketTotal = sumOfficialBasketPrice(products);
-
   const branches = branchesData as Branch[];
   const carrefourCities = getCarrefourCities(branches);
   const allCitiesSet = new Set([...carrefourCities, ...israeliCitiesData.cities]);
@@ -30,9 +24,10 @@ export default function HomePage() {
             <Image
               src="/logo.png"
               alt="לוגו הסל של ישראל"
-              width={52}
-              height={52}
+              width={80}
+              height={80}
               className="rounded-xl shadow-sm shrink-0"
+              sizes="80px"
             />
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight text-foreground text-start">
               {homeContent.title}
@@ -59,25 +54,6 @@ export default function HomePage() {
               {officialProgram.linkText}
             </a>
           </p>
-        </div>
-
-        {/* Stats row — full basket count + price together */}
-        <div className="w-full grid grid-cols-2 gap-2.5 mb-6">
-          <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
-            <p className="font-bold text-sm text-foreground leading-snug">
-              {TOTAL_GROUPS} שאלות · {formatCurrency(fullBasketTotal)}
-            </p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              {homeContent.stats.basketSummarySub.replace(
-                "{{count}}",
-                String(TOTAL_GROUPS)
-              )}
-            </p>
-          </div>
-          <div className="bg-white/70 border border-border rounded-xl p-3 text-center">
-            <p className="font-bold text-sm text-foreground">{homeContent.stats.anonymousLabel}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{homeContent.stats.anonymousSub}</p>
-          </div>
         </div>
 
         {/* Privacy note */}
