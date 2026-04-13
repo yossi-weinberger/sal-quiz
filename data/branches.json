@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "format_type": "מרקט",
+    "branch_name": "אור יהודה",
+    "city_name": "אור יהודה",
+    "address": "המפעל 13 אור יהודה",
+    "normalized_city_name": "אור יהודה"
+  },
+  {
+    "id": 2,
+    "format_type": "מרקט",
+    "branch_name": "אלנבי ירושלים",
+    "city_name": "ירושלים",
+    "address": "בית\"ר פינת ינובסקי  4 י-ם",
+    "normalized_city_name": "ירושלים"
+  },
+  {
+    "id": 3,
+    "format_type": "מרקט",
+    "branch_name": "אשדוד ח",
+    "city_name": "אשדוד",
+    "address": "מרכז כלניות  אשדוד",
+    "normalized_city_name": "אשדוד"
+  },
+  {
+    "id": 4,
+    "format_type": "מרקט",
+    "branch_name": "מגדל העמק",
+    "city_name": "מגדל העמק",
+    "address": "רח' ניצנים 39, מגדל העמק",
+    "normalized_city_name": "מגדל העמק"
+  },
+  {
+    "id": 5,
+    "format_type": "מרקט",
+    "branch_name": "פתח תקוה",
+    "city_name": "פתח תקווה",
+    "address": "בר כוכבא 63 ,פתח תקווה",
+    "normalized_city_name": "פתח תקווה"
+  },
+  {
+    "id": 6,
+    "format_type": "מרקט",
+    "branch_name": "באר שבע",
+    "city_name": "באר שבע",
+    "address": "ניון אביה -מבצע יואב פינת שאול המלך ב\"ש",
+    "normalized_city_name": "באר שבע"
+  },
+  {
+    "id": 7,
+    "format_type": "מרקט",
+    "branch_name": "אשקלון",
+    "city_name": "אשקלון",
+    "address": "קיבוץ גלויות 5 אשקלון",
+    "normalized_city_name": "אשקלון"
+  },
+  {
+    "id": 8,
+    "format_type": "מרקט",
+    "branch_name": "חיפה",
+    "city_name": "חיפה",
+    "address": "רח' שד' הנשיא מרכז הכרמל חיפה",
+    "normalized_city_name": "חיפה"
+  },
+  {
+    "id": 9,
+    "format_type": "מרקט",
+    "branch_name": "דליית אל כרמל",
+    "city_name": "דלית אל כרמל",
+    "address": "דרך ראשית 672, כיכר חמוד אל-קארה",
+    "normalized_city_name": "דלית אל כרמל"
+  },
+  {
+    "id": 10,
+    "format_type": "מרקט",
+    "branch_name": "גבעתיים",
+    "city_name": "גבעתיים",
+    "address": "רח' כורזין 1 גבעתיים",
+    "normalized_city_name": "גבעתיים"
+  },
+  {
+    "id": 11,
+    "format_type": "מרקט",
+    "branch_name": "רמלה",
+    "city_name": "רמלה",
+    "address": "שדרות הרצל 45 , רמלה",
+    "normalized_city_name": "רמלה"
+  },
+  {
+    "id": 12,
+    "format_type": "מרקט",
+    "branch_name": "מעלות תרשיחא",
+    "city_name": "מעלות תרשיחא",
+    "address": "שלמה שרירא 3,מעלות תרשיחא",
+    "normalized_city_name": "מעלות תרשיחא"
+  },
+  {
+    "id": 13,
+    "format_type": "מרקט",
+    "branch_name": "ראשלצ",
+    "city_name": "ראשון לציון",
+    "address": "רחוב החלמונית 29, ראשל\"צ",
+    "normalized_city_name": "ראשון לציון"
+  },
+  {
+    "id": 14,
+    "format_type": "מרקט",
+    "branch_name": "פתח תקווה",
+    "city_name": "פתח תקווה",
+    "address": "שטמפפר 73, פינת אבניאל פ\"ת",
+    "normalized_city_name": "פתח תקווה"
+  },
+  {
+    "id": 15,
+    "format_type": "מרקט",
+    "branch_name": "גני אביב לוד",
+    "city_name": "לוד",
+    "address": "ארבע עונות 14 לוד",
+    "normalized_city_name": "לוד"
+  },
+  {
+    "id": 16,
+    "format_type": "מרקט",
+    "branch_name": "אשקלון",
+    "city_name": "אשקלון",
+    "address": "שדרות ירושלים 5 אשקלון",
+    "normalized_city_name": "אשקלון"
+  },
+  {
+    "id": 17,
+    "format_type": "מרקט",
+    "branch_name": "מודיעין",
+    "city_name": "מודיעין",
+    "address": "רחוב  עמק בית שאן 29  , מודיעין",
+    "normalized_city_name": "מודיעין"
+  },
+  {
+    "id": 18,
+    "format_type": "מרקט",
+    "branch_name": "רמלה",
+    "city_name": "רמלה",
+    "address": "רח' אבא אחימאיר 1, קרית-מנחם, רמלה",
+    "normalized_city_name": "רמלה"
+  },
+  {
+    "id": 19,
+    "format_type": "מרקט",
+    "branch_name": "יבנה",
+    "city_name": "יבנה",
+    "address": "דואני 42, יבנה",
+    "normalized_city_name": "יבנה"
+  },
+  {
+    "id": 20,
+    "format_type": "מרקט",
+    "branch_name": "רמלה",
+    "city_name": "רמלה",
+    "address": "רחוב קלאוזנר 10 רמלה",
+    "normalized_city_name": "רמלה"
+  },
+  {
+    "id": 21,
+    "format_type": "מרקט",
+    "branch_name": "נתניה",
+    "city_name": "נתניה",
+    "address": "הארי 12, נתניה",
+    "normalized_city_name": "נתניה"
+  },
+  {
+    "id": 22,
+    "format_type": "מרקט",
+    "branch_name": "כרכור",
+    "city_name": "כרכור",
+    "address": "רחוב שדרות מחנה 80 ,מספר 4, כרכור",
+    "normalized_city_name": "כרכור"
+  },
+  {
+    "id": 23,
+    "format_type": "מרקט",
+    "branch_name": "גן יבנה",
+    "city_name": "גן יבנה",
+    "address": "רח' קיבוץ גלויות פינת הרצל 1 גן יבנה",
+    "normalized_city_name": "גן יבנה"
+  },
+  {
+    "id": 24,
+    "format_type": "מרקט",
+    "branch_name": "בית אליעזר חדרה",
+    "city_name": "חדרה",
+    "address": "העצמאות21 בית אליעזר-חדרה",
+    "normalized_city_name": "חדרה"
+  },
+  {
+    "id": 25,
+    "format_type": "מרקט",
+    "branch_name": "רעננה",
+    "city_name": "רעננה",
+    "address": "מרכז גולן, אחוזה 198, רעננה",
+    "normalized_city_name": "רעננה"
+  },
+  {
+    "id": 26,
+    "format_type": "מרקט",
+    "branch_name": "אילת",
+    "city_name": "אילת",
+    "address": "חטיבת גולני 41 ,אילת",
+    "normalized_city_name": "אילת"
+  },
+  {
+    "id": 27,
+    "format_type": "מרקט",
+    "branch_name": "גאילת",
+    "city_name": "אילת",
+    "address": "רחוב גולני 43",
+    "normalized_city_name": "אילת"
+  },
+  {
+    "id": 28,
+    "format_type": "מרקט",
+    "branch_name": "יבנה נאות שמיר",
+    "city_name": "יבנה",
+    "address": "הרצל 19 ,יבנה",
+    "normalized_city_name": "יבנה"
+  },
+  {
+    "id": 29,
+    "format_type": "מרקט",
+    "branch_name": "ראש העין",
+    "city_name": "ראש העין",
+    "address": "יהושוע בן נון 77 , ראש העין",
+    "normalized_city_name": "ראש העין"
+  },
+  {
+    "id": 30,
+    "format_type": "מרקט",
+    "branch_name": "קריית שמונה",
+    "city_name": "קריית שמונה",
+    "address": "טשרניחובסקי 4, קריית שמונה",
+    "normalized_city_name": "קריית שמונה"
+  },
+  {
+    "id": 31,
+    "format_type": "מרקט",
+    "branch_name": "בית שמש",
+    "city_name": "בית שמש",
+    "address": "שד' האמרואים 28 , בית שמש",
+    "normalized_city_name": "בית שמש"
+  },
+  {
+    "id": 32,
+    "format_type": "היפר",
+    "branch_name": "אור עקיבא",
+    "city_name": "אור עקיבא",
+    "address": "האילן 1 אור עקיבא",
+    "normalized_city_name": "אור עקיבא"
+  },
+  {
+    "id": 33,
+    "format_type": "היפר",
+    "branch_name": "בית שמש",
+    "city_name": "בית שמש",
+    "address": "יגאל אלון 1 , בית שמש",
+    "normalized_city_name": "בית שמש"
+  },
+  {
+    "id": 34,
+    "format_type": "היפר",
+    "branch_name": "רעננה",
+    "city_name": "רעננה",
+    "address": "זרחין 12 רעננה",
+    "normalized_city_name": "רעננה"
+  },
+  {
+    "id": 35,
+    "format_type": "היפר",
+    "branch_name": "ערד",
+    "city_name": "ערד",
+    "address": "התעשיה 60, ערד",
+    "normalized_city_name": "ערד"
+  },
+  {
+    "id": 36,
+    "format_type": "היפר",
+    "branch_name": "בית שאן",
+    "city_name": "בית שאן",
+    "address": "בית שאן א.ת צפוני",
+    "normalized_city_name": "בית שאן"
+  },
+  {
+    "id": 37,
+    "format_type": "היפר",
+    "branch_name": "כפר סבא",
+    "city_name": "כפר סבא",
+    "address": "השיטה 4, כפר סבא",
+    "normalized_city_name": "כפר סבא"
+  },
+  {
+    "id": 38,
+    "format_type": "היפר",
+    "branch_name": "שדרות",
+    "city_name": "שדרות",
+    "address": "קניון פנינת הנגב א\"ת דרומי",
+    "normalized_city_name": "שדרות"
+  },
+  {
+    "id": 39,
+    "format_type": "היפר",
+    "branch_name": "אשקלון",
+    "city_name": "אשקלון",
+    "address": "הפנינים 28 ,אשקלון",
+    "normalized_city_name": "אשקלון"
+  },
+  {
+    "id": 40,
+    "format_type": "היפר",
+    "branch_name": "באר שבע",
+    "city_name": "באר שבע",
+    "address": "קניון סינימה סיטי, החיטה 1 באר שבע",
+    "normalized_city_name": "באר שבע"
+  },
+  {
+    "id": 41,
+    "format_type": "היפר",
+    "branch_name": "עפולה",
+    "city_name": "עפולה",
+    "address": "שדרות מנחם בגין 53 , עפולה",
+    "normalized_city_name": "עפולה"
+  },
+  {
+    "id": 42,
+    "format_type": "היפר",
+    "branch_name": "נתיבות",
+    "city_name": "נתיבות",
+    "address": "בעלי המלאכה 3 , נתיבות",
+    "normalized_city_name": "נתיבות"
+  },
+  {
+    "id": 43,
+    "format_type": "היפר",
+    "branch_name": "ירושלים",
+    "city_name": "ירושלים",
+    "address": "האומן 14, ירושלים",
+    "normalized_city_name": "ירושלים"
+  },
+  {
+    "id": 44,
+    "format_type": "היפר",
+    "branch_name": "אופקים",
+    "city_name": "אופקים",
+    "address": "בצלאל 1 , אופקים",
+    "normalized_city_name": "אופקים"
+  },
+  {
+    "id": 45,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין נאות חן חדרה",
+    "city_name": "חדרה",
+    "address": "הלל יפה 5 פינת סמילנסקי",
+    "normalized_city_name": "חדרה"
+  },
+  {
+    "id": 46,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין אלעד",
+    "city_name": "אלעד",
+    "address": "בן זכאי 32, אלעד",
+    "normalized_city_name": "אלעד"
+  },
+  {
+    "id": 47,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין בית שמש",
+    "city_name": "בית שמש",
+    "address": "נחל השורק 23, בית שמש",
+    "normalized_city_name": "בית שמש"
+  },
+  {
+    "id": 48,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין הרצל חיפה",
+    "city_name": "חיפה",
+    "address": "הרצל 97 חיפה",
+    "normalized_city_name": "חיפה"
+  },
+  {
+    "id": 49,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין ריינס ירושלים",
+    "city_name": "ירושלים",
+    "address": "ריינס 6 שכונת ק. משה",
+    "normalized_city_name": "ירושלים"
+  },
+  {
+    "id": 50,
+    "format_type": "מהדרין",
+    "branch_name": "מהדרין עמישב פ\"ת",
+    "city_name": "פתח תקווה",
+    "address": "דרך מנחם בגין 96, פ\"ת",
+    "normalized_city_name": "פתח תקווה"
+  }
+]

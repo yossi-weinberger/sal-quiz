@@ -1,65 +1,88 @@
-import Image from "next/image";
+import { LandingForm } from "@/components/layout/LandingForm";
+import homeContent from "@/content/he/home.json";
+import branchesData from "@/data/branches.json";
+import israeliCitiesData from "@/data/israeli-cities.json";
+import { getCarrefourCities } from "@/lib/city-matching";
+import type { Branch } from "@/lib/types";
 
-export default function Home() {
+export default function HomePage() {
+  const branches = branchesData as Branch[];
+  const carrefourCities = getCarrefourCities(branches);
+
+  // Merge: all Israeli cities + Carrefour cities, deduplicated, sorted
+  const allCitiesSet = new Set([
+    ...carrefourCities,
+    ...israeliCitiesData.cities,
+  ]);
+  const allCities = Array.from(allCitiesSet).sort((a, b) =>
+    a.localeCompare(b, "he")
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen flex flex-col bg-background">
+      <section className="flex-1 flex flex-col items-center justify-center px-4 py-12 sm:py-16 max-w-xl mx-auto w-full">
+        {/* Title */}
+        <div className="w-full text-center mb-10">
+          <div className="inline-block bg-foreground/5 border border-border rounded-full px-4 py-1 text-xs font-medium text-muted-foreground mb-5 tracking-wide">
+            כלי השוואה ציבורי
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 leading-tight">
+            {homeContent.title}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-md mx-auto">
+            {homeContent.subtitle}
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Intro */}
+        <div className="w-full rounded-2xl border border-border bg-muted/30 p-5 mb-5 space-y-2.5 text-sm text-foreground/80 leading-relaxed">
+          <p>{homeContent.intro.paragraph1}</p>
+          <p>{homeContent.intro.paragraph2}</p>
         </div>
-      </main>
-    </div>
+
+        {/* Stats row */}
+        <div className="w-full grid grid-cols-3 gap-2.5 mb-6">
+          {[
+            { label: "107 מוצרים", sub: "בסל הרשמי" },
+            { label: "₪1,098", sub: "מחיר מלא" },
+            { label: "אנונימי", sub: "100%" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="border border-border rounded-xl p-3 text-center"
+            >
+              <p className="font-bold text-sm text-foreground">{s.label}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{s.sub}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Privacy note */}
+        <div className="w-full flex gap-3 items-start border border-green-200 bg-green-50 rounded-xl p-4 mb-8">
+          <div className="shrink-0 w-5 h-5 rounded-full bg-green-600 flex items-center justify-center mt-0.5">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+              <path d="M1 4l3 3 5-6" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-green-900 mb-0.5">{homeContent.privacy.title}</p>
+            <p className="text-sm text-green-800/80 leading-relaxed">
+              {homeContent.privacy.text}
+            </p>
+          </div>
+        </div>
+
+        {/* Form */}
+        <LandingForm cities={allCities} carrefourCities={carrefourCities} />
+
+        {/* Methodology */}
+        <div className="w-full mt-8 text-center">
+          <p className="text-xs text-muted-foreground leading-relaxed max-w-md mx-auto">
+            <span className="font-semibold">{homeContent.methodology.title}:</span>{" "}
+            {homeContent.methodology.text}
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }

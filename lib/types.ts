@@ -1,0 +1,74 @@
+export type Answer = "regular" | "sometimes" | "no";
+
+export type HouseholdType =
+  | "single"
+  | "couple"
+  | "couple_kids"
+  | "large_family";
+
+export interface Product {
+  id: number;
+  barcode: string;
+  name_he: string;
+  official_price: number;
+  image_path: string;
+  display_order: number;
+  is_active: boolean;
+}
+
+export interface Branch {
+  id: number;
+  format_type: string;
+  branch_name: string;
+  city_name: string;
+  address: string;
+  normalized_city_name: string;
+}
+
+export interface SurveyDraft {
+  householdType: HouseholdType;
+  cityName: string | null;
+  answers: Record<number, Answer>; // product_id → answer
+  startedAt: string;
+  lastSavedAt: string;
+}
+
+export interface SurveyResult {
+  householdType: HouseholdType;
+  cityName: string | null;
+  answers: Record<number, Answer>;
+  regularCount: number;
+  sometimesCount: number;
+  notBuyCount: number;
+  weightedMatchPercent: number;
+  regularCost: number;
+  weightedCost: number;
+  hasBranchInCity: boolean | null;
+  branchCount: number | null;
+  branches: Branch[];
+}
+
+export interface AggregateStats {
+  totalResponses: number;
+  avgWeightedMatch: number;
+  avgRegularCount: number;
+  avgWeightedCost: number;
+}
+
+export interface ComparisonData {
+  global: AggregateStats;
+  household: AggregateStats | null;
+}
+
+export const ANSWER_WEIGHT: Record<Answer, number> = {
+  regular: 1.0,
+  sometimes: 0.5,
+  no: 0.0,
+};
+
+export const HOUSEHOLD_LABELS: Record<HouseholdType, string> = {
+  single: "יחיד/ה",
+  couple: "זוג",
+  couple_kids: "זוג עם ילדים",
+  large_family: "משפחה מרובת ילדים",
+};

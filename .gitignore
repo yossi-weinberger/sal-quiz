@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Excel source files (large binary files)
+*.xlsx
+
+# Original images folder (images are in public/products)
+/sal_images_full_v2/

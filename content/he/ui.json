@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "home": "הסל של המדינה?",
+    "backToHome": "חזרה לדף הבית"
+  },
+  "buttons": {
+    "start": "התחל בדיקה",
+    "continue": "המשך",
+    "finish": "סיום וראה תוצאות",
+    "share": "שתף תוצאות",
+    "copyText": "העתק טקסט",
+    "download": "שמור תמונה",
+    "nativeShare": "שתף",
+    "scrollToNext": "קפוץ לשאלה הבאה",
+    "changeAnswer": "שנה תשובה",
+    "close": "סגור",
+    "back": "חזור"
+  },
+  "loading": "טוען...",
+  "error": {
+    "generic": "אירעה שגיאה. נסה שוב.",
+    "submitFailed": "לא הצלחנו לשמור את התוצאות. הנתונים שלך לא אבדו — נסה שוב.",
+    "loadFailed": "לא הצלחנו לטעון את המוצרים."
+  },
+  "accessibility": {
+    "productImage": "תמונת מוצר",
+    "progressBar": "פס התקדמות",
+    "answeredBadge": "נענה",
+    "swipeHint": "ניתן להחליק כרטיס ימינה לקנייה קבועה, שמאלה לא קונה"
+  }
+}
