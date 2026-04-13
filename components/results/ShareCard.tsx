@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { SurveyResult } from "@/lib/types";
 import { HOUSEHOLD_LABELS } from "@/lib/types";
-import shareContent from "@/content/he/share.json";
 import { formatCurrency, formatPercent } from "@/lib/calculations";
-import { Share2, Copy, Check } from "lucide-react";
+import { Share2, Download, Check } from "lucide-react";
 
 interface ShareCardProps {
   result: SurveyResult;
@@ -14,114 +13,151 @@ interface ShareCardProps {
 }
 
 export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
-  const [copied, setCopied] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
+  const [shared, setShared] = useState(false);
 
-  const lines = [
-    shareContent.lines.regularCount.replace(
-      "{{count}}",
-      String(result.regularCount)
-    ),
-    shareContent.lines.weightedMatch.replace(
-      "{{percent}}",
-      String(result.weightedMatchPercent)
-    ),
-    shareContent.lines.regularCost.replace(
-      "{{cost}}",
-      result.regularCost.toFixed(2)
-    ),
-    comparisonStatus === "above"
-      ? shareContent.lines.aboveAverage
-      : comparisonStatus === "below"
-      ? shareContent.lines.belowAverage
-      : comparisonStatus === "at"
-      ? shareContent.lines.atAverage
-      : null,
-    result.cityName && result.hasBranchInCity === false
-      ? shareContent.lines.noBranch
-      : null,
-  ].filter(Boolean) as string[];
+  const compLabel =
+    comparisonStatus === "above" ? "מעל הממוצע"
+    : comparisonStatus === "below" ? "מתחת לממוצע"
+    : comparisonStatus === "at" ? "בממוצע"
+    : null;
 
-  const shareText = [
-    shareContent.cardTitle,
-    "",
-    ...lines,
-    "",
-    shareContent.callToAction.replace("{{url}}", typeof window !== "undefined" ? window.location.origin : ""),
-  ].join("\n");
-
-  async function handleCopyText() {
+  async function handleDownload() {
+    if (!cardRef.current) return;
+    setDownloading(true);
     try {
-      await navigator.clipboard.writeText(shareText);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // fallback
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: "#A82323",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "sal-israel-results.png";
+      a.click();
+    } catch (e) {
+      console.error("Download failed", e);
+    } finally {
+      setDownloading(false);
     }
   }
 
   async function handleNativeShare() {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: shareContent.shareTitle,
-          text: shareText,
-        });
-      } catch {
-        // cancelled or not supported
-      }
+    if (!cardRef.current) return;
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: "#A82323",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+        const file = new File([blob], "sal-israel.png", { type: "image/png" });
+        if (navigator.canShare?.({ files: [file] })) {
+          await navigator.share({ files: [file], title: "הסל של ישראל — התוצאות שלי" });
+          setShared(true);
+          setTimeout(() => setShared(false), 2000);
+        } else {
+          // Fallback: download
+          handleDownload();
+        }
+      }, "image/png");
+    } catch (e) {
+      console.error("Share failed", e);
     }
   }
 
   return (
     <div className="space-y-4">
-      {/* Visual share card */}
+      {/* Visual card to capture */}
       <div
-        id="share-card"
-        className="bg-foreground text-background rounded-2xl p-6 space-y-3"
+        ref={cardRef}
+        dir="rtl"
+        className="rounded-2xl p-6 select-none"
+        style={{ background: "#A82323", color: "white", fontFamily: "Heebo, Arial, sans-serif" }}
       >
-        <p className="text-xs text-background/60 font-medium uppercase tracking-wide">
-          {shareContent.siteUrl}
+        {/* Site name */}
+        <p className="text-xs font-medium opacity-60 tracking-widest mb-4 uppercase">
+          הסל של ישראל
         </p>
-        <h2 className="text-lg font-bold leading-tight">
-          {shareContent.cardTitle}
-        </h2>
-        <ul className="space-y-2">
-          {lines.map((line, i) => (
-            <li key={i} className="text-sm text-background/90 flex items-start gap-2">
-              <span className="text-background/40 text-xs mt-0.5 shrink-0">—</span>
-              {line}
-            </li>
-          ))}
-        </ul>
-        <div className="pt-1 border-t border-background/20">
-          <p className="text-xs text-background/50">
-            {typeof window !== "undefined" ? window.location.hostname : ""}
+
+        {/* Main score */}
+        <div className="mb-5">
+          <p className="text-6xl font-bold leading-none mb-1">
+            {formatPercent(result.weightedMatchPercent)}
+          </p>
+          <p className="text-sm opacity-80">מהסל תואם לבית שלי</p>
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-white/20 mb-5" />
+
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="bg-white/10 rounded-xl p-3">
+            <p className="text-2xl font-bold">{result.regularCount}</p>
+            <p className="text-xs opacity-70 mt-0.5">מוצרים קבועים</p>
+          </div>
+          <div className="bg-white/10 rounded-xl p-3">
+            <p className="text-2xl font-bold">{formatCurrency(result.regularCost)}</p>
+            <p className="text-xs opacity-70 mt-0.5">עלות מוצרים קבועים</p>
+          </div>
+          <div className="bg-white/10 rounded-xl p-3">
+            <p className="text-2xl font-bold">{result.sometimesCount}</p>
+            <p className="text-xs opacity-70 mt-0.5">מוצרים לפעמים</p>
+          </div>
+          <div className="bg-white/10 rounded-xl p-3">
+            <p className="text-2xl font-bold">{formatCurrency(result.weightedCost)}</p>
+            <p className="text-xs opacity-70 mt-0.5">עלות משוקללת</p>
+          </div>
+        </div>
+
+        {/* Context row */}
+        <div className="flex items-center justify-between text-xs opacity-70">
+          <span>{HOUSEHOLD_LABELS[result.householdType]}</span>
+          {compLabel && <span>{compLabel}</span>}
+          {result.cityName && (
+            <span>{result.cityName}{result.hasBranchInCity === false ? " · אין סניף קרפור" : ""}</span>
+          )}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-4 pt-4 border-t border-white/20">
+          <p className="text-xs opacity-50 text-center">
+            sal-israel.vercel.app
           </p>
         </div>
       </div>
 
-      {/* Share buttons */}
-      <div className="flex gap-2 flex-wrap">
-        {typeof navigator !== "undefined" && "share" in navigator && (
+      {/* Action buttons */}
+      <div className="flex gap-2">
+        {"share" in navigator && (
           <Button
             variant="default"
             size="sm"
             onClick={handleNativeShare}
-            className="flex items-center gap-2"
+            disabled={shared}
+            className="flex-1 bg-brand-red hover:bg-brand-red/90 text-white gap-2"
           >
-            <Share2 size={14} />
-            שתף
+            {shared ? <Check size={14} /> : <Share2 size={14} />}
+            שתף תמונה
           </Button>
         )}
-
         <Button
           variant="outline"
           size="sm"
-          onClick={handleCopyText}
-          className="flex items-center gap-2"
+          onClick={handleDownload}
+          disabled={downloading}
+          className="flex-1 gap-2"
         >
-          {copied ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
-          {copied ? shareContent.copySuccess : "העתק טקסט"}
+          <Download size={14} />
+          {downloading ? "יוצר..." : "הורד PNG"}
         </Button>
       </div>
     </div>

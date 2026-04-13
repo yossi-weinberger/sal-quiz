@@ -1,5 +1,5 @@
 {
-  "title": "כך נראית ההתאמה של הבית שלך לסל שפורסם",
+  "title": "כך נראית ההתאמה של הבית שלך לסל של ישראל",
   "subtitle": "התשובות נשמרו באופן אנונימי ונוספו להשוואה המצטברת",
   "scores": {
     "weightedMatch": "אחוז התאמה משוקלל",
@@ -8,8 +8,10 @@
     "regularCountUnit": "מוצרים מתוך 107",
     "sometimesCount": "קונה לפעמים",
     "notBuyCount": "לא קונה",
-    "regularCost": "עלות המוצרים שנקנים בקביעות",
-    "weightedCost": "עלות משוקללת לפי תשובותיך",
+    "regularCost": "עלות מוצרים קבועים",
+    "regularCostDesc": "סה\"כ מחיר המוצרים שתמיד קונים",
+    "weightedCost": "עלות משוקללת",
+    "weightedCostDesc": "קבועים × 1 + לפעמים × 0.5",
     "fullBasketCost": "מחיר הסל המלא",
     "currency": "₪"
   },

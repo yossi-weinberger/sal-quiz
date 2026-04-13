@@ -93,15 +93,17 @@ export function ResultsClient() {
           </div>
         </div>
 
-        {/* ── 2-column costs ── */}
+        {/* ── 2-column costs with tooltip explanation ── */}
         <div className="grid grid-cols-2 gap-2 mb-4">
           <div className="bg-white rounded-xl border border-border p-4 text-center">
             <p className="text-xl font-bold">{formatCurrency(result.regularCost)}</p>
-            <p className="text-xs text-muted-foreground mt-1 leading-tight">{resultsContent.scores.regularCost}</p>
+            <p className="text-xs font-semibold text-foreground/80 mt-1">{resultsContent.scores.regularCost}</p>
+            <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{"regularCostDesc" in resultsContent.scores ? (resultsContent.scores as { regularCostDesc: string }).regularCostDesc : ""}</p>
           </div>
           <div className="bg-white rounded-xl border border-border p-4 text-center">
             <p className="text-xl font-bold">{formatCurrency(result.weightedCost)}</p>
-            <p className="text-xs text-muted-foreground mt-1 leading-tight">{resultsContent.scores.weightedCost}</p>
+            <p className="text-xs font-semibold text-foreground/80 mt-1">{resultsContent.scores.weightedCost}</p>
+            <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{"weightedCostDesc" in resultsContent.scores ? (resultsContent.scores as { weightedCostDesc: string }).weightedCostDesc : ""}</p>
           </div>
         </div>
 
