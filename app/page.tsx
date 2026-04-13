@@ -26,12 +26,18 @@ export default function HomePage() {
 
         {/* Title */}
         <div className="w-full text-center mb-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Image src="/logo.png" alt="לוגו הסל של ישראל" width={52} height={52} className="rounded-xl shadow-sm" />
+          <div className="flex flex-row items-center justify-center gap-3 sm:gap-4 mb-4">
+            <Image
+              src="/logo.png"
+              alt="לוגו הסל של ישראל"
+              width={52}
+              height={52}
+              className="rounded-xl shadow-sm shrink-0"
+            />
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight text-foreground text-start">
+              {homeContent.title}
+            </h1>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 leading-tight text-foreground">
-            {homeContent.title}
-          </h1>
           <p className="text-base sm:text-lg text-foreground/70 leading-relaxed max-w-md mx-auto">
             {homeContent.subtitle}
           </p>
