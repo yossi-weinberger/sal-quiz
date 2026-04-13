@@ -148,63 +148,63 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
           WebkitUserSelect: "none",
         }}
       >
-        {/* Header — dark, minimal */}
-        <div style={{ padding: "16px 20px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+        {/* Header */}
+        <div style={{ padding: "20px 24px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={logoSrc} alt="" width={22} height={22} crossOrigin="anonymous"
-              style={{ borderRadius: "5px", objectFit: "contain", opacity: 0.85 }} />
-            <span style={{ color: "rgba(255,255,255,0.5)", fontWeight: "600", fontSize: "12px", letterSpacing: "0.04em" }}>
+            <img src={logoSrc} alt="" width={28} height={28} crossOrigin="anonymous"
+              style={{ borderRadius: "6px", objectFit: "contain", opacity: 0.85 }} />
+            <span style={{ color: "rgba(255,255,255,0.55)", fontWeight: "700", fontSize: "15px", letterSpacing: "0.02em" }}>
               הסל של ישראל
             </span>
           </div>
-          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "11px" }}>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
             {HOUSEHOLD_LABELS[result.householdType]}
           </span>
         </div>
 
         {/* Score — hero */}
-        <div style={{ padding: "14px 20px 16px" }}>
-          <div style={{ fontSize: "76px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
+        <div style={{ padding: "16px 24px 18px" }}>
+          <div style={{ fontSize: "88px", fontWeight: "800", color: P.cream, lineHeight: 1 }}>
             {formatPercent(result.weightedMatchPercent)}
           </div>
-          <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", marginTop: "5px" }}>
+          <div style={{ fontSize: "16px", color: "rgba(255,255,255,0.45)", marginTop: "6px" }}>
             מהסל תואם לבית שלי
           </div>
         </div>
 
         {/* Thin divider */}
-        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.07)" }} />
+        <div style={{ margin: "0 24px", height: "1px", background: "rgba(255,255,255,0.08)" }} />
 
-        {/* Stats — clean rows, no colored boxes */}
-        <div style={{ padding: "14px 20px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 20px" }}>
+        {/* Stats */}
+        <div style={{ padding: "18px 24px 20px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 24px" }}>
           <div>
-            <div style={{ fontSize: "30px", fontWeight: "800", color: P.green }}>{result.regularCount}</div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px" }}>מוצרים קבועים</div>
+            <div style={{ fontSize: "38px", fontWeight: "800", color: P.green }}>{result.regularCount}</div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginTop: "3px" }}>מוצרים קבועים</div>
           </div>
           <div>
-            <div style={{ fontSize: "24px", fontWeight: "700", color: "rgba(255,255,255,0.9)" }}>{formatCurrency(result.regularCost)}</div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "2px" }}>עלות סל קבוע</div>
+            <div style={{ fontSize: "28px", fontWeight: "700", color: "rgba(255,255,255,0.9)" }}>{formatCurrency(result.regularCost)}</div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginTop: "3px" }}>עלות סל קבוע</div>
           </div>
           <div>
-            <div style={{ fontSize: "30px", fontWeight: "800", color: "rgba(255,255,255,0.55)" }}>{result.sometimesCount}</div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "2px" }}>לפעמים</div>
+            <div style={{ fontSize: "38px", fontWeight: "800", color: "rgba(255,255,255,0.5)" }}>{result.sometimesCount}</div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)", marginTop: "3px" }}>לפעמים</div>
           </div>
           <div>
-            <div style={{ fontSize: "24px", fontWeight: "700", color: "rgba(255,255,255,0.55)" }}>
+            <div style={{ fontSize: "28px", fontWeight: "700", color: "rgba(255,255,255,0.5)" }}>
               {formatCurrency(result.maxCost ?? result.weightedCost)}
             </div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "2px" }}>עלות סל מרבי</div>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)", marginTop: "3px" }}>עלות סל מרבי</div>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ margin: "0 20px", height: "1px", background: "rgba(255,255,255,0.06)" }} />
-        <div style={{ padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)" }}>
+        <div style={{ margin: "0 24px", height: "1px", background: "rgba(255,255,255,0.06)" }} />
+        <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.3)" }}>
             {compLabel}{result.cityName && result.hasBranchInCity === false ? ` · ${result.cityName} — אין קרפור` : ""}
           </span>
-          <span style={{ fontSize: "11px", color: P.green, fontWeight: "600" }}>{hostname}</span>
+          <span style={{ fontSize: "13px", color: P.green, fontWeight: "700" }}>{hostname}</span>
         </div>
       </div>
 
