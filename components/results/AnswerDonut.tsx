@@ -21,8 +21,8 @@ export function AnswerDonut({ regular, sometimes, notBuy, total }: AnswerDonutPr
   const circumference = 2 * Math.PI * r;
 
   const segments = [
-    { pct: regularPct, color: "#059669", label: "קנה בקביעות", count: regular, colorClass: "bg-emerald-600" },
-    { pct: sometimesPct, color: "#F59E0B", label: "קנה לפעמים", count: sometimes, colorClass: "bg-amber-400" },
+    { pct: regularPct, color: "#059669", label: "קונה בקביעות", count: regular, colorClass: "bg-emerald-600" },
+    { pct: sometimesPct, color: "#F59E0B", label: "קונה לפעמים", count: sometimes, colorClass: "bg-amber-400" },
     { pct: notBuyPct, color: "#CBD5E1", label: "לא קונה", count: notBuy, colorClass: "bg-slate-300" },
   ];
 

@@ -78,12 +78,12 @@ export function ResultsClient() {
         <div className="grid grid-cols-3 gap-2 mb-3">
           <div className="bg-white rounded-xl border border-emerald-200 p-3 text-center">
             <p className="text-2xl font-bold text-emerald-700">{result.regularCount}</p>
-            <p className="text-xs text-emerald-600/80 mt-0.5 leading-tight">קנה בקביעות</p>
+            <p className="text-xs text-emerald-600/80 mt-0.5 leading-tight">קונה בקביעות</p>
             <p className="text-xs text-muted-foreground">מתוך {totalProducts}</p>
           </div>
           <div className="bg-white rounded-xl border border-amber-200 p-3 text-center">
             <p className="text-2xl font-bold text-amber-600">{result.sometimesCount}</p>
-            <p className="text-xs text-amber-600/80 mt-0.5 leading-tight">קנה לפעמים</p>
+            <p className="text-xs text-amber-600/80 mt-0.5 leading-tight">קונה לפעמים</p>
             <p className="text-xs text-muted-foreground">מתוך {totalProducts}</p>
           </div>
           <div className="bg-white rounded-xl border border-slate-200 p-3 text-center">
@@ -93,17 +93,33 @@ export function ResultsClient() {
           </div>
         </div>
 
-        {/* ── 2-column costs with tooltip explanation ── */}
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="bg-white rounded-xl border border-border p-4 text-center">
-            <p className="text-xl font-bold">{formatCurrency(result.regularCost)}</p>
-            <p className="text-xs font-semibold text-foreground/80 mt-1">{resultsContent.scores.regularCost}</p>
-            <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{"regularCostDesc" in resultsContent.scores ? (resultsContent.scores as { regularCostDesc: string }).regularCostDesc : ""}</p>
+        {/* ── Cost range: regular → max ── */}
+        <div className="bg-white rounded-xl border border-border p-4 mb-4">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">עלות הסל שלך</p>
+
+          {/* Range bar */}
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex-1 text-center">
+              <p className="text-2xl font-bold text-foreground">{formatCurrency(result.regularCost)}</p>
+              <p className="text-xs font-semibold mt-0.5" style={{ color: "#3a6b2a" }}>סל קבוע</p>
+              <p className="text-xs text-muted-foreground">{result.regularCount} מוצרים שתמיד קונים</p>
+            </div>
+            <div className="flex flex-col items-center gap-1 shrink-0">
+              <div className="w-px h-8 bg-border" />
+              <span className="text-xs text-muted-foreground">עד</span>
+              <div className="w-px h-8 bg-border" />
+            </div>
+            <div className="flex-1 text-center">
+              <p className="text-2xl font-bold text-foreground">{formatCurrency(result.maxCost ?? result.weightedCost)}</p>
+              <p className="text-xs font-semibold text-amber-700 mt-0.5">סל מרבי</p>
+              <p className="text-xs text-muted-foreground">+ {result.sometimesCount} שקונים לפעמים</p>
+            </div>
           </div>
-          <div className="bg-white rounded-xl border border-border p-4 text-center">
-            <p className="text-xl font-bold">{formatCurrency(result.weightedCost)}</p>
-            <p className="text-xs font-semibold text-foreground/80 mt-1">{resultsContent.scores.weightedCost}</p>
-            <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{"weightedCostDesc" in resultsContent.scores ? (resultsContent.scores as { weightedCostDesc: string }).weightedCostDesc : ""}</p>
+
+          {/* Explanation */}
+          <div className="bg-muted/40 rounded-lg px-3 py-2 text-xs text-muted-foreground leading-relaxed">
+            <span className="font-semibold text-foreground">איך לקרוא זאת:</span>{" "}
+            הסל הקבוע הוא מה שאתה בוודאות מוציא. הסל המרבי כולל גם את המוצרים שקונים לפעמים — אם תקנה את כולם בקנייה אחת.
           </div>
         </div>
 

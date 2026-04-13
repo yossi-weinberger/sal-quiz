@@ -102,18 +102,14 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
                 key={type}
                 type="button"
                 onClick={() => setHouseholdType(type)}
-                className={`
-                  flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium
-                  transition-all duration-150
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
-                  ${active
-                    ? "border-brand-red bg-brand-red text-white shadow-sm"
-                    : "border-border bg-white/60 text-foreground hover:border-brand-red/50 hover:bg-white"
-                  }
-                `}
+                style={active
+                  ? { background: "#A82323", borderColor: "#A82323", color: "#ffffff" }
+                  : { background: "rgba(255,255,255,0.6)", borderColor: "var(--border)", color: "var(--foreground)" }
+                }
+                className="flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 aria-pressed={active}
               >
-                <span className={active ? "text-white" : "text-foreground/60"}>
+                <span style={{ opacity: active ? 1 : 0.5 }}>
                   {icon}
                 </span>
                 {label}
@@ -147,14 +143,18 @@ export function LandingForm({ cities, carrefourCities = [] }: LandingFormProps) 
       </div>
 
       {/* Start button */}
-      <Button
-        size="lg"
-        className="w-full h-12 text-base font-semibold bg-brand-red hover:bg-brand-red/90 text-white"
+      <button
+        type="button"
         onClick={handleStart}
         disabled={!householdType || submitted}
+        style={{
+          background: householdType && !submitted ? "#A82323" : undefined,
+          color: householdType && !submitted ? "#ffffff" : undefined,
+        }}
+        className="w-full h-12 rounded-xl text-base font-semibold border border-border transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {submitted ? "טוען..." : "התחל בדיקה →"}
-      </Button>
+        {submitted ? "טוען..." : "התחל בדיקה"}
+      </button>
     </div>
   );
 }

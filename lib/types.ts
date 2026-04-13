@@ -28,7 +28,7 @@ export interface Branch {
 export interface SurveyDraft {
   householdType: HouseholdType;
   cityName: string | null;
-  answers: Record<number, Answer>; // product_id → answer
+  answers: Record<number, Answer>;
   startedAt: string;
   lastSavedAt: string;
 }
@@ -41,7 +41,11 @@ export interface SurveyResult {
   sometimesCount: number;
   notBuyCount: number;
   weightedMatchPercent: number;
+  /** Sum of prices for products marked "regular" only */
   regularCost: number;
+  /** Sum of prices for products marked "regular" OR "sometimes" (all at full price) */
+  maxCost: number;
+  /** Kept for DB analytics only — regular×1.0 + sometimes×0.5 */
   weightedCost: number;
   hasBranchInCity: boolean | null;
   branchCount: number | null;

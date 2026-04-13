@@ -99,24 +99,24 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
         <div className="h-px bg-white/20 mb-5" />
 
         {/* Stats grid */}
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="bg-white/10 rounded-xl p-3">
-            <p className="text-2xl font-bold">{result.regularCount}</p>
-            <p className="text-xs opacity-70 mt-0.5">מוצרים קבועים</p>
+          <div className="grid grid-cols-2 gap-3 mb-5">
+            <div className="bg-white/10 rounded-xl p-3">
+              <p className="text-2xl font-bold">{result.regularCount}</p>
+              <p className="text-xs opacity-70 mt-0.5">תמיד קונה</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-3">
+              <p className="text-2xl font-bold">{formatCurrency(result.regularCost)}</p>
+              <p className="text-xs opacity-70 mt-0.5">עלות סל קבוע</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-3">
+              <p className="text-2xl font-bold">{result.sometimesCount}</p>
+              <p className="text-xs opacity-70 mt-0.5">קונה לפעמים</p>
+            </div>
+            <div className="bg-white/10 rounded-xl p-3">
+              <p className="text-2xl font-bold">{formatCurrency(result.maxCost ?? result.weightedCost)}</p>
+              <p className="text-xs opacity-70 mt-0.5">עלות מקסימלית</p>
+            </div>
           </div>
-          <div className="bg-white/10 rounded-xl p-3">
-            <p className="text-2xl font-bold">{formatCurrency(result.regularCost)}</p>
-            <p className="text-xs opacity-70 mt-0.5">עלות מוצרים קבועים</p>
-          </div>
-          <div className="bg-white/10 rounded-xl p-3">
-            <p className="text-2xl font-bold">{result.sometimesCount}</p>
-            <p className="text-xs opacity-70 mt-0.5">מוצרים לפעמים</p>
-          </div>
-          <div className="bg-white/10 rounded-xl p-3">
-            <p className="text-2xl font-bold">{formatCurrency(result.weightedCost)}</p>
-            <p className="text-xs opacity-70 mt-0.5">עלות משוקללת</p>
-          </div>
-        </div>
 
         {/* Context row */}
         <div className="flex items-center justify-between text-xs opacity-70">

@@ -33,23 +33,37 @@ export function calcCounts(answers: Record<number, Answer>): {
 export function calcCosts(
   answers: Record<number, Answer>,
   products: Product[]
-): { regular: number; weighted: number } {
+): {
+  /** Products marked "regular" at full price — your definite basket */
+  regular: number;
+  /** Products marked "regular" OR "sometimes" at full price — maximum basket */
+  max: number;
+  /** Kept for analytics: regular×1.0 + sometimes×0.5 */
+  weighted: number;
+} {
   let regular = 0;
+  let max = 0;
   let weighted = 0;
 
   for (const product of products) {
     const answer = answers[product.id];
-    if (!answer) continue;
+    if (!answer || answer === "no") continue;
 
-    const weight = ANSWER_WEIGHT[answer];
+    const p = product.official_price;
     if (answer === "regular") {
-      regular += product.official_price;
+      regular += p;
+      max += p;
+      weighted += p; // × 1.0
+    } else {
+      // "sometimes"
+      max += p;         // full price in max basket
+      weighted += p * 0.5; // half price in weighted
     }
-    weighted += product.official_price * weight;
   }
 
   return {
     regular: Math.round(regular * 100) / 100,
+    max: Math.round(max * 100) / 100,
     weighted: Math.round(weighted * 100) / 100,
   };
 }
@@ -74,6 +88,7 @@ export function buildSurveyResult(
     notBuyCount: counts.no,
     weightedMatchPercent: Math.round(weightedMatchPercent * 10) / 10,
     regularCost: costs.regular,
+    maxCost: costs.max,
     weightedCost: costs.weighted,
     hasBranchInCity: cityName ? cityBranches.length > 0 : null,
     branchCount: cityName ? cityBranches.length : null,
