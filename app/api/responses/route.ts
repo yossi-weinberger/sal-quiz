@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Answer, HouseholdType } from "@/lib/types";
 import { TOTAL_GROUPS, BASKET_GROUP_META } from "@/lib/basket-data";
+import { limitApiRead, limitSurveySubmit } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/request-ip";
 
 const VALID_HOUSEHOLD_TYPES: HouseholdType[] = [
   "single", "couple", "couple_kids", "large_family",
@@ -9,11 +11,20 @@ const VALID_HOUSEHOLD_TYPES: HouseholdType[] = [
 const VALID_ANSWERS: Answer[] = ["regular", "sometimes", "no"];
 const VALID_GROUP_IDS = new Set(BASKET_GROUP_META.map((g) => g.id));
 
+const MAX_BODY_BYTES = 600_000;
+
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+}
+
+function getSupabaseService() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
 }
 
 interface SubmitPayload {
@@ -74,6 +85,30 @@ function validatePayload(body: SubmitPayload): string | null {
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rl = await limitSurveySubmit(ip);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Too many submissions. Try again later." },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(
+              Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000))
+            ),
+          },
+        }
+      );
+    }
+
+    const contentLength = req.headers.get("content-length");
+    if (contentLength) {
+      const n = parseInt(contentLength, 10);
+      if (!Number.isNaN(n) && n > MAX_BODY_BYTES) {
+        return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+      }
+    }
+
     const body = (await req.json()) as SubmitPayload;
 
     const validationError = validatePayload(body);
@@ -122,6 +157,14 @@ export async function POST(req: NextRequest) {
 
     if (itemsError) {
       console.error("Response items insert error:", itemsError);
+      const admin = getSupabaseService();
+      if (admin) {
+        await admin.from("responses").delete().eq("id", response.id);
+      }
+      return NextResponse.json(
+        { error: "Failed to save response" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ id: response.id });
@@ -134,8 +177,24 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const ip = getClientIp(req);
+    const rl = await limitApiRead(ip);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests" },
+        {
+          status: 429,
+          headers: {
+            "Retry-After": String(
+              Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000))
+            ),
+          },
+        }
+      );
+    }
+
     const supabase = getSupabase();
 
     const [globalResult, householdResult] = await Promise.all([

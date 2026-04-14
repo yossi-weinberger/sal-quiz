@@ -1,5 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { limitApiRead } from "@/lib/rate-limit";
+import { getClientIp } from "@/lib/request-ip";
 
 interface RamiLevyRow {
   product_id: number;
@@ -10,7 +12,23 @@ interface RamiLevyRow {
   products: { official_price: number; name_he: string } | null;
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const ip = getClientIp(req);
+  const rl = await limitApiRead(ip);
+  if (!rl.allowed) {
+    return NextResponse.json(
+      { error: "Too many requests" },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(
+            Math.max(1, Math.ceil((rl.reset - Date.now()) / 1000))
+          ),
+        },
+      }
+    );
+  }
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
