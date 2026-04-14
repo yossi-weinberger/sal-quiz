@@ -17,6 +17,7 @@ const ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 interface Product {
   id: number;
   barcode: string;
+  extra_barcodes?: string[];
   name_he: string;
   official_price: number;
 }
@@ -79,11 +80,27 @@ async function main() {
 
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
-    const { price, available } = await fetchRamiLevyPrice(product.barcode);
+    const candidates = [product.barcode, ...(product.extra_barcodes ?? [])];
+    let price: number | null = null;
+    let available = false;
+    let matchedBarcode = product.barcode;
+    for (let c = 0; c < candidates.length; c++) {
+      const bc = candidates[c]!;
+      const r = await fetchRamiLevyPrice(bc);
+      if (r.available && r.price !== null) {
+        price = r.price;
+        available = true;
+        matchedBarcode = bc;
+        break;
+      }
+      if (c < candidates.length - 1) {
+        await new Promise((res) => setTimeout(res, 100));
+      }
+    }
 
     results.push({
       product_id: product.id,
-      barcode: product.barcode,
+      barcode: matchedBarcode,
       rami_levy_price: price,
       is_available: available,
     });

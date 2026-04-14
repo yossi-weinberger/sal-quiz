@@ -25,9 +25,20 @@ if (!supabaseUrl || !serviceKey) {
 const supabase = createClient(supabaseUrl, serviceKey);
 
 async function seedProducts() {
-  const products = JSON.parse(
+  const raw = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), "data", "products.json"), "utf-8")
-  );
+  ) as Array<Record<string, unknown>>;
+
+  const products = raw.map((p) => ({
+    id: p.id,
+    barcode: p.barcode,
+    name_he: p.name_he,
+    official_price: p.official_price,
+    image_path: p.image_path,
+    display_order: p.display_order,
+    is_active: p.is_active,
+    group_id: p.group_id,
+  }));
 
   const { error } = await supabase.from("products").upsert(products, { onConflict: "id" });
 

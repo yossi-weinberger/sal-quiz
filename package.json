@@ -13,7 +13,8 @@
     "seed": "npx tsx scripts/seed-supabase.ts",
     "clear:survey-data": "npx tsx scripts/clear-survey-data.ts",
     "supabase:bootstrap": "npx tsx scripts/supabase-bootstrap.ts",
-    "fetch:rami-levy": "npx tsx scripts/fetch-rami-levy-prices.ts"
+    "fetch:rami-levy": "npx tsx scripts/fetch-rami-levy-prices.ts",
+    "db:migrate:004": "npx tsx scripts/apply-migration-004.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { ProductCard } from "./ProductCard";
@@ -11,9 +11,9 @@ import {
   loadDraft,
   saveDraft,
   createDraft,
-  updateDraftAnswer,
   clearDraft,
 } from "@/lib/draft";
+import type { SurveyDraft } from "@/lib/types";
 import surveyContent from "@/content/he/survey.json";
 import { buildSurveyResult } from "@/lib/calculations";
 import branchesData from "@/data/branches.json";
@@ -35,11 +35,24 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [basketOpen, setBasketOpen] = useState(false);
+  /** When set, that answered product is shown in the main list for editing (jump from basket). */
+  const [editFromBasketId, setEditFromBasketId] = useState<number | null>(null);
   const initialized = useRef(false);
+  /** Avoid loadDraft + sync localStorage on every tap — set on first save */
+  const draftStartedAtRef = useRef<string | null>(null);
 
   const total = lines.length;
   const answeredCount = Object.keys(answers).length;
   const allAnswered = answeredCount === total;
+
+  const cardsToShow = useMemo(() => {
+    const unanswered = lines.filter((l) => !answers[l.id]);
+    if (editFromBasketId == null) return unanswered;
+    const focused = lines.find((l) => l.id === editFromBasketId);
+    if (!focused || !answers[editFromBasketId]) return unanswered;
+    if (unanswered.some((u) => u.id === editFromBasketId)) return unanswered;
+    return [focused, ...unanswered];
+  }, [lines, answers, editFromBasketId]);
 
   useEffect(() => {
     if (initialized.current) return;
@@ -52,9 +65,12 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
       Object.keys(draft.answers).length > 0
     ) {
       setAnswers(draft.answers as Record<number, Answer>);
+      draftStartedAtRef.current = draft.startedAt;
       setDraftRestored(true);
     } else {
-      saveDraft(createDraft(householdType, cityName));
+      const empty = createDraft(householdType, cityName);
+      draftStartedAtRef.current = empty.startedAt;
+      saveDraft(empty);
     }
   }, [householdType, cityName]);
 
@@ -62,10 +78,24 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
     (groupId: number, answer: Answer) => {
       setAnswers((prev) => {
         const updated = { ...prev, [groupId]: answer };
-        const draft = loadDraft() ?? createDraft(householdType, cityName);
-        saveDraft(updateDraftAnswer(draft, groupId, answer));
+        if (draftStartedAtRef.current === null) {
+          draftStartedAtRef.current = loadDraft()?.startedAt ?? new Date().toISOString();
+        }
+        const startedAt = draftStartedAtRef.current;
+        const lastSavedAt = new Date().toISOString();
+        const payload: SurveyDraft = {
+          householdType,
+          cityName,
+          answers: updated,
+          startedAt,
+          lastSavedAt,
+        };
+        queueMicrotask(() => {
+          saveDraft(payload);
+        });
         return updated;
       });
+      setEditFromBasketId((id) => (id === groupId ? null : id));
     },
     [householdType, cityName]
   );
@@ -111,9 +141,19 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
         }),
       });
 
-      const { id } = await response.json();
+      const data = (await response.json()) as { id?: string; error?: string };
+
+      if (!response.ok) {
+        setSubmitError(data.error ?? "Failed to save response");
+        setSubmitting(false);
+        return;
+      }
+
       clearDraft();
-      sessionStorage.setItem("survey_result", JSON.stringify({ ...result, responseId: id }));
+      sessionStorage.setItem(
+        "survey_result",
+        JSON.stringify({ ...result, responseId: data.id })
+      );
     } catch {
       sessionStorage.setItem("survey_result", JSON.stringify(result));
       clearDraft();
@@ -179,14 +219,26 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
         )}
 
         <div className="space-y-2">
+          {/* Exit-only animation on the removed card (opacity + scale). No `layout` on rows — that was the slow part. */}
           <AnimatePresence initial={false}>
-            {lines.map((line) => (
-              <ProductCard
+            {cardsToShow.map((line) => (
+              <motion.div
                 key={line.id}
-                line={line}
-                answer={answers[line.id] ?? null}
-                onAnswer={(a) => handleAnswer(line.id, a)}
-              />
+                initial={false}
+                exit={{
+                  opacity: 0,
+                  scale: 0.96,
+                  transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
+                }}
+              >
+                <ProductCard
+                  line={line}
+                  answer={answers[line.id] ?? null}
+                  onAnswer={(a) => handleAnswer(line.id, a)}
+                  startExpanded={editFromBasketId === line.id}
+                  onCloseEdit={() => setEditFromBasketId(null)}
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>
@@ -226,7 +278,7 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
       </main>
 
       <AnimatePresence>
-        {answeredCount > 0 && !allAnswered && (
+        {answeredCount > 0 && (
           <motion.button
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -250,6 +302,11 @@ export function SurveyClient({ lines, products, householdType, cityName }: Surve
         open={basketOpen}
         onClose={() => setBasketOpen(false)}
         onJumpTo={(groupId) => {
+          if (answers[groupId]) {
+            setEditFromBasketId(groupId);
+          } else {
+            setEditFromBasketId(null);
+          }
           setTimeout(() => scrollToGroup(groupId), 100);
         }}
       />

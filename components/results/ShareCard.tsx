@@ -228,12 +228,21 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
           </div>
         </div>
 
-        {/* Hero: match % */}
-        <div style={{ padding: "8px 22px 12px", textAlign: "center" as const }}>
-          <div style={{ fontSize: "92px", fontWeight: "800", color: P.cream, lineHeight: 0.95, letterSpacing: "-0.02em" }}>
+        {/* Hero: match % — generous line-height avoids overlap in html2canvas on narrow viewports */}
+        <div style={{ padding: "8px 22px 14px", textAlign: "center" as const }}>
+          <div
+            style={{
+              fontSize: "clamp(56px, 18vw, 92px)",
+              fontWeight: "800",
+              color: P.cream,
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
+              paddingBottom: "6px",
+            }}
+          >
             {formatPercent(result.weightedMatchPercent)}
           </div>
-          <div style={{ fontSize: "17px", color: "rgba(255,255,255,0.5)", marginTop: "10px", fontWeight: "600" }}>
+          <div style={{ fontSize: "17px", color: "rgba(255,255,255,0.5)", marginTop: "12px", fontWeight: "600", lineHeight: 1.35 }}>
             {ic.matchLabel}
           </div>
         </div>
@@ -243,28 +252,56 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
         {/* Regular vs sometimes — two columns */}
         <div
           style={{
-            padding: "12px 22px 8px",
+            padding: "12px 22px 10px",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "14px",
             textAlign: "center" as const,
           }}
         >
-          <div>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "6px", flexWrap: "wrap" as const }}>
-              <span style={{ fontSize: "44px", fontWeight: "800", color: P.green, lineHeight: 1 }}>{result.regularCount}</span>
-              <span style={{ fontSize: "18px", fontWeight: "700", color: "rgba(255,255,255,0.4)" }}>{outOfGroups}</span>
+          <div style={{ minWidth: 0 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                flexWrap: "wrap" as const,
+                minHeight: "52px",
+                paddingBottom: "8px",
+              }}
+            >
+              <span style={{ fontSize: "clamp(32px, 10vw, 44px)", fontWeight: "800", color: P.green, lineHeight: 1.2 }}>
+                {result.regularCount}
+              </span>
+              <span style={{ fontSize: "clamp(14px, 4vw, 18px)", fontWeight: "700", color: "rgba(255,255,255,0.4)", lineHeight: 1.3 }}>
+                {outOfGroups}
+              </span>
             </div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.62)", marginTop: "6px", fontWeight: "600", lineHeight: 1.3 }}>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.62)", marginTop: "2px", fontWeight: "600", lineHeight: 1.4 }}>
               {ic.regularLabel}
             </div>
           </div>
-          <div>
-            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: "6px", flexWrap: "wrap" as const }}>
-              <span style={{ fontSize: "44px", fontWeight: "800", color: "rgba(255,255,255,0.5)", lineHeight: 1 }}>{result.sometimesCount}</span>
-              <span style={{ fontSize: "18px", fontWeight: "700", color: "rgba(255,255,255,0.32)" }}>{outOfGroups}</span>
+          <div style={{ minWidth: 0 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "6px",
+                flexWrap: "wrap" as const,
+                minHeight: "52px",
+                paddingBottom: "8px",
+              }}
+            >
+              <span style={{ fontSize: "clamp(32px, 10vw, 44px)", fontWeight: "800", color: "rgba(255,255,255,0.5)", lineHeight: 1.2 }}>
+                {result.sometimesCount}
+              </span>
+              <span style={{ fontSize: "clamp(14px, 4vw, 18px)", fontWeight: "700", color: "rgba(255,255,255,0.32)", lineHeight: 1.3 }}>
+                {outOfGroups}
+              </span>
             </div>
-            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.38)", marginTop: "6px", fontWeight: "600", lineHeight: 1.3 }}>
+            <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.38)", marginTop: "2px", fontWeight: "600", lineHeight: 1.4 }}>
               {ic.sometimesLabel}
             </div>
           </div>
@@ -280,8 +317,10 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
               textAlign: "center" as const,
             }}
           >
-            <div style={{ fontSize: "28px", fontWeight: "800", color: P.cream }}>{formatCurrency(result.regularCost)}</div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "5px", lineHeight: 1.35 }}>
+            <div style={{ fontSize: "28px", fontWeight: "800", color: P.cream, lineHeight: 1.2, paddingBottom: "2px" }}>
+              {formatCurrency(result.regularCost)}
+            </div>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "8px", lineHeight: 1.35 }}>
               {ic.costLabel}
             </div>
           </div>
@@ -293,10 +332,10 @@ export function ShareCard({ result, comparisonStatus }: ShareCardProps) {
               textAlign: "center" as const,
             }}
           >
-            <div style={{ fontSize: "22px", fontWeight: "700", color: "rgba(255,255,255,0.55)" }}>
+            <div style={{ fontSize: "22px", fontWeight: "700", color: "rgba(255,255,255,0.55)", lineHeight: 1.25, paddingBottom: "2px" }}>
               {formatCurrency(result.maxCost ?? result.weightedCost)}
             </div>
-            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.32)", marginTop: "5px", lineHeight: 1.35 }}>
+            <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.32)", marginTop: "8px", lineHeight: 1.35 }}>
               {ic.maxCostLabel}
             </div>
           </div>

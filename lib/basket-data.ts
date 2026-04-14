@@ -1,5 +1,4 @@
 import productsJson from "@/data/products.json";
-import { DIAPER_GROUP_ID, DIAPER_GROUP_NAME_HE } from "./group-ids";
 import type { Product, BasketGroupRow, BasketLine } from "./types";
 
 function buildBasketGroupMeta(products: Product[]): BasketGroupRow[] {
@@ -18,7 +17,7 @@ function buildBasketGroupMeta(products: Product[]): BasketGroupRow[] {
     const first = lines[0];
     return {
       id: gid,
-      name_he: gid === DIAPER_GROUP_ID ? DIAPER_GROUP_NAME_HE : first.name_he,
+      name_he: first.name_he,
       display_order: gid,
       image_path: first.image_path,
     };
@@ -30,10 +29,10 @@ const activeProducts = (productsJson as Product[]).filter((p) => p.is_active);
 /** Survey cards — one per distinct group_id on active products. */
 export const BASKET_GROUP_META = buildBasketGroupMeta(activeProducts);
 
-/** Number of basket products / survey questions (102) — same as government list. */
+/** Number of basket products / survey questions (100 after merges). */
 export const TOTAL_GROUPS = BASKET_GROUP_META.length;
 
-/** Internal price rows in data (barcode / Rami Levy); use TOTAL_GROUPS in UI copy. */
+/** Internal price rows in data (barcode / Rami Levy); equals TOTAL_GROUPS after merges. */
 export const TOTAL_PRODUCT_LINES = (productsJson as Product[]).length;
 
 /**

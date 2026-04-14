@@ -5,7 +5,7 @@
     "weightedMatch": "אחוז התאמה משוקלל",
     "weightedMatchDesc": "כמה מהסל הרשמי רלוונטי לך",
     "regularCount": "קונה בקביעות",
-    "regularCountUnit": "שאלות מתוך 102",
+    "regularCountUnit": "שאלות מתוך 100",
     "sometimesCount": "קונה לפעמים",
     "notBuyCount": "לא קונה",
     "regularCost": "עלות מוצרים קבועים",
@@ -17,17 +17,34 @@
   },
   "comparison": {
     "title": "השוואה לאחרים",
+    "intro": "מול ממוצע של מי שהשלים את כל 100 השאלות. לא מדגם של כל האוכלוסייה.",
+    "section1Kicker": "חלק ראשון",
+    "section2Kicker": "חלק שני",
+    "globalBaselineTitle": "כלל המשתמשים",
+    "globalBaselineSubtitle": "ממוצע של כל מי שהשלים את כל 100 המוצרים — ללא סינון לפי סוג משק.",
+    "householdBaselineTitle": "אותו סוג משק בית",
+    "householdBaselineSub": "מול ממוצע בקבוצת המשתמשים שבחרו אותה קטגוריה.",
+    "householdMissing": "אין עדיין מספיק תשובות לפי סוג משק בית — מוצגת רק ההשוואה לכלל המשתמשים למעלה.",
     "allUsers": "ממוצע כל המשתמשים",
     "householdType": "ממוצע משקי בית דומים",
     "aboveAverage": "מעל הממוצע",
     "belowAverage": "מתחת לממוצע",
     "atAverage": "בממוצע",
+    "weightedMatchTitle": "התאמה משוקללת",
+    "weightedMatchHint": "קבוע=1 · לפעמים=0.5 · לא קונה=0",
+    "regularCountTitle": "מוצרים בקנייה קבועה",
+    "regularCountHint": "כמה סימנת ״קונה בקביעות״ (מתוך 100)",
+    "weightedCostTitle": "עלות משוקללת",
+    "weightedCostHint": "לפי מחירון: קבועים + 50% מ״לפעמים״",
     "weightedMatchLabel": "אחוז התאמה",
     "regularCountLabel": "קנייה קבועה",
     "weightedCostLabel": "עלות משוקללת",
     "noDataYet": "עדיין אין מספיק נתונים להשוואה",
     "yourScore": "הציון שלך",
-    "communityAverage": "ממוצע של כלל המשתמשים"
+    "yourValue": "אצלך",
+    "communityAverage": "ממוצע של כלל המשתמשים",
+    "peerAverage": "ממוצע",
+    "peerAverageHousehold": "ממוצע בקבוצה"
   },
   "city": {
     "title": "הסל בעיר שלך",
@@ -42,11 +59,11 @@
   "methodology": {
     "title": "איך מחושב הציון?",
     "description": "החישוב המשוקלל נותן משקל מלא למוצרים שנקנים בקביעות, חצי משקל למוצרים שנקנים לפעמים, ואינו מחשיב מוצרים שאינם נקנים.",
-    "formula": "ציון = (קניות קבועות × 1 + קניות לפעמים × 0.5) ÷ 102 × 100",
+    "formula": "ציון = (קניות קבועות × 1 + קניות לפעמים × 0.5) ÷ 100 × 100",
     "costFormula": "עלות משוקללת = סכום מחירי מוצרים קבועים + 50% ממחיר מוצרים לפעמים",
     "cityNote": "נתון העיר הוא שכבת הקשר נפרדת — לא חלק מהציון. התאמת סניפים מבוססת על נתונים שיובאו לפרויקט; יש לאמת מול קרפור.",
     "anonymityNote": "כל התשובות נשמרות ללא מידע מזהה.",
-    "comparisonNote": "הממוצעים מחושבים מכל מי שענה על כל 102 השאלות."
+    "comparisonNote": "הממוצעים מחושבים מכל מי שענה על כל 100 השאלות."
   },
   "breakdown": {
     "title": "פירוט לפי קטגוריה",

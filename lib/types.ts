@@ -11,6 +11,8 @@ export interface Product {
   /** Survey group — one answer covers all product lines in this group. */
   group_id: number;
   barcode: string;
+  /** Additional government barcodes for merged lines (Rami Levy lookup). */
+  extra_barcodes?: string[];
   name_he: string;
   official_price: number;
   image_path: string;
@@ -18,7 +20,7 @@ export interface Product {
   is_active: boolean;
 }
 
-/** One survey card: display fields for a group_id (from products + diaper label). */
+/** One survey card: display fields for a group_id (from products). */
 export interface BasketGroupRow {
   id: number;
   name_he: string;

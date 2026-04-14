@@ -1,14 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, useMotionValue, useTransform, AnimatePresence } from "motion/react";
+import { motion, useMotionValue, useTransform } from "motion/react";
 import type { Answer, BasketLine } from "@/lib/types";
 
 interface ProductCardProps {
   line: BasketLine;
   answer: Answer | null;
   onAnswer: (answer: Answer) => void;
+  /** Open in edit mode (e.g. jumped from basket for an already-answered product). */
+  startExpanded?: boolean;
+  /** Called when user closes edit mode from basket (card is removed from main list). */
+  onCloseEdit?: () => void;
 }
 
 // Brand palette: #6D9E51 green, #BCD9A2 light green, #A82323 red, #FEFFD3 cream
@@ -50,11 +54,11 @@ const ANSWER_CONFIG = {
 
 const SWIPE_THRESHOLD = 90;
 
-export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
+export function ProductCard({ line, answer, onAnswer, startExpanded, onCloseEdit }: ProductCardProps) {
   const x = useMotionValue(0);
   const dragHandled = useRef(false);
   const [imgError, setImgError] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(() => Boolean(startExpanded && answer));
 
   const greenOpacity = useTransform(x, [0, SWIPE_THRESHOLD], [0, 0.15]);
   const redOpacity = useTransform(x, [-SWIPE_THRESHOLD, 0], [0.15, 0]);
@@ -62,6 +66,12 @@ export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
 
   const cfg = answer ? ANSWER_CONFIG[answer] : null;
   const isAnswered = answer !== null;
+
+  useEffect(() => {
+    if (startExpanded && answer) {
+      setExpanded(true);
+    }
+  }, [startExpanded, answer, line.id]);
 
   function handleDragEnd(_: unknown, info: { offset: { x: number } }) {
     if (dragHandled.current) return;
@@ -74,60 +84,17 @@ export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
     }
   }
 
-  // ── Compact answered strip ──────────────────────────────────────
+  // Answered items stay off the main list except when editing from basket (startExpanded).
   if (isAnswered && !expanded) {
-    return (
-      <motion.div
-        id={`basket-group-${line.id}`}
-        layout
-        initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-        animate={{ opacity: 1, height: "auto" }}
-        transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl border transition-all duration-150 text-start group hover:brightness-95 ${cfg!.stripBg}`}
-          aria-label={`${line.name_he} — ${ANSWER_CONFIG[answer].label} — לחץ לשינוי`}
-        >
-          <div className={`shrink-0 w-1.5 h-1.5 rounded-full ${cfg!.stripDot}`} />
-          <div className="shrink-0 w-7 h-7 rounded-md overflow-hidden bg-white border border-white/80">
-            <Image
-              src={imgError ? "/products/placeholder.svg" : line.image_path}
-              alt=""
-              width={28} height={28}
-              className="object-contain w-full h-full p-0.5"
-              onError={() => setImgError(true)}
-            />
-          </div>
-          <span className={`flex-1 min-w-0 text-xs font-medium truncate ${cfg!.stripText}`}>
-            {line.name_he}
-          </span>
-          <span className="shrink-0 text-xs text-muted-foreground">₪{line.official_price.toFixed(2)}</span>
-          <span
-            className="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full"
-            style={cfg!.badgeStyle}
-          >
-            {ANSWER_CONFIG[answer].label}
-          </span>
-          <span className="shrink-0 text-xs text-muted-foreground opacity-0 group-hover:opacity-60 transition-opacity">
-            ✎
-          </span>
-        </button>
-      </motion.div>
-    );
+    return null;
   }
 
-  // ── Full card ───────────────────────────────────────────────────
+  // ── Full card (no outer layout/mount animation — avoids expensive layout thrash on list change) ──
   return (
-    <motion.div
+    <div
       id={`basket-group-${line.id}`}
-      layout
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.18, ease: [0.4, 0, 0.2, 1] }}
-      // Elevated z-index when expanded for editing so it overlaps adjacent cards
-      style={{ position: "relative", zIndex: expanded ? 20 : "auto" }}
+      className="relative"
+      style={{ zIndex: expanded ? 20 : undefined }}
     >
       <div
         className={`relative rounded-2xl border bg-white overflow-visible shadow-sm transition-colors duration-150 ${isAnswered ? cfg!.cardBg : "border-border"}`}
@@ -137,7 +104,13 @@ export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
         {isAnswered && expanded && (
           <div className="flex items-center justify-between px-3 pt-2.5 pb-0">
             <span className="text-xs text-muted-foreground">שנה תשובה</span>
-            <button type="button" onClick={() => setExpanded(false)} className="text-xs underline text-muted-foreground hover:text-foreground">סגור</button>
+            <button
+              type="button"
+              onClick={() => onCloseEdit?.()}
+              className="text-xs underline text-muted-foreground hover:text-foreground"
+            >
+              סגור
+            </button>
           </div>
         )}
 
@@ -192,23 +165,24 @@ export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
                   const c = ANSWER_CONFIG[a];
                   const active = answer === a;
                   return (
-                    <motion.button
+                    <button
                       key={a}
                       type="button"
-                      onClick={() => { onAnswer(a); if (expanded) setExpanded(false); }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.96 }}
+                      onClick={() => {
+                        onAnswer(a);
+                        if (expanded) setExpanded(false);
+                      }}
                       style={active ? c.activeStyle : undefined}
                       className={`
                         flex-1 py-2.5 px-1 rounded-xl border-2 text-xs font-bold
-                        transition-all duration-150 text-center cursor-pointer
+                        transition-transform duration-100 active:scale-[0.97] text-center cursor-pointer
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
                         ${active ? "shadow-md" : c.idleClass}
                       `}
                       aria-pressed={active}
                     >
                       {c.label}
-                    </motion.button>
+                    </button>
                   );
                 })}
               </div>
@@ -216,6 +190,6 @@ export function ProductCard({ line, answer, onAnswer }: ProductCardProps) {
           </div>
         </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }

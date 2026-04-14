@@ -154,21 +154,103 @@ export function ResultsClient() {
 
         {/* ── Comparison ── */}
         <div className="mb-4">
-          <h2 className="text-sm font-semibold mb-3">{resultsContent.comparison.title}</h2>
+          <h2 className="text-xl font-black mb-2 tracking-tight">{resultsContent.comparison.title}</h2>
+          <p className="text-xs text-muted-foreground leading-snug mb-3">{resultsContent.comparison.intro}</p>
           {globalAvg ? (
-            <div className="bg-white border border-border rounded-xl overflow-hidden">
-              <div className="px-4 divide-y divide-border">
-                <ComparisonBar label={`${resultsContent.comparison.weightedMatchLabel} — ${resultsContent.comparison.allUsers}`} userValue={result.weightedMatchPercent} avgValue={Number(globalAvg.avg_weighted_match)} formatter={formatPercent} />
-                <ComparisonBar label={`${resultsContent.comparison.regularCountLabel} — ${resultsContent.comparison.allUsers}`} userValue={result.regularCount} avgValue={Number(globalAvg.avg_regular_count)} formatter={(v) => `${Math.round(v)} מוצרים`} />
-                <ComparisonBar label={`${resultsContent.comparison.weightedCostLabel} — ${resultsContent.comparison.allUsers}`} userValue={result.weightedCost} avgValue={Number(globalAvg.avg_weighted_cost)} formatter={formatCurrency} higherIsBetter={false} />
-              </div>
-              {householdAvg && (
-                <div className="px-4 bg-muted/20 border-t border-border">
-                  <p className="text-xs font-semibold text-muted-foreground pt-3 pb-1">
-                    {resultsContent.comparison.householdType}: {HOUSEHOLD_LABELS[result.householdType]}
+            <div className="bg-white border border-border rounded-xl overflow-hidden shadow-sm">
+              <div className="border-b-2 border-border/80">
+                <div className="px-4 sm:px-5 pt-5 pb-4 bg-gradient-to-bl from-slate-50 via-white to-white border-r-[6px] border-[#A82323]">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-[#A82323] mb-2">
+                    {resultsContent.comparison.section1Kicker}
                   </p>
-                  <ComparisonBar label={resultsContent.comparison.weightedMatchLabel} userValue={result.weightedMatchPercent} avgValue={Number(householdAvg.avg_weighted_match)} formatter={formatPercent} />
-                  <ComparisonBar label={resultsContent.comparison.regularCountLabel} userValue={result.regularCount} avgValue={Number(householdAvg.avg_regular_count)} formatter={(v) => `${Math.round(v)} מוצרים`} />
+                  <h3 className="text-2xl sm:text-[1.75rem] font-black text-foreground leading-tight tracking-tight">
+                    {resultsContent.comparison.globalBaselineTitle}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-2 leading-snug max-w-prose">
+                    {resultsContent.comparison.globalBaselineSubtitle}
+                  </p>
+                </div>
+                <div className="px-4 sm:px-5">
+                <ComparisonBar
+                  title={resultsContent.comparison.weightedMatchTitle}
+                  hint={resultsContent.comparison.weightedMatchHint}
+                  userValue={result.weightedMatchPercent}
+                  avgValue={Number(globalAvg.avg_weighted_match)}
+                  formatter={formatPercent}
+                  averageLabel={resultsContent.comparison.peerAverage}
+                />
+                <ComparisonBar
+                  title={resultsContent.comparison.regularCountTitle}
+                  hint={resultsContent.comparison.regularCountHint}
+                  userValue={result.regularCount}
+                  avgValue={Number(globalAvg.avg_regular_count)}
+                  formatter={(v) => `${Math.round(v)} מוצרים`}
+                  averageLabel={resultsContent.comparison.peerAverage}
+                />
+                <ComparisonBar
+                  title={resultsContent.comparison.weightedCostTitle}
+                  hint={resultsContent.comparison.weightedCostHint}
+                  userValue={result.weightedCost}
+                  avgValue={Number(globalAvg.avg_weighted_cost)}
+                  formatter={formatCurrency}
+                  higherIsBetter={false}
+                  averageLabel={resultsContent.comparison.peerAverage}
+                />
+                </div>
+              </div>
+
+              {householdAvg ? (
+                <div className="border-t-[3px] border-dashed border-border bg-muted/20">
+                  <div className="px-4 sm:px-5 pt-5 pb-3 bg-gradient-to-bl from-amber-50/90 via-white to-emerald-50/30 border-r-[6px] border-emerald-700">
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-emerald-800 mb-2">
+                      {resultsContent.comparison.section2Kicker}
+                    </p>
+                    <h3 className="text-2xl sm:text-[1.75rem] font-black text-foreground leading-tight tracking-tight">
+                      {resultsContent.comparison.householdBaselineTitle}
+                    </h3>
+                    <p className="text-lg sm:text-xl font-bold text-emerald-900/90 mt-1">
+                      ({HOUSEHOLD_LABELS[result.householdType]})
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-3 leading-snug max-w-prose">
+                      {resultsContent.comparison.householdBaselineSub}
+                    </p>
+                  </div>
+                  <div className="px-4 sm:px-5 pb-1">
+                  <ComparisonBar
+                    title={resultsContent.comparison.weightedMatchTitle}
+                    hint={resultsContent.comparison.weightedMatchHint}
+                    userValue={result.weightedMatchPercent}
+                    avgValue={Number(householdAvg.avg_weighted_match)}
+                    formatter={formatPercent}
+                    averageLabel={resultsContent.comparison.peerAverageHousehold}
+                  />
+                  <ComparisonBar
+                    title={resultsContent.comparison.regularCountTitle}
+                    hint={resultsContent.comparison.regularCountHint}
+                    userValue={result.regularCount}
+                    avgValue={Number(householdAvg.avg_regular_count)}
+                    formatter={(v) => `${Math.round(v)} מוצרים`}
+                    averageLabel={resultsContent.comparison.peerAverageHousehold}
+                  />
+                  <ComparisonBar
+                    title={resultsContent.comparison.weightedCostTitle}
+                    hint={resultsContent.comparison.weightedCostHint}
+                    userValue={result.weightedCost}
+                    avgValue={Number(householdAvg.avg_weighted_cost)}
+                    formatter={formatCurrency}
+                    higherIsBetter={false}
+                    averageLabel={resultsContent.comparison.peerAverageHousehold}
+                  />
+                  </div>
+                </div>
+              ) : (
+                <div className="border-t-[3px] border-dashed border-border px-4 sm:px-5 py-4 bg-muted/15 text-center">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground mb-2">
+                    {resultsContent.comparison.section2Kicker}
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-snug">
+                    {resultsContent.comparison.householdMissing}
+                  </p>
                 </div>
               )}
             </div>

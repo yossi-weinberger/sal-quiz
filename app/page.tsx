@@ -4,14 +4,14 @@ import homeContent from "@/content/he/home.json";
 import disclaimerContent from "@/content/he/disclaimer.json";
 import officialProgram from "@/content/he/official-program.json";
 import branchesData from "@/data/branches.json";
-import israeliCitiesData from "@/data/israeli-cities.json";
+import israelLocalitiesData from "@/data/israel-localities-full.json";
 import { getCarrefourCities } from "@/lib/city-matching";
 import type { Branch } from "@/lib/types";
 
 export default function HomePage() {
   const branches = branchesData as Branch[];
   const carrefourCities = getCarrefourCities(branches);
-  const allCitiesSet = new Set([...carrefourCities, ...israeliCitiesData.cities]);
+  const allCitiesSet = new Set([...carrefourCities, ...israelLocalitiesData.cities]);
   const allCities = Array.from(allCitiesSet).sort((a, b) => a.localeCompare(b, "he"));
 
   return (

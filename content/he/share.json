@@ -2,10 +2,10 @@
   "title": "שתף את התוצאות",
   "cardTitle": "הסל של ישראל — התוצאות שלי",
   "imageCard": {
-    "contextTitle": "סל הממשלה: 102 מוצרים",
-    "contextSubtitle": "בשאלון 102 שאלות — כמה מהן מתאימות לבית?",
+    "contextTitle": "סל הממשלה: 100 מוצרים",
+    "contextSubtitle": "בשאלון 100 שאלות — כמה מהן מתאימות לבית?",
     "matchLabel": "התאמה לסל הרשמי",
-    "regularHero": "מתוך 102",
+    "regularHero": "מתוך 100",
     "regularLabel": "קונה בקביעות מהסל",
     "sometimesLabel": "קונה לפעמים מהסל",
     "costLabel": "עלות המוצרים הקבועים (לפי מחירי הסל)",
@@ -16,7 +16,7 @@
     "noBranchShort": "אין סניף קרפור בעיר"
   },
   "lines": {
-    "regularCount": "אני קונה בקביעות רק {{count}} מתוך 102 מוצרים",
+    "regularCount": "אני קונה בקביעות רק {{count}} מתוך 100 מוצרים",
     "weightedMatch": "הסל הרשמי תואם לבית שלי רק ב-{{percent}}%",
     "regularCost": "העלות של מה שאני באמת קונה: ₪{{cost}}",
     "aboveAverage": "אני מעל הממוצע של משתמשים דומים",

@@ -212,861 +212,799 @@
   {
     "id": 22,
     "barcode": "8712400802499",
-    "name_he": "נוטרילון שלב 1- 800 גרם",
+    "name_he": "נוטרילון שלבים 1–3 — 800 גרם (סל רשמי)",
     "official_price": 9.9,
     "image_path": "/products/22.jpg",
     "display_order": 22,
     "is_active": true,
-    "group_id": 22
+    "group_id": 22,
+    "extra_barcodes": ["8712400802512", "8712400802536"]
   },
   {
     "id": 23,
-    "barcode": "8712400802512",
-    "name_he": "נוטרילון שלב 2- 800 גרם",
-    "official_price": 0,
-    "image_path": "/products/23.jpg",
+    "barcode": "7622010001858",
+    "name_he": "אוראו 176 גרם",
+    "official_price": 7.5,
+    "image_path": "/products/25.jpg",
     "display_order": 23,
     "is_active": true,
     "group_id": 23
   },
   {
     "id": 24,
-    "barcode": "8712400802536",
-    "name_he": "נוטרילון שלב 3- 800 גרם",
-    "official_price": 0,
-    "image_path": "/products/24.jpg",
+    "barcode": "7290005287206",
+    "name_he": "סטארקיסט טונה בשמן ב.י 4*160ג",
+    "official_price": 21.9,
+    "image_path": "/products/26.jpg",
     "display_order": 24,
     "is_active": true,
     "group_id": 24
   },
   {
     "id": 25,
-    "barcode": "7622010001858",
-    "name_he": "אוראו 176 גרם",
-    "official_price": 7.5,
-    "image_path": "/products/25.jpg",
+    "barcode": "7290102394463",
+    "name_he": "נעם גבינה צהובה וואקום 28% 500גרם",
+    "official_price": 22.6,
+    "image_path": "/products/27.jpg",
     "display_order": 25,
     "is_active": true,
     "group_id": 25
   },
   {
     "id": 26,
-    "barcode": "7290005287206",
-    "name_he": "סטארקיסט טונה בשמן ב.י 4*160ג",
-    "official_price": 21.9,
-    "image_path": "/products/26.jpg",
+    "barcode": "7290110115203",
+    "name_he": "קוקה-קולה 1.5 ליטר",
+    "official_price": 6.9,
+    "image_path": "/products/28.jpg",
     "display_order": 26,
     "is_active": true,
     "group_id": 26
   },
   {
     "id": 27,
-    "barcode": "7290102394463",
-    "name_he": "נעם גבינה צהובה וואקום 28% 500גרם",
-    "official_price": 22.6,
-    "image_path": "/products/27.jpg",
+    "barcode": "7290110115227",
+    "name_he": "קוקה-קולה זירו 1.5 ליטר",
+    "official_price": 6.9,
+    "image_path": "/products/29.jpg",
     "display_order": 27,
     "is_active": true,
     "group_id": 27
   },
   {
     "id": 28,
-    "barcode": "7290110115203",
-    "name_he": "קוקה-קולה 1.5 ליטר",
-    "official_price": 6.9,
-    "image_path": "/products/28.jpg",
+    "barcode": "7290110115463",
+    "name_he": "פיוז טי אפרסק 1.5 ליטר",
+    "official_price": 6.5,
+    "image_path": "/products/30.jpg",
     "display_order": 28,
     "is_active": true,
     "group_id": 28
   },
   {
     "id": 29,
-    "barcode": "7290110115227",
-    "name_he": "קוקה-קולה זירו 1.5 ליטר",
-    "official_price": 6.9,
-    "image_path": "/products/29.jpg",
+    "barcode": "7290016509786",
+    "name_he": "פרסיל גל ירוק 2.5 ליטר",
+    "official_price": 12.6,
+    "image_path": "/products/31.jpg",
     "display_order": 29,
     "is_active": true,
     "group_id": 29
   },
   {
     "id": 30,
-    "barcode": "7290110115463",
-    "name_he": "פיוז טי אפרסק 1.5 ליטר",
-    "official_price": 6.5,
-    "image_path": "/products/30.jpg",
+    "barcode": "7290018359495",
+    "name_he": "יכין תירס מהשדה ללת\"ס 550 גרם",
+    "official_price": 5.9,
+    "image_path": "/products/32.jpg",
     "display_order": 30,
     "is_active": true,
     "group_id": 30
   },
   {
     "id": 31,
-    "barcode": "7290016509786",
-    "name_he": "פרסיל גל ירוק 2.5 ליטר",
-    "official_price": 12.6,
-    "image_path": "/products/31.jpg",
+    "barcode": "7290000208114",
+    "name_he": "יכין אפונת גינה וגזר 550 גר",
+    "official_price": 5.2,
+    "image_path": "/products/33.jpg",
     "display_order": 31,
     "is_active": true,
     "group_id": 31
   },
   {
     "id": 32,
-    "barcode": "7290018359495",
-    "name_he": "יכין תירס מהשדה ללת\"ס 550 גרם",
-    "official_price": 5.9,
-    "image_path": "/products/32.jpg",
+    "barcode": "7290000195537",
+    "name_he": "מגבוני האגיס דיילי קר לא מבושם 4*56",
+    "official_price": 16,
+    "image_path": "/products/34.jpg",
     "display_order": 32,
     "is_active": true,
     "group_id": 32
   },
   {
     "id": 33,
-    "barcode": "7290000208114",
-    "name_he": "יכין אפונת גינה וגזר 550 גר",
-    "official_price": 5.2,
-    "image_path": "/products/33.jpg",
+    "barcode": "7290000197678",
+    "name_he": "חיתולים — האגיס פרידום (מגוון מידות בסל הרשמי)",
+    "official_price": 31.9,
+    "image_path": "/products/35.jpg",
     "display_order": 33,
     "is_active": true,
-    "group_id": 33
+    "group_id": 33,
+    "extra_barcodes": [
+      "7290000197548",
+      "7290111346538",
+      "7290000197463",
+      "7290000197456",
+      "7290000197425"
+    ]
   },
   {
     "id": 34,
-    "barcode": "7290000195537",
-    "name_he": "מגבוני האגיס דיילי קר לא מבושם 4*56",
-    "official_price": 16,
-    "image_path": "/products/34.jpg",
+    "barcode": "5906485301012",
+    "name_he": "אקס אל משקה אנרגיה 250מל",
+    "official_price": 2.9,
+    "image_path": "/products/41.jpg",
     "display_order": 34,
     "is_active": true,
     "group_id": 34
   },
   {
     "id": 35,
-    "barcode": "7290000197678",
-    "name_he": "האגיס פרידום פלוס שלב 6 27 יח",
-    "official_price": 31.9,
-    "image_path": "/products/35.jpg",
+    "barcode": "7290000136790",
+    "name_he": "טמפו סודה 6*1.5ל",
+    "official_price": 11.9,
+    "image_path": "/products/42.jpg",
     "display_order": 35,
     "is_active": true,
     "group_id": 35
   },
   {
     "id": 36,
-    "barcode": "7290000197548",
-    "name_he": "האגיס פרידום דריי שלב 5 32יח",
-    "official_price": 0,
-    "image_path": "/products/36.jpg",
-    "display_order": 36,
-    "is_active": true,
-    "group_id": 35
-  },
-  {
-    "id": 37,
-    "barcode": "7290000197463",
-    "name_he": "האגיס פרידום דריי שלב 4+ 36יח",
-    "official_price": 0,
-    "image_path": "/products/37.jpg",
-    "display_order": 37,
-    "is_active": true,
-    "group_id": 35
-  },
-  {
-    "id": 38,
-    "barcode": "7290111346538",
-    "name_he": "האגיס פרידום דריי חיתולים שלב +5 28 יח",
-    "official_price": 0,
-    "image_path": "/products/38.jpg",
-    "display_order": 38,
-    "is_active": true,
-    "group_id": 35
-  },
-  {
-    "id": 39,
-    "barcode": "7290000197456",
-    "name_he": "האגיס פרידום דריי שלב 4 38יח",
-    "official_price": 0,
-    "image_path": "/products/39.jpg",
-    "display_order": 39,
-    "is_active": true,
-    "group_id": 35
-  },
-  {
-    "id": 40,
-    "barcode": "7290000197425",
-    "name_he": "האגיס פרידום דריי מידה 3 46 יח",
-    "official_price": 0,
-    "image_path": "/products/40.jpg",
-    "display_order": 40,
-    "is_active": true,
-    "group_id": 35
-  },
-  {
-    "id": 41,
-    "barcode": "5906485301012",
-    "name_he": "אקס אל משקה אנרגיה 250מל",
-    "official_price": 2.9,
-    "image_path": "/products/41.jpg",
-    "display_order": 41,
-    "is_active": true,
-    "group_id": 36
-  },
-  {
-    "id": 42,
-    "barcode": "7290000136790",
-    "name_he": "טמפו סודה 6*1.5ל",
-    "official_price": 11.9,
-    "image_path": "/products/42.jpg",
-    "display_order": 42,
-    "is_active": true,
-    "group_id": 37
-  },
-  {
-    "id": 43,
     "barcode": "7290116537351",
     "name_he": "כריות נוגט תלמה 686 גרם",
     "official_price": 22.9,
     "image_path": "/products/43.jpg",
-    "display_order": 43,
+    "display_order": 36,
     "is_active": true,
-    "group_id": 38
+    "group_id": 36
   },
   {
-    "id": 44,
+    "id": 37,
     "barcode": "7290112494351",
     "name_he": "קורנפלקס אלופים בד\"צ 850 גר",
     "official_price": 17.9,
     "image_path": "/products/44.jpg",
-    "display_order": 44,
+    "display_order": 37,
     "is_active": true,
-    "group_id": 39
+    "group_id": 37
   },
   {
-    "id": 45,
+    "id": 38,
     "barcode": "7290000111186",
     "name_he": "מיונז צנ500. ג",
     "official_price": 8.5,
     "image_path": "/products/45.jpg",
-    "display_order": 45,
+    "display_order": 38,
     "is_active": true,
-    "group_id": 40
+    "group_id": 38
   },
   {
-    "id": 46,
+    "id": 39,
     "barcode": "7290112494313",
     "name_he": "קליק קורנפלקס תפזורת 65גר",
     "official_price": 5.5,
     "image_path": "/products/46.jpg",
-    "display_order": 46,
+    "display_order": 39,
     "is_active": true,
-    "group_id": 41
+    "group_id": 39
   },
   {
-    "id": 47,
+    "id": 40,
     "barcode": "7290112492449",
     "name_he": "פינוק שמפו לשיער רגיל 700מ\"ל",
     "official_price": 8.9,
     "image_path": "/products/47.jpg",
-    "display_order": 47,
+    "display_order": 40,
     "is_active": true,
-    "group_id": 42
+    "group_id": 40
   },
   {
-    "id": 48,
+    "id": 41,
     "barcode": "7290112495105",
     "name_he": "נשנושים שמנת בצל 260 ג",
     "official_price": 9.9,
     "image_path": "/products/48.jpg",
-    "display_order": 48,
+    "display_order": 41,
     "is_active": true,
-    "group_id": 43
+    "group_id": 41
   },
   {
-    "id": 49,
+    "id": 42,
     "barcode": "7290000554532",
     "name_he": "גד צפתית מעודנת במלח ים 5% 200ג",
     "official_price": 11,
     "image_path": "/products/49.jpg",
-    "display_order": 49,
+    "display_order": 42,
     "is_active": true,
-    "group_id": 44
+    "group_id": 42
   },
   {
-    "id": 50,
+    "id": 43,
     "barcode": "7290006492432",
     "name_he": "גד בייבי מוצרלה 150גר",
     "official_price": 10.5,
     "image_path": "/products/50.jpg",
-    "display_order": 50,
+    "display_order": 43,
     "is_active": true,
-    "group_id": 45
+    "group_id": 43
   },
   {
-    "id": 51,
+    "id": 44,
     "barcode": "7290000211442",
     "name_he": "סוגת אורז פרסי קלאסי שקית 1 ק\"ג",
     "official_price": 7,
     "image_path": "/products/51.jpg",
-    "display_order": 51,
+    "display_order": 44,
     "is_active": true,
-    "group_id": 46
+    "group_id": 44
   },
   {
-    "id": 52,
+    "id": 45,
     "barcode": "7290000144474",
     "name_he": "שמן קנולה בריאות מהטבע 1 ליטר",
     "official_price": 9.9,
     "image_path": "/products/52.jpg",
-    "display_order": 52,
+    "display_order": 45,
     "is_active": true,
-    "group_id": 47
+    "group_id": 45
   },
   {
-    "id": 53,
+    "id": 46,
     "barcode": "7290000211503",
     "name_he": "סוכר סוגת 1 ק\"ג",
     "official_price": 2.9,
     "image_path": "/products/53.jpg",
-    "display_order": 53,
+    "display_order": 46,
     "is_active": true,
-    "group_id": 48
+    "group_id": 46
   },
   {
-    "id": 54,
+    "id": 47,
     "barcode": "7290100700273",
     "name_he": "סוגת קינואה 500 גר",
     "official_price": 6.9,
     "image_path": "/products/54.jpg",
-    "display_order": 54,
+    "display_order": 47,
     "is_active": true,
-    "group_id": 49
+    "group_id": 47
   },
   {
-    "id": 55,
+    "id": 48,
     "barcode": "7290003643752",
     "name_he": "סוגת עדשים ירוקים 500 גר",
     "official_price": 3.9,
     "image_path": "/products/55.jpg",
-    "display_order": 55,
+    "display_order": 48,
     "is_active": true,
-    "group_id": 50
+    "group_id": 48
   },
   {
-    "id": 56,
+    "id": 49,
     "barcode": "7290003643806",
     "name_he": "סוגת שעועית לבנה 500 גר",
     "official_price": 4.9,
     "image_path": "/products/56.jpg",
-    "display_order": 56,
+    "display_order": 49,
     "is_active": true,
-    "group_id": 51
+    "group_id": 49
   },
   {
-    "id": 57,
+    "id": 50,
     "barcode": "7290100700372",
     "name_he": "סוגת אורז בסמטי מלא 1 ק\"ג",
     "official_price": 6.9,
     "image_path": "/products/57.jpg",
-    "display_order": 57,
+    "display_order": 50,
     "is_active": true,
-    "group_id": 52
+    "group_id": 50
   },
   {
-    "id": 58,
+    "id": 51,
     "barcode": "7290003643714",
     "name_he": "סוגת חומוס 500גר",
     "official_price": 3.9,
     "image_path": "/products/58.jpg",
-    "display_order": 58,
+    "display_order": 51,
     "is_active": true,
-    "group_id": 53
+    "group_id": 51
   },
   {
-    "id": 59,
+    "id": 52,
     "barcode": "46214731552",
     "name_he": "עוגיות שוקולד ציפס מובחרות % 37 שוקולד",
     "official_price": 6.9,
     "image_path": "/products/59.jpg",
-    "display_order": 59,
+    "display_order": 52,
     "is_active": true,
-    "group_id": 54
+    "group_id": 52
   },
   {
-    "id": 60,
+    "id": 53,
     "barcode": "8076809529419",
     "name_he": "ברילה ספגטי מחיטה מלאה 500 גרם",
     "official_price": 8.9,
     "image_path": "/products/60.jpg",
-    "display_order": 60,
+    "display_order": 53,
     "is_active": true,
-    "group_id": 55
+    "group_id": 53
   },
   {
-    "id": 61,
+    "id": 54,
     "barcode": "7290005201882",
     "name_he": "טורקי עלית 200ג",
     "official_price": 12.9,
     "image_path": "/products/61.jpg",
-    "display_order": 61,
+    "display_order": 54,
     "is_active": true,
-    "group_id": 56
+    "group_id": 54
   },
   {
-    "id": 62,
+    "id": 55,
     "barcode": "7290000178134",
     "name_he": "פרה שוק.מריר לל\"ג בד\"צ 4*100ג",
     "official_price": 20.5,
     "image_path": "/products/62.jpg",
-    "display_order": 62,
+    "display_order": 55,
     "is_active": true,
-    "group_id": 57
+    "group_id": 55
   },
   {
-    "id": 63,
+    "id": 56,
     "barcode": "7290000176420",
     "name_he": "עלית נמס אבקתי 200 גרם",
     "official_price": 21.5,
     "image_path": "/products/63.jpg",
-    "display_order": 63,
+    "display_order": 56,
     "is_active": true,
-    "group_id": 58
+    "group_id": 56
   },
   {
-    "id": 64,
+    "id": 57,
     "barcode": "7290010116348",
     "name_he": "מיקס מעורב מגדים 390ג",
     "official_price": 21.9,
     "image_path": "/products/64.jpg",
-    "display_order": 64,
+    "display_order": 57,
     "is_active": true,
-    "group_id": 59
+    "group_id": 57
   },
   {
-    "id": 65,
+    "id": 58,
     "barcode": "7290010429554",
     "name_he": "יד מרדכי ש.זית כתית מעולה 2 קלאסי 750מל",
     "official_price": 27.9,
     "image_path": "/products/65.jpg",
-    "display_order": 65,
+    "display_order": 58,
     "is_active": true,
-    "group_id": 60
+    "group_id": 58
   },
   {
-    "id": 66,
+    "id": 59,
     "barcode": "7290000181103",
     "name_he": "עד חצות 200ג",
     "official_price": 11.9,
     "image_path": "/products/66.jpg",
-    "display_order": 66,
+    "display_order": 59,
     "is_active": true,
-    "group_id": 61
+    "group_id": 59
   },
   {
-    "id": 67,
+    "id": 60,
     "barcode": "7290000174723",
     "name_he": "שוקולית 500ג",
     "official_price": 10.5,
     "image_path": "/products/67.jpg",
-    "display_order": 67,
+    "display_order": 60,
     "is_active": true,
-    "group_id": 62
+    "group_id": 60
   },
   {
-    "id": 68,
+    "id": 61,
     "barcode": "7290008750677",
     "name_he": "פרה שוקולד מלוי תות מגדים 100ג",
     "official_price": 6,
     "image_path": "/products/68.jpg",
-    "display_order": 68,
+    "display_order": 61,
     "is_active": true,
-    "group_id": 63
+    "group_id": 61
   },
   {
-    "id": 69,
+    "id": 62,
     "barcode": "7290107932080",
     "name_he": "יטבתה חלב בבקבוק 3% מועשר 1ל'",
     "official_price": 6.9,
     "image_path": "/products/69.jpg",
-    "display_order": 69,
+    "display_order": 62,
     "is_active": true,
-    "group_id": 64
+    "group_id": 62
   },
   {
-    "id": 70,
+    "id": 63,
     "barcode": "7290000408354",
     "name_he": "דנונה קראנצ' פיצפוצים 175מל",
     "official_price": 3.9,
     "image_path": "/products/70.jpg",
-    "display_order": 70,
+    "display_order": 63,
     "is_active": true,
-    "group_id": 65
+    "group_id": 63
   },
   {
-    "id": 71,
+    "id": 64,
     "barcode": "7290003029181",
     "name_he": "יטבתה שוקו בקבוק 1ל",
     "official_price": 8.9,
     "image_path": "/products/71.jpg",
-    "display_order": 71,
+    "display_order": 64,
     "is_active": true,
-    "group_id": 66
+    "group_id": 64
   },
   {
-    "id": 72,
+    "id": 65,
     "barcode": "7290104726712",
     "name_he": "מילקי שמינייה מארז 8*170מל",
     "official_price": 15.9,
     "image_path": "/products/72.jpg",
-    "display_order": 72,
+    "display_order": 65,
     "is_active": true,
-    "group_id": 67
+    "group_id": 65
   },
   {
-    "id": 73,
+    "id": 66,
     "barcode": "7290005838002",
     "name_he": "דניאלה מעדן גבינה 150מל",
     "official_price": 2.9,
     "image_path": "/products/73.jpg",
-    "display_order": 73,
+    "display_order": 66,
     "is_active": true,
-    "group_id": 68
+    "group_id": 66
   },
   {
-    "id": 74,
+    "id": 67,
     "barcode": "7290005839078",
     "name_he": "דנונה ביו מארז חסכון 3% 8*150מל",
     "official_price": 13.9,
     "image_path": "/products/74.jpg",
-    "display_order": 74,
+    "display_order": 67,
     "is_active": true,
-    "group_id": 69
+    "group_id": 67
   },
   {
-    "id": 75,
+    "id": 68,
     "barcode": "7290119380916",
     "name_he": "אקטימל תות 16 * 108 גר",
     "official_price": 24.9,
     "image_path": "/products/75.jpg",
-    "display_order": 75,
+    "display_order": 68,
     "is_active": true,
-    "group_id": 70
+    "group_id": 68
   },
   {
-    "id": 76,
+    "id": 69,
     "barcode": "7290110565527",
     "name_he": "דנונה פרו 20ג חלבון 1.5% 200גרם",
     "official_price": 4.5,
     "image_path": "/products/76.jpg",
-    "display_order": 76,
+    "display_order": 69,
     "is_active": true,
-    "group_id": 71
+    "group_id": 69
   },
   {
-    "id": 77,
+    "id": 70,
     "barcode": "7290004584351",
     "name_he": "סימפוניה חמישית 200ג",
     "official_price": 7.7,
     "image_path": "/products/77.jpg",
-    "display_order": 77,
+    "display_order": 70,
     "is_active": true,
-    "group_id": 72
+    "group_id": 70
   },
   {
-    "id": 78,
+    "id": 71,
     "barcode": "7290003989539",
     "name_he": "שטראוס רביולי גבינה 400ג",
     "official_price": 11.5,
     "image_path": "/products/78.jpg",
-    "display_order": 78,
+    "display_order": 71,
     "is_active": true,
-    "group_id": 73
+    "group_id": 71
   },
   {
-    "id": 79,
+    "id": 72,
     "barcode": "7290003726615",
     "name_he": "משק ווילר טופו הבית 300 גר",
     "official_price": 7.9,
     "image_path": "/products/79.jpg",
-    "display_order": 79,
+    "display_order": 72,
     "is_active": true,
-    "group_id": 74
+    "group_id": 72
   },
   {
-    "id": 80,
+    "id": 73,
     "barcode": "7290115678376",
     "name_he": "מעדן הגולן שוקולד 125 גר",
     "official_price": 1.95,
     "image_path": "/products/80.jpg",
-    "display_order": 80,
+    "display_order": 73,
     "is_active": true,
-    "group_id": 75
+    "group_id": 73
   },
   {
-    "id": 81,
+    "id": 74,
     "barcode": "7290008745239",
     "name_he": "תפוציפס קראנץ טבעי 50 גר",
     "official_price": 2.5,
     "image_path": "/products/81.jpg",
-    "display_order": 81,
+    "display_order": 74,
     "is_active": true,
-    "group_id": 76
+    "group_id": 74
   },
   {
-    "id": 82,
+    "id": 75,
     "barcode": "7290000480107",
     "name_he": "קוואקר מהיר אטוס לל\"ס 500 גר",
     "official_price": 8.9,
     "image_path": "/products/82.jpg",
-    "display_order": 82,
+    "display_order": 75,
     "is_active": true,
-    "group_id": 77
+    "group_id": 75
   },
   {
-    "id": 83,
+    "id": 76,
     "barcode": "7290018540329",
     "name_he": "פיתה אנגל 8 יח",
     "official_price": 7.9,
     "image_path": "/products/83.jpg",
-    "display_order": 83,
+    "display_order": 76,
     "is_active": true,
-    "group_id": 78
+    "group_id": 76
   },
   {
-    "id": 84,
+    "id": 77,
     "barcode": "7290017947464",
     "name_he": "אנגל פיתות כוסמין 8יח 400גר",
     "official_price": 9.9,
     "image_path": "/products/84.jpg",
-    "display_order": 84,
+    "display_order": 77,
     "is_active": true,
-    "group_id": 79
+    "group_id": 77
   },
   {
-    "id": 85,
+    "id": 78,
     "barcode": "7290017947891",
     "name_he": "לחם אנגל כוסמין וחיטה מלאה 750 גרם",
     "official_price": 8.9,
     "image_path": "/products/85.jpg",
-    "display_order": 85,
+    "display_order": 78,
     "is_active": true,
-    "group_id": 80
+    "group_id": 78
   },
   {
-    "id": 86,
+    "id": 79,
     "barcode": "7290014940901",
     "name_he": "אנג'ל לחם פשוט מלא 750מל",
     "official_price": 8.9,
     "image_path": "/products/86.jpg",
-    "display_order": 86,
+    "display_order": 79,
     "is_active": true,
-    "group_id": 81
+    "group_id": 79
   },
   {
-    "id": 87,
+    "id": 80,
     "barcode": "7290000347752",
     "name_he": "תה ירוק לימונית ולואיזה 25 שקיקים 1.5 גר",
     "official_price": 15.9,
     "image_path": "/products/87.jpg",
-    "display_order": 87,
+    "display_order": 80,
     "is_active": true,
-    "group_id": 82
+    "group_id": 80
   },
   {
-    "id": 88,
+    "id": 81,
     "barcode": "7290000104676",
     "name_he": "אפונה 800 גרם",
     "official_price": 11.5,
     "image_path": "/products/88.jpg",
-    "display_order": 88,
+    "display_order": 81,
     "is_active": true,
-    "group_id": 83
+    "group_id": 81
   },
   {
-    "id": 89,
+    "id": 82,
     "barcode": "7290000104836",
     "name_he": "שעועית עדינה שלמה 600גר",
     "official_price": 13.9,
     "image_path": "/products/89.jpg",
-    "display_order": 89,
+    "display_order": 82,
     "is_active": true,
-    "group_id": 84
+    "group_id": 82
   },
   {
-    "id": 90,
+    "id": 83,
     "barcode": "7290000107295",
     "name_he": "תפרחות ברוקולי 800ג",
     "official_price": 12.9,
     "image_path": "/products/90.jpg",
-    "display_order": 90,
+    "display_order": 83,
     "is_active": true,
-    "group_id": 85
+    "group_id": 83
   },
   {
-    "id": 91,
+    "id": 84,
     "barcode": "7290000104744",
     "name_he": "כרובית 800גר",
     "official_price": 12.9,
     "image_path": "/products/91.jpg",
-    "display_order": 91,
+    "display_order": 84,
     "is_active": true,
-    "group_id": 86
+    "group_id": 84
   },
   {
-    "id": 92,
+    "id": 85,
     "barcode": "7290008409216",
     "name_he": "מאמא עוף קפוא שניצל דק פריך 700 גרם",
     "official_price": 28.2,
     "image_path": "/products/92.jpg",
-    "display_order": 92,
+    "display_order": 85,
     "is_active": true,
-    "group_id": 87
+    "group_id": 85
   },
   {
-    "id": 93,
+    "id": 86,
     "barcode": "7290004127329",
     "name_he": "קוטג תנובה מהדרין 5% 250ג",
     "official_price": 5.4,
     "image_path": "/products/93.jpg",
-    "display_order": 93,
+    "display_order": 86,
     "is_active": true,
-    "group_id": 88
+    "group_id": 86
   },
   {
-    "id": 94,
+    "id": 87,
     "barcode": "7290116932033",
     "name_he": "חמאה 200 גרם מהדרין",
     "official_price": 7.9,
     "image_path": "/products/94.jpg",
-    "display_order": 94,
+    "display_order": 87,
     "is_active": true,
-    "group_id": 89
+    "group_id": 87
   },
   {
-    "id": 95,
+    "id": 88,
     "barcode": "7290110325619",
     "name_he": "תנובה משקה שיבולת שועל 1 ליטר",
     "official_price": 8.9,
     "image_path": "/products/95.jpg",
-    "display_order": 95,
+    "display_order": 88,
     "is_active": true,
-    "group_id": 90
+    "group_id": 88
   },
   {
-    "id": 96,
+    "id": 89,
     "barcode": "7290004125721",
     "name_he": "שף לבן שמנת לבישול 15% 250מל'",
     "official_price": 6.9,
     "image_path": "/products/96.jpg",
-    "display_order": 96,
+    "display_order": 89,
     "is_active": true,
-    "group_id": 91
+    "group_id": 89
   },
   {
-    "id": 97,
+    "id": 90,
     "barcode": "7290004129101",
     "name_he": "נפוליאון גבינת שמנת בטעם טבעי 25% 225גר",
     "official_price": 10.5,
     "image_path": "/products/97.jpg",
-    "display_order": 97,
+    "display_order": 90,
     "is_active": true,
-    "group_id": 92
+    "group_id": 90
   },
   {
-    "id": 98,
+    "id": 91,
     "barcode": "7290110324926",
     "name_he": "משקה סויה ללא תוספת סוכר 1 ליטר",
     "official_price": 7.9,
     "image_path": "/products/98.jpg",
-    "display_order": 98,
+    "display_order": 91,
     "is_active": true,
-    "group_id": 93
+    "group_id": 91
   },
   {
-    "id": 99,
+    "id": 92,
     "barcode": "7290004125578",
     "name_he": "סויה תנובה מועשר 1ל",
     "official_price": 7.5,
     "image_path": "/products/99.jpg",
-    "display_order": 99,
+    "display_order": 92,
     "is_active": true,
-    "group_id": 94
+    "group_id": 92
   },
   {
-    "id": 100,
+    "id": 93,
     "barcode": "7290000043890",
     "name_he": "ריויון 1.5% 1ל",
     "official_price": 9.5,
     "image_path": "/products/100.jpg",
-    "display_order": 100,
+    "display_order": 93,
     "is_active": true,
-    "group_id": 95
+    "group_id": 93
   },
   {
-    "id": 101,
+    "id": 94,
     "barcode": "7290000040974",
     "name_he": "חלב תנובה קרטון דל לקטוז 2% 1ל'",
     "official_price": 5.9,
     "image_path": "/products/101.jpg",
-    "display_order": 101,
+    "display_order": 94,
     "is_active": true,
-    "group_id": 96
+    "group_id": 94
   },
   {
-    "id": 102,
+    "id": 95,
     "barcode": "7290018091531",
     "name_he": "מעדנות חטיפי פיצה 650 גרם",
     "official_price": 19.9,
     "image_path": "/products/102.jpg",
-    "display_order": 102,
+    "display_order": 95,
     "is_active": true,
-    "group_id": 97
+    "group_id": 95
   },
   {
-    "id": 103,
+    "id": 96,
     "barcode": "7290012823602",
     "name_he": "נייר טואלט סופט סילק לבן 32 יח",
     "official_price": 21.9,
     "image_path": "/products/103.jpg",
-    "display_order": 103,
+    "display_order": 96,
     "is_active": true,
-    "group_id": 98
+    "group_id": 96
   },
   {
-    "id": 104,
+    "id": 97,
     "barcode": "7290005427107",
     "name_he": "סנו סושי מגבות הפלא 6 גלילים",
     "official_price": 7.9,
     "image_path": "/products/104.jpg",
-    "display_order": 104,
+    "display_order": 97,
     "is_active": true,
-    "group_id": 99
+    "group_id": 97
   },
   {
-    "id": 105,
+    "id": 98,
     "barcode": "7290000288024",
     "name_he": "סנו ז'אוול בריח לימון 4 ליטר",
     "official_price": 9.9,
     "image_path": "/products/105.jpg",
-    "display_order": 105,
+    "display_order": 98,
     "is_active": true,
-    "group_id": 100
+    "group_id": 98
   },
   {
-    "id": 106,
+    "id": 99,
     "barcode": "7290113192355",
     "name_he": "בית השיטה חרוזית זית ירוק ללא גלעין",
     "official_price": 7.9,
     "image_path": "/products/106.jpg",
-    "display_order": 106,
+    "display_order": 99,
     "is_active": true,
-    "group_id": 101
+    "group_id": 99
   },
   {
-    "id": 107,
+    "id": 100,
     "barcode": "7290019056973",
     "name_he": "מי עדן 1.5(6) פק",
     "official_price": 9.9,
     "image_path": "/products/107.jpg",
-    "display_order": 107,
+    "display_order": 100,
     "is_active": true,
-    "group_id": 102
+    "group_id": 100
   }
 ]

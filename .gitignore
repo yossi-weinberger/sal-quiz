@@ -47,4 +47,23 @@ next-env.d.ts
 # Original images folder (images are in public/products)
 /sal_images_full_v2/
 
+# Scratch / one-off payloads (repo root)
+invoke-*.json
+clean-*.json
+clean-payload-*.json
+payload-*.json
+mcp-*.json
+mcp-*.txt
+_invoke*.json
+raw*.json
+out-*.txt
+q*.txt
+c2.json
+c3.json
+c4.json
+w2.json
+seed-chunk-*.sql
+
+supabase/.temp/
+
 .vercel
